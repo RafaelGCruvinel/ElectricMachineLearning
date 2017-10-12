@@ -5,6 +5,11 @@ import { AppComponent } from './app.component';
 
 import { AppRoutingModule, routableComponents } from './app.routes';
 
+import { MatMenuModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule } from '@angular/material';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -13,10 +18,17 @@ import { AppRoutingModule, routableComponents } from './app.routes';
   imports: [
     BrowserModule,
     HttpModule,
-    AppRoutingModule
+    MatMenuModule,
+    MatButtonModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    MDBBootstrapModule.forRoot()
+,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [
+    AppComponent
+  ]
 })
 
 export class AppModule { }

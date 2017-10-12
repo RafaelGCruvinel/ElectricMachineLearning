@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+      "target": "es5",
+      "module": "es6",
+      "baseUrl": "",
+      "declaration": false,
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "lib": ["es6", "dom", "es2015.iterable"],
+      "mapRoot": "./",
+      "moduleResolution": "node",
+      "outDir": "../dist/out-tsc",
+      "jsx": "react",
+      "sourceMap": true,
+      "typeRoots": [
+          "../node_modules/@types"
+      ]
+  }
+}
