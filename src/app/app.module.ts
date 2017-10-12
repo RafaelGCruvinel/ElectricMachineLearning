@@ -10,6 +10,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
+import { NvD3Module } from 'ng2-nvd3';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,6 +24,7 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
     MatButtonModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    NvD3Module,
     MDBBootstrapModule.forRoot()
 ,
   ],
