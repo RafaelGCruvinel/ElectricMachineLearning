@@ -1,6 +1,6 @@
 # EletricMachineLearning
 
-This project is a website to techer how Eletric Machine Works easily.
+This project is a website to help teaching Eletric Machine Works easily. It's a final graduation project from the Unicamp University, developed by Rafael Gonsalves Cruvinel with the imprecindive assistence of Danielle Cristina Soldera.
 
 
 ## Technology
