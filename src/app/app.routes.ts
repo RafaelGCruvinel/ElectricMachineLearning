@@ -3,9 +3,11 @@ import { PreloadAllModules, Routes, RouterModule } from '@angular/router';
 import { ContinuousChainMachineComponent } from './continuous-chain-machine/continuous-chain-machine.component';
 import { InductionMachineComponent } from './induction-machine/induction-machine.component';
 import { SynchronousMachineComponent } from './synchronous-machine/synchronous-machine.component';
+import { HomeComponent } from './home/home.component';
 
 const appRoutes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'maquina-corrente-continua' },
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: 'home', component: HomeComponent },
   { path: 'maquina-corrente-continua', component: ContinuousChainMachineComponent },
   { path: 'maquina-inducao', component: InductionMachineComponent },
   { path: 'maquina-sincrona', component: SynchronousMachineComponent }
@@ -23,5 +25,6 @@ export class AppRoutingModule { }
 export const routableComponents = [
   ContinuousChainMachineComponent,
   InductionMachineComponent,
+  HomeComponent,
   SynchronousMachineComponent
 ];
