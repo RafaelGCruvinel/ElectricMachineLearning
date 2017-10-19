@@ -19,11 +19,14 @@ declare let math: any;
 export class InductionMachineComponent implements OnInit {
 
   options;
+  options2;
   data;
+  data2;
   percentageVoltage = 27;
   percentageRtwo = 100;
   // functions
   graficalizer;
+  graficalizer2;
   changeRange;
   p;
   f;
@@ -116,7 +119,7 @@ export class InductionMachineComponent implements OnInit {
         num = vth* vth * r2l;
         den = s * ws * ( ( rth + r2l / s) * (rth + r2l / s) + ( xth + x2l ) * ( xth + x2l ) );
 
-        console.log(num/den);
+        // console.log(num/den);
 
         return num / den;
         // num = 3 * Vth * Vth * Rtwo;
@@ -126,7 +129,46 @@ export class InductionMachineComponent implements OnInit {
         // T(i,j)=(1/wsyn) * Vth(j)^2 / ( (Rth+R2l/s(i,j)) ^2 + (Xth+X2l)^2 )*(R2l/s);
       }
 
-      /*Random Data Generator */
+      // calc corrente slide 15
+      function calcCorrente(n){
+        let p, f, ns, w, xm, x1, r1, r2l, x2l, ws, v1, rth, xth, vth, s;
+        let num, den, j, z1, i1;
+        let num1, den1;
+        p = 6;
+        f = 60;
+        ns = calcNs(f, p);
+        ws = calcWs(ns);
+        xm = 273.04;
+        x1 = 7.96;
+        r1 = 2.8;
+        r2l = 2.12;
+        x2l = 7.96;
+        v1 = 2200 / Math.sqrt(3);
+        rth = calcRth(x1, xm, v1, r1);
+        xth = calcXth(x1, xm, v1, r1);
+        vth = calcVth(x1, xm, v1, r1);
+
+        s = calcS(ns, n);
+
+        // Corrente
+        z1 = math.complex(r1, x1)
+        num1 = math.multiply(math.complex(r2l/s, x2l), math.complex(0, xm));
+        den1 = math.complex(r2l/s, xm + x2l)
+        z1 = math.add(z1, math.divide(num1, den1));
+        i1 = math.divide(v1, z1)
+        console.log("\n", math.abs(i1))
+        return math.abs(i1);
+
+        //Z1=R1+j*X1+(j*Xm*(R2l/s(i)+j*X2l))/(j*Xm+R2l/s(i)+j*X2l);
+        //I1_cplx=V1/Z1;
+        //I1(i)=abs(I1_cplx);
+        //FP(i)=cos(angle(I1_cplx));
+
+      }
+
+
+
+      /*Create graph 01 */
       function graficalizer(valueOne, valueTwo) {
         let funct1 = [], funct2 = [],
           funct3 = [], funct4 = [],
@@ -172,15 +214,37 @@ export class InductionMachineComponent implements OnInit {
         ];
       }
 
+      /*Create graph 01 */
+      function graficalizer2(valueOne, valueTwo) {
+        let funct1 = [];
+
+        // Data is represented as an array of {x,y} pairs.
+        for (let i = 0; i < 100; i++) {
+           funct1.push({ x: i * 12, y: calcCorrente(i * 12) });
+        }
+
+        // Line chart data should be sent as an array of series objects.
+        return [
+          {
+            values: funct1,  // values - represents the array of {x,y} data points
+            key: 'Padrão', // key  - the name of the series.
+            color: '#ff7f0e'  // color - optional: choose your own line color.
+          }
+        ];
+      }
+
+
       this.graficalizer = graficalizer;
       this.changeRange = changeRange;
+
+      this.graficalizer2 = graficalizer2;
+      //this.changeRange2 = changeRange2;
     }
 
 
     ngOnInit() {
 
-      console.log('math Complex' + math.complex(2, 3));
-
+      // console.log('math Complex' + math.complex(2, 3));
 
       this.options = {
         chart: {
@@ -238,6 +302,64 @@ export class InductionMachineComponent implements OnInit {
       };
 
     this.data = this.graficalizer(this.percentageVoltage, this.percentageRtwo);
+
+    this.options2 = {
+      chart: {
+        type: 'lineChart',
+        height: 450,
+        margin: {
+          top: 20,
+          right: 20,
+          bottom: 40,
+          left: 55
+        },
+        x: function (d) { return d.x; },
+        y: function (d) { return d.y; },
+        useInteractiveGuideline: true,
+        dispatch: {
+          stateChange: function (e) { console.log('stateChange'); },
+          changeState: function (e) { console.log('changeState'); },
+          tooltipShow: function (e) { console.log('tooltipShow'); },
+          tooltipHide: function (e) { console.log('tooltipHide'); }
+        },
+        xAxis: {
+          axisLabel: 'n [rpm]'
+        },
+        yAxis: {
+          axisLabel: 'I [A]',
+          tickFormat: function (d) {
+            return d3.format('.02f')(d);
+          },
+          axisLabelDistance: -10
+        },
+        callback: function (chart) {
+          console.log('!!! lineChart callback !!!');
+        }
+      },
+      title: {
+        enable: true,
+        text: 'Curva Corrente x Velocidade'
+      },
+      subtitle: {
+        enable: false,
+        text: 'Subtitle for simple line chart.',
+        css: {
+          'text-align': 'center',
+          'margin': '10px 13px 0px 7px'
+        }
+      },
+      caption: {
+        enable: true,
+        html: '<b>Figure 1.</b> Gráfico baseado no exemplo 5.2 do P. C. Sen, terceira edição.',
+        css: {
+          'text-align': 'justify',
+          'margin': '10px 13px 0px 7px'
+        }
+      }
+    };
+
+  this.data2 = this.graficalizer2(this.percentageVoltage, this.percentageRtwo);
+
 
   }
 }
