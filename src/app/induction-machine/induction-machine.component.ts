@@ -3,6 +3,10 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import 'nvd3';
 declare let d3: any;
 
+
+import * as math from 'mathjs';
+declare let math: any;
+
 @Component({
     selector: 'app-induction-machine',
     templateUrl: 'induction-machine.component.html',
@@ -18,7 +22,7 @@ export class InductionMachineComponent implements OnInit {
   data;
   percentageVoltage = 27;
   percentageRtwo = 100;
-  //functions
+  // functions
   graficalizer;
   changeRange;
   p;
@@ -40,7 +44,7 @@ export class InductionMachineComponent implements OnInit {
     constructor() {
       function changeRange() {
         this.data = graficalizer(this.value, this.percentageRtwo);
-        console.log("new value: " + this.value);
+        console.log('new value: ' + this.value);
       }
 
       function calcVth(x1, xm, v1, r1) {
@@ -51,7 +55,7 @@ export class InductionMachineComponent implements OnInit {
         //   console.log("x1 = ", x1, "xm = ", xm, "v1 = ", v1, "r1 = ", r1)
         //   console.log("num = ", num,"den = ", den, "return", num/den);
         // }
-        return num/den;
+        return num / den;
       }
 
       function calcRth(x1, xm, v1, r1) {
@@ -62,7 +66,7 @@ export class InductionMachineComponent implements OnInit {
         //   console.log("x1 = ", x1, "xm = ", xm, "v1 = ", v1, "r1 = ", r1)
         //   console.log("num = ", num,"den = ", den, "return", num/den);
         // }
-        return num/den;
+        return num / den;
       }
 
       function calcXth(x1, xm, v1, r1) {
@@ -73,18 +77,18 @@ export class InductionMachineComponent implements OnInit {
         //   console.log("x1 = ", x1, "xm = ", xm, "v1 = ", v1, "r1 = ", r1)
         //   console.log("num = ", num,"den = ", den, "return", num/den);
         // }
-        return num/den;
+        return num / den;
       }
 
-      function calcNs(f, p){
+      function calcNs(f, p) {
         return 120 * f / p;
       }
 
-      function calcWs(ns){
+      function calcWs(ns) {
         return 2 * Math.PI * ns / 60;
       }
 
-      function calcS(ns, n){
+      function calcS(ns, n) {
         return (ns - n ) / ns;
       }
 
@@ -106,7 +110,7 @@ export class InductionMachineComponent implements OnInit {
         xth = calcXth(x1, xm, v1, r1);
         vth = calcVth(x1, xm, v1, r1);
 
-        //torque
+        // torque
         s = calcS(ns, n);
 
         num = vth* vth * r2l;
@@ -118,31 +122,31 @@ export class InductionMachineComponent implements OnInit {
         // num = 3 * Vth * Vth * Rtwo;
         // div = ws * s * (Math.pow((Rth + Rtwo / s), 2) + Math.pow((Xth + Xtwo), 2));
 
-        //T(i,j)=(1/wsyn) * Vth(j)^2 / ( (Rth+R2l/s(i,j)) ^2 + (Xth+X2l)^2 )*(R2l/s(i,j));
-        //T(i,j)=(1/wsyn) * Vth(j)^2 / ( (Rth+R2l/s(i,j)) ^2 + (Xth+X2l)^2 )*(R2l/s);
+        // T(i,j)=(1/wsyn) * Vth(j)^2 / ( (Rth+R2l/s(i,j)) ^2 + (Xth+X2l)^2 )*(R2l/s(i,j));
+        // T(i,j)=(1/wsyn) * Vth(j)^2 / ( (Rth+R2l/s(i,j)) ^2 + (Xth+X2l)^2 )*(R2l/s);
       }
 
       /*Random Data Generator */
       function graficalizer(valueOne, valueTwo) {
-        var funct1 = [], funct2 = [],
+        let funct1 = [], funct2 = [],
           funct3 = [], funct4 = [],
           funct5 = [];
 
-        //Data is represented as an array of {x,y} pairs.
-        for (var i = 0; i < 100; i++) {
-           funct1.push({ x: i * 12, y: calcTorque(i*12, 1, 1) });
-           funct2.push({ x: i * 12, y: calcTorque(i*12, 0.75, 1) });
-           funct3.push({ x: i * 12, y: calcTorque(i*12, 1, 0.75) });
+        // Data is represented as an array of {x,y} pairs.
+        for (let i = 0; i < 100; i++) {
+           funct1.push({ x: i * 12, y: calcTorque(i * 12, 1, 1) });
+           funct2.push({ x: i * 12, y: calcTorque(i * 12, 0.75, 1) });
+           funct3.push({ x: i * 12, y: calcTorque(i * 12, 1, 0.75) });
           //  funct4.push({ x: i * 12, y: torque(i, 25, 100) });
           //  funct5.push({ x: i * 12, y: torque(i, valueOne, valueTwo) });
         }
 
-        //Line chart data should be sent as an array of series objects.
+        // Line chart data should be sent as an array of series objects.
         return [
           {
-            values: funct1,      //values - represents the array of {x,y} data points
-            key: 'Padrão', //key  - the name of the series.
-            color: '#ff7f0e'  //color - optional: choose your own line color.
+            values: funct1,  // values - represents the array of {x,y} data points
+            key: 'Padrão', // key  - the name of the series.
+            color: '#ff7f0e'  // color - optional: choose your own line color.
           },
           {
             values: funct2,
@@ -153,7 +157,7 @@ export class InductionMachineComponent implements OnInit {
             values: funct3,
             key: 'R2\'= 75%',
             color: '#7777ff',
-            //area: true
+            // area: true
           },
           // {
           //   values: funct4, //values - represents the array of {x,y} data points
@@ -166,15 +170,18 @@ export class InductionMachineComponent implements OnInit {
           //   color: '#ff1200'  //color - optional: choose your own line color.
           // }
         ];
-      };
+      }
 
       this.graficalizer = graficalizer;
       this.changeRange = changeRange;
-
     }
 
 
     ngOnInit() {
+
+      console.log('math Complex' + math.complex(2, 3));
+
+
       this.options = {
         chart: {
           type: 'lineChart',
@@ -189,10 +196,10 @@ export class InductionMachineComponent implements OnInit {
           y: function (d) { return d.y; },
           useInteractiveGuideline: true,
           dispatch: {
-            stateChange: function (e) { console.log("stateChange"); },
-            changeState: function (e) { console.log("changeState"); },
-            tooltipShow: function (e) { console.log("tooltipShow"); },
-            tooltipHide: function (e) { console.log("tooltipHide"); }
+            stateChange: function (e) { console.log('stateChange'); },
+            changeState: function (e) { console.log('changeState'); },
+            tooltipShow: function (e) { console.log('tooltipShow'); },
+            tooltipHide: function (e) { console.log('tooltipHide'); }
           },
           xAxis: {
             axisLabel: 'n [rpm]'
@@ -205,7 +212,7 @@ export class InductionMachineComponent implements OnInit {
             axisLabelDistance: -10
           },
           callback: function (chart) {
-            console.log("!!! lineChart callback !!!");
+            console.log('!!! lineChart callback !!!');
           }
         },
         title: {
