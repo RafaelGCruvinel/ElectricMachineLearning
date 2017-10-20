@@ -14,3 +14,4 @@ Using the following Plugins:
   - [Angular Material](https://material.angular.io/)
   - [Material Design for Bootstrap 4](https://mdbootstrap.com/)
   - [ng2-nvd3](https://github.com/krispo/ng2-nvd3)
+  - [mathjs](http://mathjs.org/docs/index.html)
