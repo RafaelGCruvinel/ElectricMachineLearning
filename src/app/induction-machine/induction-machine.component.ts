@@ -3,7 +3,6 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import 'nvd3';
 declare let d3: any;
 
-
 import * as math from 'mathjs';
 declare let math: any;
 
