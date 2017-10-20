@@ -3,6 +3,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import 'nvd3';
 declare let d3: any;
 
+import * as math from 'mathjs';
+declare let math: any;
 
 @Component({
     selector: 'app-synchronous-machine',
@@ -14,13 +16,35 @@ declare let d3: any;
 })
 
 export class SynchronousMachineComponent implements OnInit {
+    ef;
+    xs;
+    ia;
+    ra;
+    calcEf;
 
       constructor() {
+
+        //Dados Vt, Ia, If => descobrir Ef, If
+
+        function calcEf(ef, xs, ia, ra){
+          let i1, i2, i3;
+          i1 = ef;
+          i2 = math.multiply(math.complex( 0 , xs), ia);
+
+          i3 = math.add(i1, i2)
+          return math.add(i3, -ra)
+          //Ef = Vt + j * Xs * Ia - Ra
+        }
+      this.calcEf = calcEf;
+
       }
 
       ngOnInit() {
 
-          console.log('here');
+
+          console.log(this.calcEf(10, 2, 3, 7));
+
+          console.log('Creating SVG');
           var w = "450px";
           var h = "300px";
           var svg = d3.select("svg")
@@ -30,43 +54,46 @@ export class SynchronousMachineComponent implements OnInit {
           // Vt
           svg.append("line")
             .attr("class", "vector")
-            .attr("x1", 57)
-            .attr("y1", 122)
-            .attr("x2", 205)
-            .attr("y2", 121);
+            .attr("id", "vt");
 
           // Ia*Ra
           svg.append("line")
             .attr("class", "vector")
-            .attr("x1", 205)
-            .attr("y1", 121)
-            .attr("x2", 247)
-            .attr("y2", 170);
+            .attr("id", "iara");
 
           // Ia*j*Xs
           svg.append("line")
             .attr("class", "vector")
-            .attr("x1", 247)
-            .attr("y1", 170)
-            .attr("x2", 350)
-            .attr("y2", 62);
+            .attr("id", "iajxs");
 
           // Ef
           svg.append("line")
             .attr("class", "vector")
-            .attr("x1", 57)
-            .attr("y1", 122)
-            .attr("x2", 350)
-            .attr("y2", 62);
+            .attr("id", "ef");
 
-            // Ef
-            svg.append("line")
-              .attr("class", "vector")
-              .attr("x1", 57)
-              .attr("y1", 122)
-              .attr("x2", 122)
-              .attr("y2", 211);
+          // ia
+          svg.append("line")
+            .attr("class", "vector")
+            .attr("id", "ia");
 
+          function updateDiagram(){
+            let offsetX = 57;
+            let offsetY = 122;
+            updateVector('ia', [offsetX,offsetY,122,211]);
+            updateVector('vt', [offsetX,offsetY,205,121]);
+            updateVector('iara', [205,121,247,170]);
+            updateVector('iajxs', [247,170,350,62]);
+            updateVector('ef', [offsetX,offsetY,350,62]);
+          }
+
+          function updateVector(id, vector){
+            d3.select("#" + id)
+              .attr("x1", vector[0])
+              .attr("y1", vector[1])
+              .attr("x2", vector[2])
+              .attr("y2", vector[3]);
+          }
+          updateDiagram();
 
       }
 
