@@ -23,30 +23,39 @@ export class SynchronousMachineComponent implements OnInit {
     calcEf;
 
       constructor() {
-
-        //Dados Vt, Ia, If => descobrir Ef, If
-
-        function calcEf(ef, xs, ia, ra){
-          let i1, i2, i3;
-          i1 = ef;
-          i2 = math.multiply(math.complex( 0 , xs), ia);
-
-          i3 = math.add(i1, i2)
-          return math.add(i3, -ra)
-          //Ef = Vt + j * Xs * Ia - Ra
-        }
-      this.calcEf = calcEf;
-
       }
 
       ngOnInit() {
 
+        //Dados Vt, Ia, If => descobrir Ef, If
 
-          console.log(this.calcEf(10, 2, 3, 7));
+        function calcEf(vt, xs, ia, ra){
+          let raia, iajxs, ret1;
+
+          iajxs = calcIaJXs(vt, xs, ia, ra);
+          raia = calcRaIa(vt, xs, ia, ra);
+          ret1 = math.add(vt, raia);
+          return math.add(ret1, iajxs);
+          //Ef = Vt + j * Xs * Ia + Ra * Ia
+        }
+
+        function calcRaIa(vt, xs, ia, ra){
+          return math.multiply(math.complex( ra , 0), ia);
+        }
+
+        function calcIaJXs(vt, xs, ia, ra){
+          return math.multiply(math.complex( 0 , xs), ia);
+        }
+
+          console.log(calcEf(10, 2, 3, 7));
 
           console.log('Creating SVG');
-          var w = "450px";
-          var h = "300px";
+          var w = 450;
+          var h = 300;
+
+          let offsetX = 57;
+          let offsetY = 122;
+
           var svg = d3.select("svg")
             .attr("width", w)
             .attr("height", h);
@@ -77,21 +86,60 @@ export class SynchronousMachineComponent implements OnInit {
             .attr("id", "ia");
 
           function updateDiagram(){
-            let offsetX = 57;
-            let offsetY = 122;
-            updateVector('ia', [offsetX,offsetY,122,211]);
-            updateVector('vt', [offsetX,offsetY,205,121]);
-            updateVector('iara', [205,121,247,170]);
-            updateVector('iajxs', [247,170,350,62]);
-            updateVector('ef', [offsetX,offsetY,350,62]);
+
+            // example 6.3 page 307
+
+
+            let vt, iax, iay, xs, ra;
+            let efx, efy, ia, kva, ia0, vt0;
+            let fp, phi, raia, raiax, raiay;
+            let iajxs, iajxsx, iajxsy;
+
+            vt0 = 208;
+            kva = 5000;
+            ia0 = 5000 / ( Math.sqrt(3) * vt0);
+
+
+            phi = Math.acos(0.8);
+            iax = ia0 * Math.cos(phi);
+            iay = - ia0 * Math.sin(phi); //@TODO check validation FP negative or positive
+            ia = math.complex(iax, iay);
+            console.log('ia', ia)
+            vt = 120; //vt/Math.sqrt(3)
+            xs = 8;
+            ra = 0;
+            console.log("aki");
+            let d;
+            d = calcEf(vt, xs, ia, ra);
+            console.log('\nef',d.abs(), d.arg());
+
+            efx = calcEf(vt, xs, ia, ra).re;
+            efy = calcEf(vt, xs, ia, ra).im;
+            raia = calcRaIa(vt, xs, ia, ra);
+            raiax = calcRaIa(vt, xs, ia, ra).re;
+            raiay = calcRaIa(vt, xs, ia, ra).im;
+
+            iajxs = calcIaJXs(vt, xs, ia, ra);
+            iajxsx = calcIaJXs(vt, xs, ia, ra).re;
+            iajxsy = calcIaJXs(vt, xs, ia, ra).im;
+
+            console.log(iajxsx, raiax)
+            //Dados Vt, Ia, If => descobrir Ef, If
+
+            updateVector('ia', [0, 0, iax, iay]);
+            updateVector('vt', [0, 0, vt, 0]);
+            updateVector('iara', [vt, 0, raiax, raiay]);
+            updateVector('iajxs', [raiax + vt, raiay, iajxsx, iajxsy]);
+            updateVector('ef', [0,0,efx,efy]);
+
           }
 
           function updateVector(id, vector){
             d3.select("#" + id)
-              .attr("x1", vector[0])
-              .attr("y1", vector[1])
-              .attr("x2", vector[2])
-              .attr("y2", vector[3]);
+              .attr("x1", offsetX + vector[0])
+              .attr("y1", h - (offsetY + vector[1]))
+              .attr("x2", offsetX + vector[2] + vector[0])
+              .attr("y2", h - (offsetY + vector[3] + vector[1]));
           }
           updateDiagram();
 
