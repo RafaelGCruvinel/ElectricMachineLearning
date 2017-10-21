@@ -1,29 +1,28 @@
 <header class="page-header">
-  <div class="card card-body">
-      <div class="flex-row">
-        <nav class="navbar navbar-expand-lg navbar-dark indigo">
-          <a class="navbar-brand" routerLink="/home">Home</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item" [routerLinkActive]="['active']">
-                    <a class="nav-link" routerLink="/maquina-corrente-continua">Maquina Corrente Continua<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item" [routerLinkActive]="['active']">
-                    <a class="nav-link" routerLink="/maquina-inducao">Maquina Inducao</a>
-                </li>
-                <li class="nav-item" [routerLinkActive]="['active']">
-                    <a class="nav-link" routerLink="/maquina-sincrona">Maquina Sincrona</a>
-                </li>
-              </ul>
-            </div>
-        </nav>
-      </div>
-    </div>
+    <nav class="navbar navbar-expand-lg navbar-dark indigo">
+      <a class="navbar-brand" routerLink="/home">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item" [routerLinkActive]="['active']">
+                <a class="nav-link" routerLink="/maquina-corrente-continua">Maquina Corrente Continua<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item" [routerLinkActive]="['active']">
+                <a class="nav-link" routerLink="/maquina-inducao">Maquina Inducao</a>
+            </li>
+            <li class="nav-item" [routerLinkActive]="['active']">
+                <a class="nav-link" routerLink="/maquina-sincrona">Maquina Sincrona</a>
+            </li>
+          </ul>
+        </div>
+    </nav>
   </header>
-
-<router-outlet></router-outlet>
+  <main class="mt-6">
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
 <footer class="page-footer blue center-on-small-only">
   <div class="container-fluid">
     <div class="row">

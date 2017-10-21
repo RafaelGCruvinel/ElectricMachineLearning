@@ -1,25 +1,54 @@
 <div class="container-fluid">
   <div class="row">
-      <div class="col">
+      <div class="col-12">
         <h1>Maquina Sincrona</h1>
       </div>
-      <style>
-        .vector{
-          stroke-width: 3;
-          marker-end: url(#arrow);
-          stroke: black;
-        }
-        #arrow{
-
-        }
-        #arrow path{
-          fill: #f00;
-        }
-
-      </style>
-
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <mat-tab-group class="demo-tab-group">
+        <mat-tab label="Tab 1">
+          <div class="demo-tab-content">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue.
+            Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus.
+            In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
+            feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor in ultrices porttitor,
+            orci enim rutrum enim, vel tempor sapien arcu a tellus.
+          </div>
+        </mat-tab>
+        <mat-tab label="Tab 2">
+          <ng-template mat-tab-label>
+            ⭐
+          </ng-template>
+          <div class="demo-tab-content">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue.
+            Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus.
+            In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
+            feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor in ultrices porttitor,
+            orci enim rutrum enim, vel tempor sapien arcu a tellus.
+          </div>
+        </mat-tab>
+        <mat-tab label="Tab 3">
+          <div class="demo-tab-content">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue.
+            Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus.
+            In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
+            feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor in ultrices porttitor,
+            orci enim rutrum enim, vel tempor sapien arcu a tellus.
+            <br />
+            <br />
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue.
+            Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus.
+            In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
+            feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor in ultrices porttitor,
+            orci enim rutrum enim, vel tempor sapien arcu a tellus.
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+  <div class="row">
       <div class="col-12">
-
         <svg>
             <defs>
                 <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth" viewBox="0 0 20 20">
@@ -28,9 +57,6 @@
             </defs>
             <!-- <line class="vector" x1="50" y1="100" x2="220" y2="270"/> -->
         </svg>
-
       </div>
-
-
     </div>
 </div>

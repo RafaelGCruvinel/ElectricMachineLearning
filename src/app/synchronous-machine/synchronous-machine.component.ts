@@ -10,7 +10,8 @@ declare let math: any;
     selector: 'app-synchronous-machine',
     templateUrl: 'synchronous-machine.component.html',
     styleUrls: [
-      '../../../node_modules/nvd3/build/nv.d3.css'
+      '../../../node_modules/nvd3/build/nv.d3.css',
+      'synchronous-machine.component.scss'
     ],
     encapsulation: ViewEncapsulation.None
 })

@@ -10,6 +10,7 @@ declare let math: any;
     selector: 'app-induction-machine',
     templateUrl: 'induction-machine.component.html',
     styleUrls: [
+      'induction-machine.component.scss',
       '../../../node_modules/nvd3/build/nv.d3.css'
     ],
     encapsulation: ViewEncapsulation.None

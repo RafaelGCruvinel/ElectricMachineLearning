@@ -5,10 +5,11 @@ import { AppComponent } from './app.component';
 
 import { AppRoutingModule, routableComponents } from './app.routes';
 
-import { MatMenuModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule } from '@angular/material';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { MatButtonModule } from '@angular/material';
+import { MatMenuModule } from '@angular/material';
+import { MatTabsModule } from '@angular/material';
 
 import { NvD3Module } from 'ng2-nvd3';
 
@@ -19,14 +20,14 @@ import { NvD3Module } from 'ng2-nvd3';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpModule,
     MatMenuModule,
     MatButtonModule,
-    BrowserAnimationsModule,
+    MatTabsModule,
     AppRoutingModule,
     NvD3Module,
     MDBBootstrapModule.forRoot()
-,
   ],
   providers: [],
   bootstrap: [
