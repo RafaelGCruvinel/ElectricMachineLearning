@@ -57,7 +57,7 @@ export class SynchronousMachineComponent implements OnInit {
           let offsetX = 57;
           let offsetY = 122;
 
-          var svg = d3.select("svg")
+          var svg = d3.select("#pl-diagram")
             .attr("width", w)
             .attr("height", h);
 
