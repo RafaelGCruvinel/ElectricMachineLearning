@@ -15,3 +15,4 @@ Using the following Plugins:
   - [Material Design for Bootstrap 4](https://mdbootstrap.com/)
   - [ng2-nvd3](https://github.com/krispo/ng2-nvd3)
   - [mathjs](http://mathjs.org/docs/index.html)
+  - [Ng-Bootstrap](https://github.com/ng-bootstrap/ng-bootstrap)
