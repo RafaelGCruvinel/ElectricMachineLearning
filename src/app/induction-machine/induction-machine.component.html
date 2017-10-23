@@ -14,6 +14,8 @@
         thumbLabel tickInterval="50"
         (change)="changeVoltage($event)"></mat-slider>
         <br>
+        <b>vth = {{percentageVoltage}}</b>
+        <br><br>
 
         Mudar R2' (em porcentagem)
         <br>
@@ -21,10 +23,9 @@
         thumbLabel tickInterval="50"
         (change)="changeRtwo($event)"></mat-slider>
         <br>
-        <p>
-          vth = {{percentageVoltage}}
-          R2' = {{percentageRtwo}}
-        </p>
+        R2' = {{percentageRtwo}}
+        <br>
+
 
         <nvd3 [options]="options" [data]="data"></nvd3>
         <br>
