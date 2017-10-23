@@ -7,6 +7,25 @@
           Baseado nos dados de maquina do livro do P.C.Sen terceira edição, exercício 5.2.
           Com isso, é possível estimar os torques com variação de Tensão e R'2.
         </p>
+
+        Mudar Tensão (em porcentagem)
+        <br>
+        <mat-slider min="50" max="150" step="1" value="100"
+        thumbLabel tickInterval="50"
+        (change)="changeVoltage($event)"></mat-slider>
+        <br>
+
+        Mudar R2' (em porcentagem)
+        <br>
+        <mat-slider min="50" max="150" step="1" value="100"
+        thumbLabel tickInterval="50"
+        (change)="changeRtwo($event)"></mat-slider>
+        <br>
+        <p>
+          vth = {{percentageVoltage}}
+          R2' = {{percentageRtwo}}
+        </p>
+
         <nvd3 [options]="options" [data]="data"></nvd3>
         <br>
         <nvd3 [options]="options2" [data]="data2"></nvd3>

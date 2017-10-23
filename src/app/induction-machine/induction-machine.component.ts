@@ -24,13 +24,14 @@ export class InductionMachineComponent implements OnInit {
   data;
   data2;
   data3;
-  percentageVoltage = 27;
+  percentageVoltage = 100;
   percentageRtwo = 100;
   // functions
   graficalizer;
   graficalizer2;
   graficalizer3;
-  changeRange;
+  changeVoltage;
+  changeRtwo;
   p;
   f;
   r1;
@@ -48,9 +49,25 @@ export class InductionMachineComponent implements OnInit {
   ws;
 
     constructor() {
-      function changeRange() {
-        this.data = graficalizer(this.value, this.percentageRtwo);
-        console.log('new value: ' + this.value);
+
+      function changeVoltage($event){
+        let value = $event.value;
+        console.log("Changing voltage to " + value);
+
+        this.percentageVoltage = value
+        this.data = graficalizer(value, this.percentageRtwo);
+        this.data2 = graficalizer2(value, this.percentageRtwo);
+        this.data3 = graficalizer3(value, this.percentageRtwo);
+      }
+
+      function changeRtwo($event){
+        let value = $event.value;
+        console.log("Changing Rtwo to " + value);
+
+        this.percentageRtwo = value
+        this.data = graficalizer(this.percentageVoltage, value);
+        this.data2 = graficalizer2(this.percentageVoltage, value);
+        this.data3 = graficalizer3(this.percentageVoltage, value);
       }
 
       function calcVth(x1, xm, v1, r1) {
@@ -213,8 +230,7 @@ export class InductionMachineComponent implements OnInit {
         // Data is represented as an array of {x,y} pairs.
         for (let i = 0; i <= 100; i++) {
            funct1.push({ x: i * 12, y: calcTorque(i * 12, 1, 1) });
-           funct2.push({ x: i * 12, y: calcTorque(i * 12, 0.75, 1) });
-           funct3.push({ x: i * 12, y: calcTorque(i * 12, 1, 0.75) });
+           funct2.push({ x: i * 12, y: calcTorque(i * 12, valueOne/100, valueTwo/100) });
           //  funct4.push({ x: i * 12, y: torque(i, 25, 100) });
           //  funct5.push({ x: i * 12, y: torque(i, valueOne, valueTwo) });
         }
@@ -228,15 +244,15 @@ export class InductionMachineComponent implements OnInit {
           },
           {
             values: funct2,
-            key: 'Vth = 75%',
+            key: 'Custom',
             color: '#2ca02c'
           },
-          {
-            values: funct3,
-            key: 'R2\'= 75%',
-            color: '#7777ff',
-            // area: true
-          },
+          // {
+          //   values: funct3,
+          //   key: 'R2\'= 75%',
+          //   color: '#7777ff',
+          //   // area: true
+          // },
           // {
           //   values: funct4, //values - represents the array of {x,y} data points
           //   key: 'Vth = 25%', //key  - the name of the series.
@@ -257,8 +273,7 @@ export class InductionMachineComponent implements OnInit {
         // Data is represented as an array of {x,y} pairs.
         for (let i = 0; i <= 100; i++) {
            funct1.push({ x: i * 12, y: calcCorrente(i * 12, 1, 1) });
-           funct2.push({ x: i * 12, y: calcCorrente(i * 12, 0.75, 1) });
-           funct3.push({ x: i * 12, y: calcCorrente(i * 12, 1, 0.75) });
+           funct2.push({ x: i * 12, y: calcCorrente(i * 12, valueOne/100, valueTwo/100) });
         }
 
         // Line chart data should be sent as an array of series objects.
@@ -270,14 +285,8 @@ export class InductionMachineComponent implements OnInit {
           },
           {
             values: funct2,
-            key: 'Vth = 75%',
+            key: 'Custom',
             color: '#2ca02c'
-          },
-          {
-            values: funct3,
-            key: 'R2\'= 75%',
-            color: '#7777ff',
-            // area: true
           },
         ];
       }
@@ -289,8 +298,7 @@ export class InductionMachineComponent implements OnInit {
         // Data is represented as an array of {x,y} pairs.
         for (let i = 0; i <= 100; i++) {
            funct1.push({ x: i * 12, y: calcFatPot(i * 12, 1, 1) });
-           funct2.push({ x: i * 12, y: calcFatPot(i * 12, 0.75, 1) });
-           funct3.push({ x: i * 12, y: calcFatPot(i * 12, 1, 0.75) });
+           funct2.push({ x: i * 12, y: calcFatPot(i * 12, valueOne/100, valueTwo/100) });
         }
 
         // Line chart data should be sent as an array of series objects.
@@ -302,26 +310,18 @@ export class InductionMachineComponent implements OnInit {
           },
           {
             values: funct2,
-            key: 'Vth = 75%',
+            key: 'Custom',
             color: '#2ca02c'
-          },
-          {
-            values: funct3,
-            key: 'R2\'= 75%',
-            color: '#7777ff',
-            // area: true
           },
         ];
       }
 
       this.graficalizer = graficalizer;
-      this.changeRange = changeRange;
-
       this.graficalizer2 = graficalizer2;
-      //this.changeRange2 = changeRange2;
-
       this.graficalizer3 = graficalizer3;
-      //this.changeRange3 = changeRange3;
+
+      this.changeRtwo = changeRtwo;
+      this.changeVoltage = changeVoltage;
     }
 
 

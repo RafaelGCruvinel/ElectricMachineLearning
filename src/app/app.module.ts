@@ -12,6 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { MatButtonModule } from '@angular/material';
 import { MatMenuModule } from '@angular/material';
+import { MatSliderModule } from '@angular/material';
 import { MatTabsModule } from '@angular/material';
 
 import { NvD3Module } from 'ng2-nvd3';
@@ -27,6 +28,7 @@ import { NvD3Module } from 'ng2-nvd3';
     HttpModule,
     MatMenuModule,
     MatButtonModule,
+    MatSliderModule,
     MatTabsModule,
     AppRoutingModule,
     NvD3Module,
