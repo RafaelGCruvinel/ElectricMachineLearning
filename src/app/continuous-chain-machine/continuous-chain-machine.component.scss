@@ -1,0 +1,41 @@
+/* Footer content */
+
+svg{
+  background-color: blue;
+  height: 370px;
+  width: 580px;
+}
+
+#graph01 > svg > rect{
+  stroke: red;
+  stroke: 0033ff;
+  stroke-width: 3;
+}
+
+
+#graph01{
+  .a{
+    stroke: lightgreen;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 20;
+  }
+
+  .nucleo{
+    fill: #66aaff;
+    stroke: 0033ff;
+    stroke-width: 3;
+  }
+  .p{
+    stroke: red;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 20;
+  }
+  .n{
+    stroke: red;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 20;
+  }
+}
