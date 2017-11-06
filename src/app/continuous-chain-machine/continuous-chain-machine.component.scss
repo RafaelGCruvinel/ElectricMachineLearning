@@ -1,24 +1,29 @@
 /* Footer content */
 
 svg{
-  background-color: blue;
+  background-color: #eee;
   height: 370px;
   width: 580px;
 }
 
-#graph01 > svg > rect{
-  stroke: red;
-  stroke: 0033ff;
-  stroke-width: 3;
-}
-
-
 #graph01{
-  .a{
+  svg > rect{
+    stroke: red;
+    stroke: 0033ff;
+    stroke-width: 3;
+  }
+
+  .enr1{
     stroke: lightgreen;
     stroke-width: 3;
     stroke-linecap: round;
-    stroke-dasharray: 20;
+    stroke-dasharray: 5 4;
+  }
+
+  .enr2{
+    stroke: black;
+    stroke-width: 3;
+    stroke-linecap: round;
   }
 
   .nucleo{
@@ -30,12 +35,10 @@ svg{
     stroke: red;
     stroke-width: 3;
     stroke-linecap: round;
-    stroke-dasharray: 20;
   }
   .n{
     stroke: red;
     stroke-width: 3;
     stroke-linecap: round;
-    stroke-dasharray: 20;
   }
 }

@@ -69,52 +69,12 @@ export class ContinuousChainMachineComponent implements OnInit {
       //   .style("stroke-dasharray", 20);
 
       //a
-      var line = svg.append("line")
-        .attr("x1",127)
-        .attr("y1",30)
-        .attr("x2",80)
-        .attr("y2",86)
-        .attr("class", "a")
-
-      //b
-      var line = svg.append("line")
-        .attr("x1",80)
-        .attr("y1",86)
-        .attr("x2",80)
-        .attr("y2",195)
-        .attr("class", "a")
-
-      //c
-      var line = svg.append("line")
-        .attr("x1",80)
-        .attr("y1",195)
-        .attr("x2",133)
-        .attr("y2",248)
-        .attr("class", "a")
-
-      //d
-      var line = svg.append("line")
-        .attr("x1",133)
-        .attr("y1",248)
-        .attr("x2",155)
-        .attr("y2",196)
-        .attr("class", "a")
-
-      //e
-      var line = svg.append("line")
-        .attr("x1",155)
-        .attr("y1",196)
-        .attr("x2",155)
-        .attr("y2",86)
-        .attr("class", "a")
-
-      //e
-      var line = svg.append("line")
-        .attr("x1",155)
-        .attr("y1",86)
-        .attr("x2",106)
-        .attr("y2",30)
-        .attr("class", "a")
+      createEspira(0, "a", "a");
+      createEspira(0, "b", "a");
+      createEspira(0, "c", "a");
+      createEspira(0, "d", "a");
+      createEspira(0, "e", "a");
+      createEspira(0, "f", "a");
 
       //21.6 entre paralelos
 
@@ -230,6 +190,44 @@ export class ContinuousChainMachineComponent implements OnInit {
         .attr("x2",474)
         .attr("y2",352)
         .attr("class", "n");
+
+        function createEspira(place, type, classe){
+          let offset = [0, 0, 0, 0], objeto;
+          let offsetDic = {
+            a: [127, 30, 80, 86],
+            b: [80, 86, 80, 195],
+            c: [80,195,133,248],
+            d: [133,248,155,196],
+            e: [155,196,155,86],
+            f: [155,86,106,30],
+          }
+          let StyleDic = {
+            a: "enr1",
+            b: "enr1",
+            c: "enr1",
+            d: "enr2",
+            e: "enr2",
+            f: "enr2",
+          }
+          if(offsetDic[type]){
+            offset = offsetDic[type]
+          }
+
+          place = Math.round(place * 21.6);
+
+          objeto =  svg.append("line")
+            .classed(classe, true)
+            .attr("x1", place + offset[0])
+            .attr("y1", offset[1])
+            .attr("x2", place + offset[2])
+            .attr("y2", offset[3]);
+
+            if(StyleDic[type]){
+              objeto.classed(StyleDic[type], true);
+            }
+
+          return objeto;
+        }
 
     }
 
