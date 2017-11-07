@@ -28,47 +28,56 @@ export class ContinuousChainMachineComponent implements OnInit {
       createNucleo([301,107,86,63], "nucleo3");
       createNucleo([408,107,86,63], "nucleo4");
 
-      for(let i = 0; i<=20; i++){
-        createEspira(i, "a", "");
-        createEspira(i, "b", "");
-        createEspira(i, "c", "");
-      }
-
       for(let i = -4; i<=20; i++){
-        createEspira(i, "c", "");
-      }
-
-      for(let i = -4; i<=19; i++){
-        createEspira(i, "d", "");
-      }
-
-      for(let i = -4; i<=16; i++){
-        createEspira(i, "e", "");
-      }
-
-      for(let i = -4; i<=16; i++){
-        createEspira(i, "f", "");
+        createEspira(i, "a", "enr");
+        createEspira(i, "b", "enr");
+        createEspira(i, "c", "enr");
+        createEspira(i, "d", "enr");
+        createEspira(i, "e", "enr");
+        createEspira(i, "f", "enr");
       }
 
       for(let i = 0; i<=22; i++){
-        createBarramento(i, "");
+        createBarramento(i, "enr");
       }
 
-      createEscova([123, 234, 344, 456], "escova");
+      // createEscova([123, 234, 344, 456], "escova");
       //21.6 entre paralelos
 
       //arranjo1
-      for(let i = 0; i<=1; i++){
-        createEspira(i, "d", "red");
-        createEspira(i, "e", "red");
-        createEspira(i, "f", "red")
-        createEspira(i+1, "a", "red");
-        createEspira(i+1, "b", "red");
-        createEspira(i+1, "c", "red");
+      createArranjo();
+      function createArranjo(){
+        svg = d3.select("#graph01 svg")
+        .append("g")
+        .classed("group", true)
+        .attr("id", "group-1");
+      for(let i = 1; i<=4; i++){
+        createEspira(i, "c", "red");
+        createEspira(i, "b", "red");
+        createEspira(i, "a", "red");
+        createEspira(i+1, "f", "red");
+        createEspira(i+1, "d", "red");
+        createEspira(i+1, "e", "red");
       }
-
-
-
+      for(let i = 6; i<=9; i++){
+        createEspira(i, "c", "blue");
+        createEspira(i, "b", "blue");
+        createEspira(i, "a", "blue");
+        createEspira(i+1, "f", "blue");
+        createEspira(i+1, "d", "blue");
+        createEspira(i+1, "e", "blue");
+      }
+      for(let i = 11; i<=14; i++){
+        createEspira(i, "c", "red");
+        createEspira(i, "b", "red");
+        createEspira(i, "a", "red");
+        createEspira(i+1, "f", "red");
+        createEspira(i+1, "d", "red");
+        createEspira(i+1, "e", "red");
+      }
+      createEscova([123, 234, 344, 456], "escova");
+      createBarramento(3, "enr");
+    }
 
 
       function createEscova(place, classe){
@@ -161,6 +170,19 @@ export class ContinuousChainMachineComponent implements OnInit {
           e: "enr2",
           f: "enr2",
         }
+        let limitDic = {
+          a: [0,20],
+          b: [0,20],
+          c: [-4,20],
+          d: [-4,19],
+          e: [-4,16],
+          f: [-4,16],
+        }
+
+        if((limitDic[type][0]>place0)||limitDic[type][1]<place0){
+          return;
+        }
+
         if(offsetDic[type]){
           offset = offsetDic[type]
         }

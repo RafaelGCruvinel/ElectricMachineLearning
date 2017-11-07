@@ -6,16 +6,17 @@ svg{
   width: 580px;
 }
 
-#graph01{
-  .enr1{
+.graph01{
+  .enr{
     stroke: black;
-    stroke-width: 2;
+    opacity: 0.6;
+    stroke-width: 1.5;
+  }
+  .enr1{
     stroke-linecap: round;
   }
 
   .enr2{
-    stroke: black;
-    stroke-width: 2;
     stroke-linecap: round;
     stroke-dasharray: 5 4;
   }
@@ -50,5 +51,19 @@ svg{
 
   .red{
     stroke: red;
+  }
+  .blue{
+    stroke: blue;
+  }
+
+  .group{
+    fill-opacity:0;
+    stroke-opacity:0;
+    stroke-width: 5;
+  }
+  .group:hover{
+    fill-opacity:1;
+    stroke-opacity:1;
+    stroke-width: 2;
   }
 }
