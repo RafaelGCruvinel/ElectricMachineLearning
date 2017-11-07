@@ -68,14 +68,14 @@ export class ContinuousChainMachineComponent implements OnInit {
       //   .style("stroke-linecap", "round")
       //   .style("stroke-dasharray", 20);
 
-      //a
-      createEspira(0, "a", "a");
-      createEspira(0, "b", "a");
-      createEspira(0, "c", "a");
-      createEspira(0, "d", "a");
-      createEspira(0, "e", "a");
-      createEspira(0, "f", "a");
-
+      for(let i = 0; i<20; i++){
+        createEspira(i, "a", "");
+        createEspira(i, "b", "");
+        createEspira(i, "c", "");
+        createEspira(i, "d", "");
+        createEspira(i, "e", "");
+        createEspira(i, "f", "");
+      }
       //21.6 entre paralelos
 
       var rect = svg.append("rect")
@@ -115,120 +115,123 @@ export class ContinuousChainMachineComponent implements OnInit {
         .attr("height", 63)
         .attr("class", "nucleo");
 
+
+
+
       //escovas
-      var rect = svg.append("rect")
-        .attr("x", 123)
-        .attr("y", 270)
-        .attr("width", 34)
-        .attr("height", 23)
-        .attr("class", "escova");
-      var rect = svg.append("rect")
-        .attr("x", 234)
-        .attr("y", 270)
-        .attr("width", 34)
-        .attr("height", 23)
-        .attr("class", "escova");
-      var rect = svg.append("rect")
-        .attr("x", 344)
-        .attr("y", 270)
-        .attr("width", 34)
-        .attr("height", 23)
-        .attr("class", "escova");
-      var rect = svg.append("rect")
-        .attr("x", 456)
-        .attr("y", 270)
-        .attr("width", 34)
-        .attr("height", 23)
-        .attr("class", "escova");
-
-      var line = svg.append("line")
-        .attr("x1",138)
-        .attr("y1",293)
-        .attr("x2",138)
-        .attr("y2",329)
-        .attr("class", "p")
-      var line = svg.append("line")
-        .attr("x1",138)
-        .attr("y1",329)
-        .attr("x2",360)
-        .attr("y2",329)
-        .attr("class", "p")
-      var line = svg.append("line")
-        .attr("x1",360)
-        .attr("y1",293)
-        .attr("x2",360)
-        .attr("y2",329)
-        .attr("class", "p")
-      var line = svg.append("line")
-        .attr("x1",250)
-        .attr("y1",329)
-        .attr("x2",250)
-        .attr("y2",350)
-        .attr("class", "p")
-
-      var line = svg.append("line")
-        .attr("x1",250)
-        .attr("y1",293)
-        .attr("x2",250)
-        .attr("y2",311)
-        .attr("class", "n");
-      var line = svg.append("line")
-        .attr("x1",250)
-        .attr("y1",311)
-        .attr("x2",476)
-        .attr("y2",311)
-        .attr("class", "n");
-      var line = svg.append("line")
-        .attr("x1",250)
-        .attr("y1",293)
-        .attr("x2",252)
-        .attr("y2",311)
-        .attr("class", "n");
-      var line = svg.append("line")
-        .attr("x1",472)
-        .attr("y1",293)
-        .attr("x2",474)
-        .attr("y2",352)
-        .attr("class", "n");
-
-        function createEspira(place, type, classe){
-          let offset = [0, 0, 0, 0], objeto;
-          let offsetDic = {
-            a: [127, 30, 80, 86],
-            b: [80, 86, 80, 195],
-            c: [80,195,133,248],
-            d: [133,248,155,196],
-            e: [155,196,155,86],
-            f: [155,86,106,30],
-          }
-          let StyleDic = {
-            a: "enr1",
-            b: "enr1",
-            c: "enr1",
-            d: "enr2",
-            e: "enr2",
-            f: "enr2",
-          }
-          if(offsetDic[type]){
-            offset = offsetDic[type]
-          }
-
-          place = Math.round(place * 21.6);
-
-          objeto =  svg.append("line")
-            .classed(classe, true)
-            .attr("x1", place + offset[0])
-            .attr("y1", offset[1])
-            .attr("x2", place + offset[2])
-            .attr("y2", offset[3]);
-
-            if(StyleDic[type]){
-              objeto.classed(StyleDic[type], true);
-            }
-
-          return objeto;
+      createEscova("", "");
+      function createEscova(place, classe){
+        let offset = [0, 0, 0, 0], objeto;
+        let offsetDic = {
+          a1: [123,270,34,23],
+          b1: [234,270,34,23],
+          a2: [344,270,34,23],
+          b2: [456,270,34,23],
+          la1: [138, 293, 138, 329],
+          la2: [138, 329, 360, 329],
+          la3: [360, 293, 360, 329],
+          la4: [250, 329, 250, 350],
+          lb1: [250, 293, 250, 311],
+          lb2: [250, 311, 476, 311],
+          lb3: [250, 293, 252, 311],
+          lb4: [472, 293, 474, 352],
+        }
+        let styleDic = {
+          a1: "escova",
+          a2: "escova",
+          b1: "escova",
+          b2: "escova",
+          la1: "p",
+          la2: "p",
+          la3: "p",
+          la4: "p",
+          lb1: "n",
+          lb2: "n",
+          lb3: "n",
+          lb4: "n",
         }
 
-    }
+        place = Math.round(place * 21.6);
+
+
+        createContato("a1");
+        createContato("a2");
+        createContato("b1");
+        createContato("b2");
+
+        createLigacao("la1");
+        createLigacao("la2");
+        createLigacao("la3");
+        createLigacao("la4");
+
+        createLigacao("lb1");
+        createLigacao("lb2");
+        createLigacao("lb3");
+        createLigacao("lb4");
+
+        function createContato(type){
+          let offset = offsetDic[type];
+          let style = styleDic[type];
+          var rect = svg.append("rect")
+            .attr("x", offset[0])
+            .attr("y", offset[1])
+            .attr("width", offset[2])
+            .attr("height", offset[3])
+            .classed("escova", true);
+        }
+
+        function createLigacao(type){
+          let offset = offsetDic[type];
+          let style = styleDic[type];
+          var rect = svg.append("line")
+            .attr("x1", offset[0])
+            .attr("y1", offset[1])
+            .attr("x2", offset[2])
+            .attr("y2", offset[3])
+            .classed(style, true);
+        }
+
+        return objeto;
+      }
+
+
+      function createEspira(place, type, classe){
+        let offset = [0, 0, 0, 0], objeto;
+        let offsetDic = {
+          a: [127, 30, 80, 86],
+          b: [80, 86, 80, 195],
+          c: [80, 195, 133, 248],
+          d: [133, 248, 155, 196],
+          e: [155, 196, 155, 86],
+          f: [155, 86, 106, 30],
+        }
+        let StyleDic = {
+          a: "enr1",
+          b: "enr1",
+          c: "enr1",
+          d: "enr2",
+          e: "enr2",
+          f: "enr2",
+        }
+        if(offsetDic[type]){
+          offset = offsetDic[type]
+        }
+
+        place = Math.round(place * 21.6);
+
+        objeto =  svg.append("line")
+          .classed(classe, true)
+          .attr("x1", place + offset[0])
+          .attr("y1", offset[1])
+          .attr("x2", place + offset[2])
+          .attr("y2", offset[3]);
+
+          if(StyleDic[type]){
+            objeto.classed(StyleDic[type], true);
+          }
+      }
+
+
+  }
 
 }
