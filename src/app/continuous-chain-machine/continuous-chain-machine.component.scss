@@ -26,11 +26,22 @@ svg{
     stroke-linecap: round;
   }
 
-  .nucleo{
-    fill: #66aaff;
-    stroke: 0033ff;
-    stroke-width: 3;
+  .nucleo1, .nucleo3{
+    fill: #ffa1a7;
+    stroke: #000000;
+    stroke-width: 1.01300001;
+    stroke-miterlimit: 4;
+    stroke-dasharray: none;
   }
+
+  .nucleo2, .nucleo4{
+    fill: #b1a9ff;
+    stroke: #000000;
+    stroke-width: 1.01300001;
+    stroke-miterlimit: 4;
+    stroke-dasharray: none;
+  }
+
   .p{
     stroke: red;
     stroke-width: 3;

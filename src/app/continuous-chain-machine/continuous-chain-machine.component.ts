@@ -92,49 +92,46 @@ export class ContinuousChainMachineComponent implements OnInit {
         .attr("y", 107)
         .attr("width", 86)
         .attr("height", 63)
-        .attr("class", "nucleo");
+        .attr("class", "nucleo1");
 
       var rect = svg.append("rect")
         .attr("x", 194)
         .attr("y", 107)
         .attr("width", 86)
         .attr("height", 63)
-        .attr("class", "nucleo");
+        .attr("class", "nucleo2");
 
       var rect = svg.append("rect")
         .attr("x", 301)
         .attr("y", 107)
         .attr("width", 86)
         .attr("height", 63)
-        .attr("class", "nucleo");
+        .attr("class", "nucleo3");
 
       var rect = svg.append("rect")
         .attr("x", 408)
         .attr("y", 107)
         .attr("width", 86)
         .attr("height", 63)
-        .attr("class", "nucleo");
-
-
-
+        .attr("class", "nucleo4");
 
       //escovas
-      createEscova("", "");
+      createEscova([123, 234, 344, 456], "escova");
       function createEscova(place, classe){
         let offset = [0, 0, 0, 0], objeto;
         let offsetDic = {
-          a1: [123,270,34,23],
-          b1: [234,270,34,23],
-          a2: [344,270,34,23],
-          b2: [456,270,34,23],
-          la1: [138, 293, 138, 329],
-          la2: [138, 329, 360, 329],
-          la3: [360, 293, 360, 329],
-          la4: [250, 329, 250, 350],
-          lb1: [250, 293, 250, 311],
-          lb2: [250, 311, 476, 311],
-          lb3: [250, 293, 252, 311],
-          lb4: [472, 293, 474, 352],
+          a1: [place[0],270,34,23],
+          b1: [place[1],270,34,23],
+          a2: [place[2],270,34,23],
+          b2: [place[3],270,34,23],
+          la1: [place[0]+17, 293, place[0]+17, 329],
+          la2: [place[0]+17, 329, place[2]+17, 329],
+          la3: [place[2]+17, 293, place[2]+17, 329],
+          la4: [(place[0]+place[2])/2, 329, (place[0]+place[2])/2, 350],
+          lb1: [place[1]+17, 293, place[1]+17, 311],
+          lb2: [place[1]+17, 311, place[3]+17, 311],
+          lb3: [place[1]+17, 293, place[1]+17, 311],
+          lb4: [place[3]+17, 293, place[3]+17, 350],
         }
         let styleDic = {
           a1: "escova",
@@ -151,7 +148,7 @@ export class ContinuousChainMachineComponent implements OnInit {
           lb4: "n",
         }
 
-        place = Math.round(place * 21.6);
+        // place = Math.round(place * 21.6);
 
 
         createContato("a1");
