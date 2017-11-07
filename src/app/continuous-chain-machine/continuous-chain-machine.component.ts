@@ -23,100 +23,54 @@ export class ContinuousChainMachineComponent implements OnInit {
         .style("border", "solid 1px lightgrey")
         .style("padding", "10px");
 
-      // var rect = svg.append("rect")
-      //   .attr("width", 100)
-      //   .attr("height", 100)
-      //   .style("fill","#66aaff")
-      //   .style("stroke", "0033ff")
-      //   .style("stroke-width",3);
+      createNucleo([86,107,86,63], "nucleo1");
+      createNucleo([194,107,86,63], "nucleo2");
+      createNucleo([301,107,86,63], "nucleo3");
+      createNucleo([408,107,86,63], "nucleo4");
 
-      // var rect = svg.append("rect")
-      //   .attr("x", 120) // move this box 120px to the right
-      //   .attr("width", 100)
-      //   .attr("height", 100)
-      //   .attr("rx", 20) // corner radius
-      //   .attr("ry", 20) // corner radius
-      //   .style("fill","yellow")
-      //   .style("stroke", "#666666") // border color
-      //   .style("stroke-width",3) // border width
-
-      // var circle = svg.append("circle")
-      //   .attr("cx", 240)
-      //   .attr("cy", 50)
-      //   .attr("r", 40)
-      //   .style("fill","blue")
-      //   .style("stroke", "red")
-      //   .style("stroke-width",3)
-      //   .style("opacity", 0.75);
-
-      // var line = svg.append("line")
-      //   .attr("x1",0)
-      //   .attr("y1",120)
-      //   .attr("x2",220)
-      //   .attr("y2",120)
-      //   .style("stroke", "pink")
-      //   .style("stroke-width",10)
-      //   .style("stroke-linecap", "round")
-
-      // var line = svg.append("line")
-      //   .attr("x1",0)
-      //   .attr("y1",150)
-      //   .attr("x2",220)
-      //   .attr("y2",300)
-      //   .style("stroke", "lightgreen")
-      //   .style("stroke-width",5)
-      //   .style("stroke-linecap", "round")
-      //   .style("stroke-dasharray", 20);
-
-      for(let i = 0; i<20; i++){
+      for(let i = 0; i<=20; i++){
         createEspira(i, "a", "");
         createEspira(i, "b", "");
         createEspira(i, "c", "");
+      }
+
+      for(let i = -4; i<=20; i++){
+        createEspira(i, "c", "");
+      }
+
+      for(let i = -4; i<=19; i++){
         createEspira(i, "d", "");
+      }
+
+      for(let i = -4; i<=16; i++){
         createEspira(i, "e", "");
+      }
+
+      for(let i = -4; i<=16; i++){
         createEspira(i, "f", "");
       }
+
+      for(let i = 0; i<=22; i++){
+        createBarramento(i, "");
+      }
+
+      createEscova([123, 234, 344, 456], "escova");
       //21.6 entre paralelos
 
-      var rect = svg.append("rect")
-        .attr("x", 56)
-        .attr("y", 248)
-        .attr("width", 23)
-        .attr("height", 23)
-        .style("fill","#66aaff")
-        .style("stroke", "0033ff")
-        .style("stroke-width",3);
+      //arranjo1
+      for(let i = 0; i<=1; i++){
+        createEspira(i, "d", "red");
+        createEspira(i, "e", "red");
+        createEspira(i, "f", "red")
+        createEspira(i+1, "a", "red");
+        createEspira(i+1, "b", "red");
+        createEspira(i+1, "c", "red");
+      }
 
-      var rect = svg.append("rect")
-        .attr("x", 86)
-        .attr("y", 107)
-        .attr("width", 86)
-        .attr("height", 63)
-        .attr("class", "nucleo1");
 
-      var rect = svg.append("rect")
-        .attr("x", 194)
-        .attr("y", 107)
-        .attr("width", 86)
-        .attr("height", 63)
-        .attr("class", "nucleo2");
 
-      var rect = svg.append("rect")
-        .attr("x", 301)
-        .attr("y", 107)
-        .attr("width", 86)
-        .attr("height", 63)
-        .attr("class", "nucleo3");
 
-      var rect = svg.append("rect")
-        .attr("x", 408)
-        .attr("y", 107)
-        .attr("width", 86)
-        .attr("height", 63)
-        .attr("class", "nucleo4");
 
-      //escovas
-      createEscova([123, 234, 344, 456], "escova");
       function createEscova(place, classe){
         let offset = [0, 0, 0, 0], objeto;
         let offsetDic = {
@@ -149,8 +103,6 @@ export class ContinuousChainMachineComponent implements OnInit {
         }
 
         // place = Math.round(place * 21.6);
-
-
         createContato("a1");
         createContato("a2");
         createContato("b1");
@@ -174,7 +126,7 @@ export class ContinuousChainMachineComponent implements OnInit {
             .attr("y", offset[1])
             .attr("width", offset[2])
             .attr("height", offset[3])
-            .classed("escova", true);
+            .classed(style, true);
         }
 
         function createLigacao(type){
@@ -191,9 +143,8 @@ export class ContinuousChainMachineComponent implements OnInit {
         return objeto;
       }
 
-
-      function createEspira(place, type, classe){
-        let offset = [0, 0, 0, 0], objeto;
+      function createEspira(place0, type, classe){
+        let offset = [0, 0, 0, 0], objeto, place;
         let offsetDic = {
           a: [127, 30, 80, 86],
           b: [80, 86, 80, 195],
@@ -214,18 +165,41 @@ export class ContinuousChainMachineComponent implements OnInit {
           offset = offsetDic[type]
         }
 
-        place = Math.round(place * 21.6);
+        place = Math.round(place0 * 21.6);
 
         objeto =  svg.append("line")
           .classed(classe, true)
+          .classed("esp-"+type+place0, true)
           .attr("x1", place + offset[0])
           .attr("y1", offset[1])
           .attr("x2", place + offset[2])
           .attr("y2", offset[3]);
 
-          if(StyleDic[type]){
-            objeto.classed(StyleDic[type], true);
-          }
+        if(StyleDic[type]){
+          objeto.classed(StyleDic[type], true);
+        }
+      }
+
+      function createNucleo(offset, classe){
+        return svg.append("rect")
+          .attr("x", offset[0])
+          .attr("y", offset[1])
+          .attr("width", offset[2])
+          .attr("height", offset[3])
+          .attr("class", classe);
+      }
+
+      function createBarramento(offset, classe){
+        let aux = 56;
+        aux = Math.round(aux + offset*21.6);
+        return svg.append("rect")
+          .attr("x", aux)
+          .attr("y", 248)
+          .attr("width", 23)
+          .attr("height", 23)
+          .classed(classe, true)
+          .classed("barramento", true)
+          .classed("bar-"+offset, true);
       }
 
 
