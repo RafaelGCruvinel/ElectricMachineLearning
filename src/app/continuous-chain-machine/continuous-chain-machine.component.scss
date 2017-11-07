@@ -37,10 +37,16 @@ svg{
     stroke-dasharray: none;
   }
 
-  .p, .escova, .n{
-    stroke: red;
-    stroke-width: 2;
+  .escova-p, .escova-n, .p, .n{
+    stroke: black;
+    stroke-width: 1;
     stroke-linecap: round;
+  }
+  .escova-p{
+    fill: #ffa1a7;
+  }
+  .escova-n{
+    fill: #b1a9ff;
   }
 
   .barramento{

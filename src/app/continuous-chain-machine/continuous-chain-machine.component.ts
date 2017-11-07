@@ -89,10 +89,10 @@ export class ContinuousChainMachineComponent implements OnInit {
           lb4: [place[3]+17, 293, place[3]+17, 350],
         }
         let styleDic = {
-          a1: "escova",
-          a2: "escova",
-          b1: "escova",
-          b2: "escova",
+          a1: "escova-p",
+          a2: "escova-p",
+          b1: "escova-n",
+          b2: "escova-n",
           la1: "p",
           la2: "p",
           la3: "p",
