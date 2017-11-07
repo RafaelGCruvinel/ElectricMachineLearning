@@ -51,30 +51,22 @@ export class ContinuousChainMachineComponent implements OnInit {
         .append("g")
         .classed("group", true)
         .attr("id", "group-1");
-      for(let i = 1; i<=4; i++){
-        createEspira(i, "c", "red");
-        createEspira(i, "b", "red");
-        createEspira(i, "a", "red");
-        createEspira(i+1, "f", "red");
-        createEspira(i+1, "d", "red");
-        createEspira(i+1, "e", "red");
+      createGroupEspira([1,4], "red");
+      createGroupEspira([6,9], "blue");
+      createGroupEspira([11,14], "red");
+      createGroupEspira([16,20], "blue");
+      createGroupEspira([-5,-1], "blue");
+      function createGroupEspira(limit, classe){
+        for(let i = limit[0]; i<=limit[1]; i++){
+          createEspira(i, "c", classe);
+          createEspira(i, "b", classe);
+          createEspira(i, "a", classe);
+          createEspira(i+1, "f", classe);
+          createEspira(i+1, "d", classe);
+          createEspira(i+1, "e", classe);
+        }
       }
-      for(let i = 6; i<=9; i++){
-        createEspira(i, "c", "blue");
-        createEspira(i, "b", "blue");
-        createEspira(i, "a", "blue");
-        createEspira(i+1, "f", "blue");
-        createEspira(i+1, "d", "blue");
-        createEspira(i+1, "e", "blue");
-      }
-      for(let i = 11; i<=14; i++){
-        createEspira(i, "c", "red");
-        createEspira(i, "b", "red");
-        createEspira(i, "a", "red");
-        createEspira(i+1, "f", "red");
-        createEspira(i+1, "d", "red");
-        createEspira(i+1, "e", "red");
-      }
+
       createEscova([123, 234, 344, 456], "escova");
       createBarramento(3, "enr");
     }
