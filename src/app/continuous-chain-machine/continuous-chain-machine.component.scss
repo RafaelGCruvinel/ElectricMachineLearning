@@ -1,42 +1,53 @@
-.graph01{
+$escova-cor1: #ffa1a7;
+$escova-cor2: #b1a9ff;
+$circuito1: red;
+$circuito2: blue;
+
+.legenda-1 {
+  color: $circuito1;
+}
+.legenda-2 {
+  color: $circuito2;
+}
+.legenda-3 {
+  color: black;
+}
+
+.diagrama {
     background-color: #eee;
     height: 370px;
     width: 580px;
 
-  text{
+  text {
    font-size:20px;
    fill: black;
   }
 
-
-  .enr{
+  .enr {
     stroke: black;
     opacity: 0.6;
     stroke-width: 1.5;
-  }
-  .enr1{
     stroke-linecap: round;
   }
+  .enr1 {}
 
-  .enr2{
-    stroke-linecap: round;
+  .enr2 {
     stroke-dasharray: 5 4;
   }
 
-  .nucleo1, .nucleo3{
-    fill: #ffa1a7;
+  .nucleo {
     stroke: #000000;
     stroke-width: 1.01;
     stroke-miterlimit: 4;
     stroke-dasharray: none;
   }
 
-  .nucleo2, .nucleo4{
+  .nucleo1, .nucleo3 {
+    fill: #ffa1a7;
+  }
+
+  .nucleo2, .nucleo4 {
     fill: #b1a9ff;
-    stroke: #000000;
-    stroke-width: 1.01300001;
-    stroke-miterlimit: 4;
-    stroke-dasharray: none;
   }
 
   .escova-p, .escova-n, .p, .n{
@@ -44,32 +55,43 @@
     stroke-width: 1;
     stroke-linecap: round;
   }
-  .escova-p{
-    fill: #ffa1a7;
+  .escova-p {
+    fill: $escova-cor1;
   }
-  .escova-n{
-    fill: #b1a9ff;
+  .escova-n {
+    fill: $escova-cor2;
   }
 
-  .barramento{
-    fill: #66aaff;
+  .bar-color {
     stroke: #0033ff;
+  }
+
+  .bar-null {
+    fill-opacity: 0.1;
+    stroke: black;
+  }
+
+  .barramento, .suporte {
+    stroke-width: 1.5;
+    fill: #66aaff;
+    stroke: black;
+    opacity: 0.6;
     stroke-width: 1.5;
   }
 
-  .red{
-    stroke: red;
+  .circuito1 {
+    stroke: $circuito1;
   }
-  .blue{
-    stroke: blue;
+  .circuito2 {
+    stroke: $circuito2;
   }
 
-  .group{
+  .group {
     fill-opacity:0;
     stroke-opacity:0;
     stroke-width: 5;
   }
-  .group:hover{
+  .group:hover {
     fill-opacity:1;
     stroke-opacity:1;
     stroke-width: 2;

@@ -15,13 +15,10 @@ export class ContinuousChainMachineComponent implements OnInit {
 
     ngOnInit() {
 
-      // create a SVG area to draw on
       var svg = d3.select("#graph01")
         .append("svg")
         .attr("width",580)
-        .attr("height",370)
-        .style("border", "solid 1px lightgrey")
-        .style("padding", "10px");
+        .attr("height",370);
 
       createNucleo([86,107,86,63], "nucleo1");
       createNucleo([194,107,86,63], "nucleo2");
@@ -38,11 +35,12 @@ export class ContinuousChainMachineComponent implements OnInit {
       }
 
       for(let i = 0; i<=21; i++){
-        createBarramento(i, "enr", true);
+        createBarramento(i, "bar-color", true);
       }
-
-      // createEscova([123, 234, 344, 456], "escova");
       //21.6 entre paralelos
+
+      createSuporte(248);
+      createSuporte(271);
 
       //arranjo1
       for(let j = -1; j<=17; j++){
@@ -53,10 +51,10 @@ export class ContinuousChainMachineComponent implements OnInit {
         .append("g")
         .classed("group", true)
         .attr("id", "group-1");
-      createGroupEspira([1+k,4+k], "red");
-      createGroupEspira([6+k,9+k], "blue");
-      createGroupEspira([11+k,14+k], "red");
-      createGroupEspira([16+k,19+k], "blue");
+      createGroupEspira([1+k,4+k], "circuito1");
+      createGroupEspira([6+k,9+k], "circuito2");
+      createGroupEspira([11+k,14+k], "circuito1");
+      createGroupEspira([16+k,19+k], "circuito2");
 
       function createGroupEspira(limit, classe){
         for(let i = limit[0]; i<=limit[1]; i++){
@@ -70,7 +68,7 @@ export class ContinuousChainMachineComponent implements OnInit {
       }
 
       createEscova(k,"escova");
-      createBarramento(3+k, "null", false);
+      createBarramento(3+k, "bar-null", false);
     }
 
 
@@ -213,7 +211,8 @@ export class ContinuousChainMachineComponent implements OnInit {
           .attr("y", offset[1])
           .attr("width", offset[2])
           .attr("height", offset[3])
-          .attr("class", classe);
+          .classed("nucleo", true)
+          .classed(classe, true);
       }
 
       function createBarramento(offset, classe, with_text){
@@ -221,16 +220,10 @@ export class ContinuousChainMachineComponent implements OnInit {
         aux = Math.round(aux + offset*21.6);
         number = offset - 2;
         if (number <= 0){
-          number = number + 19;
-        }
-        if (with_text) {
-          svg.append("text")
-            .attr("x", aux)
-            .attr("y", 268)
-            .text(number);
+          number = number + 21;
         }
 
-        return svg.append("rect")
+        svg.append("rect")
           .attr("x", aux)
           .attr("y", 248)
           .attr("width", 23)
@@ -238,8 +231,22 @@ export class ContinuousChainMachineComponent implements OnInit {
           .classed(classe, true)
           .classed("barramento", true)
           .classed("bar-"+offset, true);
+        if (with_text) {
+          svg.append("text")
+            .attr("x", aux)
+            .attr("y", 268)
+            .text(number);
+        }
       }
 
+      function createSuporte(position){
+        svg.append("line")
+          .classed("suporte", true)
+          .attr("x1", 20)
+          .attr("y1", position)
+          .attr("x2", 560)
+          .attr("y2", position);
+      }
 
   }
 
