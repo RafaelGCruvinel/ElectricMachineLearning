@@ -28,7 +28,7 @@ export class ContinuousChainMachineComponent implements OnInit {
       createNucleo([301,107,86,63], "nucleo3");
       createNucleo([408,107,86,63], "nucleo4");
 
-      for(let i = -4; i<=20; i++){
+      for(let i = 0; i<19; i++){
         createEspira(i, "a", "enr");
         createEspira(i, "b", "enr");
         createEspira(i, "c", "enr");
@@ -45,17 +45,19 @@ export class ContinuousChainMachineComponent implements OnInit {
       //21.6 entre paralelos
 
       //arranjo1
-      createArranjo();
-      function createArranjo(){
+      for(let j = 0; j<=19; j++){
+        createArranjo(j);
+      }
+      function createArranjo(k){
         svg = d3.select("#graph01 svg")
         .append("g")
         .classed("group", true)
         .attr("id", "group-1");
-      createGroupEspira([1,4], "red");
-      createGroupEspira([6,9], "blue");
-      createGroupEspira([11,14], "red");
-      createGroupEspira([16,20], "blue");
-      createGroupEspira([-5,-1], "blue");
+      createGroupEspira([1+k,4+k], "red");
+      createGroupEspira([6+k,9+k], "blue");
+      createGroupEspira([11+k,14+k], "red");
+      createGroupEspira([16+k,19+k], "blue");
+
       function createGroupEspira(limit, classe){
         for(let i = limit[0]; i<=limit[1]; i++){
           createEspira(i, "c", classe);
@@ -67,12 +69,18 @@ export class ContinuousChainMachineComponent implements OnInit {
         }
       }
 
-      createEscova([123, 234, 344, 456], "escova");
-      createBarramento(3, "enr");
+      createEscova(k,"escova");
+      createBarramento(3+k, "null");
     }
 
 
-      function createEscova(place, classe){
+      function createEscova(position, classe){
+        let place = [];
+        position = position % 20;
+        place[0] = 123 + Math.round(21.6 * position);
+        place[1] = 234 + Math.round(21.6 * position);
+        place[2] = 344 + Math.round(21.6 * position);
+        place[3] = 456 + Math.round(21.6 * position);
         let offset = [0, 0, 0, 0], objeto;
         let offsetDic = {
           a1: [place[0],270,34,23],
@@ -171,26 +179,30 @@ export class ContinuousChainMachineComponent implements OnInit {
           f: [-4,16],
         }
 
-        if((limitDic[type][0]>place0)||limitDic[type][1]<place0){
-          return;
-        }
+        create(place0%20);
+        create(place0%20+20);
+        create(place0%20-20);
+        function create(place0){
+          if((limitDic[type][0]>place0)||limitDic[type][1]<place0){
+            return;
+          }
+          if(offsetDic[type]){
+            offset = offsetDic[type]
+          }
 
-        if(offsetDic[type]){
-          offset = offsetDic[type]
-        }
+          place = Math.round(place0 * 21.6);
 
-        place = Math.round(place0 * 21.6);
+          objeto =  svg.append("line")
+            .classed(classe, true)
+            .classed("esp-"+type+place0, true)
+            .attr("x1", place + offset[0])
+            .attr("y1", offset[1])
+            .attr("x2", place + offset[2])
+            .attr("y2", offset[3]);
 
-        objeto =  svg.append("line")
-          .classed(classe, true)
-          .classed("esp-"+type+place0, true)
-          .attr("x1", place + offset[0])
-          .attr("y1", offset[1])
-          .attr("x2", place + offset[2])
-          .attr("y2", offset[3]);
-
-        if(StyleDic[type]){
-          objeto.classed(StyleDic[type], true);
+          if(StyleDic[type]){
+            objeto.classed(StyleDic[type], true);
+          }
         }
       }
 
