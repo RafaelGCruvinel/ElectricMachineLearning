@@ -77,11 +77,11 @@ export class ContinuousChainMachineComponent implements OnInit {
       function createEscova(position, classe){
         let place = [];
         position = position % 20;
-        let offsetEscova = 21.6*4;
-        place[0] = 123 - offsetEscova + Math.round(21.6 * position + offsetEscova)%Math.round(444);
-        place[1] = 123 - offsetEscova + Math.round(21.6 * position + 111 + offsetEscova)%Math.round(444);
-        place[2] = 123 - offsetEscova + Math.round(21.6 * position + 221 + offsetEscova)%Math.round(444);
-        place[3] = 123 - offsetEscova + Math.round(21.6 * position + 333 + offsetEscova)%Math.round(444);
+        let offsetEscova = Math.round(21.6*1);
+        place[0] = 120 - offsetEscova + Math.round(21.6 * position + offsetEscova)%Math.round(444);
+        place[1] = 120 - offsetEscova + Math.round(21.6 * position + 111 + offsetEscova)%Math.round(444);
+        place[2] = 120 - offsetEscova + Math.round(21.6 * position + 221 + offsetEscova)%Math.round(444);
+        place[3] = 120 - offsetEscova + Math.round(21.6 * position + 333 + offsetEscova)%Math.round(444);
         let offset = [0, 0, 0, 0], objeto;
         let offsetDic = {
           a1: [place[0],270,34,23],
