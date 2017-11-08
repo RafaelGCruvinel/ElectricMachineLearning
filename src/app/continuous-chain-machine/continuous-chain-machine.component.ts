@@ -28,7 +28,7 @@ export class ContinuousChainMachineComponent implements OnInit {
       createNucleo([301,107,86,63], "nucleo3");
       createNucleo([408,107,86,63], "nucleo4");
 
-      for(let i = 0; i<19; i++){
+      for(let i = 0; i<20; i++){
         createEspira(i, "a", "enr");
         createEspira(i, "b", "enr");
         createEspira(i, "c", "enr");
@@ -37,15 +37,15 @@ export class ContinuousChainMachineComponent implements OnInit {
         createEspira(i, "f", "enr");
       }
 
-      for(let i = 0; i<=22; i++){
-        createBarramento(i, "enr");
+      for(let i = 0; i<=21; i++){
+        createBarramento(i, "enr", true);
       }
 
       // createEscova([123, 234, 344, 456], "escova");
       //21.6 entre paralelos
 
       //arranjo1
-      for(let j = 0; j<=19; j++){
+      for(let j = -1; j<=17; j++){
         createArranjo(j);
       }
       function createArranjo(k){
@@ -70,14 +70,14 @@ export class ContinuousChainMachineComponent implements OnInit {
       }
 
       createEscova(k,"escova");
-      createBarramento(3+k, "null");
+      createBarramento(3+k, "null", false);
     }
 
 
       function createEscova(position, classe){
         let place = [];
         position = position % 20;
-        let offsetEscova = Math.round(21.6*1);
+        let offsetEscova = Math.round(21.6*3);
         place[0] = 120 - offsetEscova + Math.round(21.6 * position + offsetEscova)%Math.round(444);
         place[1] = 120 - offsetEscova + Math.round(21.6 * position + 111 + offsetEscova)%Math.round(444);
         place[2] = 120 - offsetEscova + Math.round(21.6 * position + 221 + offsetEscova)%Math.round(444);
@@ -216,9 +216,20 @@ export class ContinuousChainMachineComponent implements OnInit {
           .attr("class", classe);
       }
 
-      function createBarramento(offset, classe){
-        let aux = 56;
+      function createBarramento(offset, classe, with_text){
+        let aux = 56, number;
         aux = Math.round(aux + offset*21.6);
+        number = offset - 2;
+        if (number <= 0){
+          number = number + 19;
+        }
+        if (with_text) {
+          svg.append("text")
+            .attr("x", aux)
+            .attr("y", 268)
+            .text(number);
+        }
+
         return svg.append("rect")
           .attr("x", aux)
           .attr("y", 248)
