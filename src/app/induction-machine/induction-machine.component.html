@@ -1,7 +1,7 @@
-<div class="container-fluid">
+<div class="container-fluid mi">
   <div class="row">
       <div class="col">
-        <h1>Maquina de Indução</h1>
+        <h2 class="display-4">Maquina de Indução</h2>
         <p>
           <!-- Baseado nos dados de maquina do livro do P.C.Sen terceira edição, exercício 5.2, montamos dois exemplos de gráficos dinâmicos. -->
           Baseado nos dados de maquina do livro do P.C.Sen terceira edição, exercício 5.2.
@@ -14,7 +14,7 @@
         thumbLabel tickInterval="50"
         (change)="changeVoltage($event)"></mat-slider>
         <br>
-        <b>vth = {{percentageVoltage}}</b>
+        <b>vth = {{percentageVoltage}}%</b>
         <br><br>
 
         Mudar R2' (em porcentagem)
@@ -23,15 +23,42 @@
         thumbLabel tickInterval="50"
         (change)="changeRtwo($event)"></mat-slider>
         <br>
-        R2' = {{percentageRtwo}}
+        <b>R2' = {{percentageRtwo}}%</b>
         <br>
 
-
+        <hr class="my-4">
+        <h2 class="display-5">Curva Conjugado x Velocidade</h2>
         <nvd3 [options]="options" [data]="data"></nvd3>
         <br>
+        <p><b>Legenda:</b>
+          <span class="legenda-1">■</span>
+            - Padrão. Vth = 100%, R2' = 100% |
+          <span class="legenda-2">■</span>
+            - Custom. Vth = {{percentageVoltage}}%, R2' = {{percentageRtwo}}%
+        </p>
+        <br>
+        <hr class="my-4">
+        <h2 class="display-5">Curva Corrente x Velocidade</h2>
         <nvd3 [options]="options2" [data]="data2"></nvd3>
         <br>
+        <p><b>Legenda:</b>
+          <span class="legenda-1">■</span>
+            - Padrão. Vth = 100%, R2' = 100% |
+          <span class="legenda-2">■</span>
+            - Custom. Vth = {{percentageVoltage}}%, R2' = {{percentageRtwo}}%
+        </p>
+        <br>
+        <hr class="my-4">
+        <h2 class="display-5">Curva Fator de Potência x Velocidade</h2>
         <nvd3 [options]="options3" [data]="data3"></nvd3>
+        <br>
+        <p><b>Legenda:</b>
+          <span class="legenda-1">■</span>
+            - Padrão. Vth = 100%, R2' = 100% |
+          <span class="legenda-2">■</span>
+            - Custom. Vth = {{percentageVoltage}}%, R2' = {{percentageRtwo}}%
+        </p>
+        <br>
       </div>
     </div>
 </div>
