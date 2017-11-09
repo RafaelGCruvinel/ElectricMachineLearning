@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid ms">
   <div class="row">
       <div class="col-12">
         <h1>Maquina Sincrona</h1>
@@ -71,10 +71,14 @@
                    data-md-icheck
                    [(ngModel)]="fatPot"
                    (change)="changeFatPot()">
-            <label for="checkbox101">Filled-in checkbox</label>
+            <label for="checkbox101">Fator de Potência {{fatPot ? "Capacitivo" : "Indutivo"}} </label>
+            <br>
+            <input type="checkbox"
+                   data-md-icheck
+                   [(ngModel)]="isGerador"
+                   (change)="changeType()">
+            <label for="checkbox101">Funcionamento como {{isGerador ? "Gerador" : "Motor"}} </label>
         </div>
-        {{fatPot}}
-
 
         <svg id="pl-diagram">
             <defs>
@@ -84,16 +88,13 @@
             </defs>
             <!-- <line class="vector" x1="50" y1="100" x2="220" y2="270"/> -->
         </svg>
-        <p>Vt = {{vt}} <br>
-          IaxRa = {{iara}} <br>
-          Ia*J*Xs = {{iajxs}} <br>
-          Ef = {{ef}} <br>
-          Ia = {{ia}} <br>
-          Fp = {{fp}} <br>
-          {{isGerador ? Gerador : Motor}} <br>
+        <p><span class="colorVt">■</span> - Vt = {{vt}} <br>
+          <span class="colorIaxRa">■</span> - IaxRa = {{iara}} <br>
+          <span class="colorIajXs">■</span> - Ia*J*Xs = {{iajxs}} <br>
+          <span class="colorEf">■</span> - Ef = {{ef}} <br>
+          <span class="colorIa">■</span> - Ia = {{ia}} <br>
+          {{isGerador ? "Gerador" : "Motor"}} <br>
           Fator de Potência = {{fp0}}, {{fatPot ? "Capacitivo" : "Indutivo"}} <br>
-
-
 
         </p>
       </div>

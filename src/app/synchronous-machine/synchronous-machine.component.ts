@@ -21,6 +21,7 @@ export class SynchronousMachineComponent implements OnInit {
     changeFp;
     changeIa;
     changeFatPot;
+    changeType;
     // ef;
     // xs;
     // ia;
@@ -34,11 +35,10 @@ export class SynchronousMachineComponent implements OnInit {
     ia = 0;
     iaPercent = 100;
     fp;
-    isGerador;
     cap;
     fp0 = 0.8;
     private fatPot: boolean = false;
-
+    private isGerador: boolean = false;
 
     constructor() {
         function changeFp($event){
@@ -47,7 +47,7 @@ export class SynchronousMachineComponent implements OnInit {
           console.log('Changing fp to ' + value);
 
           this.fp0 = format(value);
-          this.updateDiagram(this.iaPercent, this.fatPot, this.fp0, false);
+          this.updateDiagram(this.iaPercent, this.fatPot, this.fp0, this.isGerador);
         }
 
         function changeIa($event){
@@ -56,20 +56,21 @@ export class SynchronousMachineComponent implements OnInit {
           console.log('Changing Ia Percent to ' + value);
 
           this.iaPercent = format(value);
-          this.updateDiagram(this.iaPercent, this.fatPot, this.fp0, false);
+          this.updateDiagram(this.iaPercent, this.fatPot, this.fp0, this.isGerador);
         }
 
-        function changeFatPot($event){
-          console.log($event);
-          let value = $event.value;
-          console.log('Changing FatPot Percent to ' + value);
-
-          this.fatPot = value;
-          this.updateDiagram(this.iaPercent, this.fatPot, this.fp0, false);
+        function changeFatPot(){
+          console.log('Changing FatPot to ' + this.fatPot);
+          this.updateDiagram(this.iaPercent, this.fatPot, this.fp0, this.isGerador);
+        }
+        function changeType(){
+          console.log('Changing Type to ' + this.fatPot);
+          this.updateDiagram(this.iaPercent, this.fatPot, this.fp0, this.isGerador);
         }
         this.changeFp = changeFp;
         this.changeIa = changeIa;
         this.changeFatPot = changeFatPot;
+        this.changeType = changeType;
       }
 
       ngOnInit() {
@@ -108,27 +109,32 @@ export class SynchronousMachineComponent implements OnInit {
 
           // Vt
           svg.append('line')
-            .attr('class', 'vector')
+            .classed('vector', true)
+            .classed('vectorVt', true)
             .attr('id', 'vt');
 
           // Ia*Ra
           svg.append('line')
-            .attr('class', 'vector')
+            .classed('vector', true)
+            .classed('vectorIaRa', true)
             .attr('id', 'iara');
 
           // Ia*j*Xs
           svg.append('line')
-            .attr('class', 'vector')
+            .classed('vector', true)
+            .classed('vectorIajXs', true)
             .attr('id', 'iajxs');
 
           // Ef
           svg.append('line')
-            .attr('class', 'vector')
+            .classed('vector', true)
+            .classed('vectorEf', true)
             .attr('id', 'ef');
 
           // ia
           svg.append('line')
-            .attr('class', 'vector')
+            .classed('vector', true)
+            .classed('vectorIa', true)
             .attr('id', 'ia');
 
           function updateDiagram(iaPercent, fatPot, fp0, isGerador){
@@ -207,7 +213,7 @@ export class SynchronousMachineComponent implements OnInit {
             this.fp =  format(fp);
           };
 
-          updateDiagram(100, true, 0.8, false);
+          updateDiagram(this.iaPercent, this.fatPot, this.fp0, this.isGerador);
           this.updateDiagram = updateDiagram;
       }
 

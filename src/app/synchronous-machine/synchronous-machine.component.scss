@@ -1,3 +1,55 @@
+$vectorVt: red;
+$vetorId: blue;
+$vectorIajXs: green;
+$vectorEf: purple;
+$vectorIa: black;
+$vectorIaRa: orange;
+
+mat-slider {
+  width: 80%;
+}
+
+.ms{
+  .vectorVt, .vectorVt #arrow path{
+    stroke: $vectorVt;
+    fill: $vectorVt;
+  }
+  .vetorId{
+    stroke: $vetorId;
+  }
+  .vectorIajXs{
+    stroke: $vectorIajXs;
+  }
+  .vectorEf{
+    stroke: $vectorEf;
+  }
+  .vectorIa{
+    stroke: $vectorIa;
+  }
+  .vectorIaRa{
+    stroke: $vectorIaRa;
+  }
+  .colorVt{
+    color: $vectorVt;
+  }
+  .colorId{
+    color: $vetorId;
+  }
+  .colorIajXs{
+    color: $vectorIajXs;
+  }
+  .colorEf{
+    color: $vectorEf;
+  }
+  .colorIa{
+    color: $vectorIa;
+  }
+  .colorIaRa{
+    color: $vectorIaRa;
+  }
+}
+
+
 .vector{
   stroke-width: 3;
   marker-end: url(#arrow);
