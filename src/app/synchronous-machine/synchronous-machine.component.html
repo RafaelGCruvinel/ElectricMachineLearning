@@ -4,7 +4,7 @@
         <h1>Maquina Sincrona</h1>
       </div>
   </div>
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-12">
       <mat-tab-group class="demo-tab-group">
         <mat-tab label="Tab 1">
@@ -42,7 +42,7 @@
         </mat-tab>
       </mat-tab-group>
     </div>
-  </div>
+  </div> -->
   <div class="row">
       <div class="col-12">
         <h1>Diagrama de Polos Lisos</h1>
@@ -54,6 +54,18 @@
             </defs>
             <!-- <line class="vector" x1="50" y1="100" x2="220" y2="270"/> -->
         </svg>
+        <p>Vt = {{vt}} <br>
+          IaxRa = {{iara}} <br>
+          Ia*J*Xs = {{iajxs}} <br>
+          Ef = {{ef}} <br>
+          Ia = {{ia}} <br>
+          Fp = {{fp}} <br>
+          {{isGerador ? Gerador : Motor}} <br>
+          Fator de Potência = {{fp0}}, {{fatPot ? "Capacitivo" : "Indutivo"}} <br>
+
+
+
+        </p>
       </div>
     </div>
 </div>

@@ -17,11 +17,23 @@ declare let math: any;
 })
 
 export class SynchronousMachineComponent implements OnInit {
+    // ef;
+    // xs;
+    // ia;
+    // ra;
+    // calcEf;
+    // var to print
+    vt = 120;
+    iara;
+    iajxs;
     ef;
-    xs;
-    ia;
-    ra;
-    calcEf;
+    ia = 0;
+    fp;
+    isGerador;
+    cap;
+    fp0 = 0.8;
+    fatPot = true;
+
 
       constructor() {
       }
@@ -86,10 +98,9 @@ export class SynchronousMachineComponent implements OnInit {
             .attr("class", "vector")
             .attr("id", "ia");
 
-          function updateDiagram(){
+          function updateDiagram(iaPercent, fatPot, fp0, isGerador){
 
             // example 6.3 page 307
-
 
             let vt, iax, iay, xs, ra;
             let efx, efy, ia, kva, ia0, vt0;
@@ -100,10 +111,11 @@ export class SynchronousMachineComponent implements OnInit {
             kva = 5000;
             ia0 = 5000 / ( Math.sqrt(3) * vt0);
 
-
-            phi = Math.acos(0.8);
-            iax = ia0 * Math.cos(phi);
-            iay = - ia0 * Math.sin(phi); //@TODO check validation FP negative or positive
+            phi = Math.acos(fp0);
+            if(isGerador) ia0 = -ia0;
+            iax = ia0 * iaPercent * Math.cos(phi) / 100;
+            iay = ia0 * iaPercent * Math.sin(phi) / 100; //@TODO check validation FP negative or positive
+            if(fatPot) iay = -iay;
             ia = math.complex(iax, iay);
             console.log('ia', ia)
             vt = 120; //vt/Math.sqrt(3)
@@ -132,7 +144,14 @@ export class SynchronousMachineComponent implements OnInit {
             updateVector('iara', [vt, 0, raiax, raiay]);
             updateVector('iajxs', [raiax + vt, raiay, iajxsx, iajxsy]);
             updateVector('ef', [0,0,efx,efy]);
-
+            console.log(vt,"\nvt");
+            updateStatus(
+              math.complex(vt,0),
+              math.complex(raiax, raiay),
+              math.complex(iajxsx, iajxsy),
+              math.complex(efx,efy),
+              ia,
+              fp0);
           }
 
           function updateVector(id, vector){
@@ -142,8 +161,17 @@ export class SynchronousMachineComponent implements OnInit {
               .attr("x2", offsetX + vector[2] + vector[0])
               .attr("y2", h - (offsetY + vector[3] + vector[1]));
           }
-          updateDiagram();
 
+          var updateStatus = (vt, iara, iajxs, ef, ia, fp) => {
+            let format = (e) => math.format(e, {notation: 'fixed', precision: 2});
+            this.vt = format(vt);
+            this.iara =  format(iara);
+            this.iajxs = format(iajxs);
+            this.ef =  format(ef);
+            this.ia =  format(ia);
+            this.fp =  format(fp);
+          }
+          updateDiagram(100, true, 0.8, false);
       }
 
   }
