@@ -58,12 +58,12 @@ export class ContinuousChainMachineComponent implements OnInit {
       createNucleo([408,107,86,63], "nucleo4");
 
       for(let i = 0; i<20; i++){
-        createEspira(i, "a", "enr");
-        createEspira(i, "b", "enr");
-        createEspira(i, "c", "enr");
-        createEspira(i, "d", "enr");
-        createEspira(i, "e", "enr");
-        createEspira(i, "f", "enr");
+        createEspira(i, "g", "enr");
+        createEspira(i, "h", "enr");
+        createEspira(i, "i", "enr");
+        createEspira(i, "j", "enr");
+        createEspira(i, "k", "enr");
+        createEspira(i, "l", "enr");
       }
 
       for(let i = 0; i<=21; i++){
@@ -75,7 +75,7 @@ export class ContinuousChainMachineComponent implements OnInit {
       createSuporte(271);
 
       //arranjo1
-      for(let j = -1; j<=17; j++){
+      for(let j = 0; j<=0; j++){
         createArranjo(j, "graph02");
       }
 
@@ -84,19 +84,39 @@ export class ContinuousChainMachineComponent implements OnInit {
           .append("g")
           .classed("group", true)
           .attr("id", "group-1");
-        createGroupEspira([1+k,4+k], "circuito1");
-        createGroupEspira([6+k,9+k], "circuito2");
-        createGroupEspira([11+k,14+k], "circuito1");
-        createGroupEspira([16+k,19+k], "circuito2");
-
+        if(graph == "graph01"){
+          createGroupEspira([1+k,4+k], "circuito1");
+          createGroupEspira([6+k,9+k], "circuito2");
+          createGroupEspira([11+k,14+k], "circuito1");
+          createGroupEspira([16+k,19+k], "circuito2");
+        }
+        if(graph == "graph02"){
+          createGroupEspira([k,3+k], "circuito1");
+          // createGroupEspira([6+k,9+k], "circuito2");
+          // createGroupEspira([11+k,14+k], "circuito1");
+          // createGroupEspira([16+k,19+k], "circuito2");
+        }
         function createGroupEspira(limit, classe){
-          for(let i = limit[0]; i<=limit[1]; i++){
-            createEspira(i, "c", classe);
-            createEspira(i, "b", classe);
-            createEspira(i, "a", classe);
-            createEspira(i+1, "f", classe);
-            createEspira(i+1, "d", classe);
-            createEspira(i+1, "e", classe);
+          if(graph == "graph01"){
+            for(let i = limit[0]; i<=limit[1]; i++){
+              createEspira(i, "c", classe);
+              createEspira(i, "b", classe);
+              createEspira(i, "a", classe);
+              createEspira(i+1, "f", classe);
+              createEspira(i+1, "d", classe);
+              createEspira(i+1, "e", classe);
+            }
+          }
+          if(graph == "graph02"){
+            for(let i = limit[0]; i<=limit[1]; i++){
+              let j = (i*11+1)%22;
+              createEspira(j, "g", classe);
+              createEspira(j, "h", classe);
+              createEspira(j, "i", classe);
+              createEspira(j, "j", classe);
+              createEspira(j, "k", classe);
+              createEspira(i, "l", classe);
+            }
           }
         }
 
@@ -192,6 +212,12 @@ export class ContinuousChainMachineComponent implements OnInit {
           d: [133, 248, 155, 196],
           e: [155, 196, 155, 86],
           f: [155, 86, 106, 30],
+          g: [235, 30, 188, 86],
+          h: [188, 86, 188, 195],
+          i: [188, 195, 133, 248],
+          j: [371, 248, 285, 196],
+          k: [285, 196, 285, 86],
+          l: [285, 86, 236, 30],
         }
         let StyleDic = {
           a: "enr1",
@@ -200,6 +226,12 @@ export class ContinuousChainMachineComponent implements OnInit {
           d: "enr2",
           e: "enr2",
           f: "enr2",
+          g: "enr1",
+          h: "enr1",
+          i: "enr1",
+          j: "enr2",
+          k: "enr2",
+          l: "enr2",
         }
         let limitDic = {
           a: [0,20],
@@ -208,6 +240,13 @@ export class ContinuousChainMachineComponent implements OnInit {
           d: [-4,19],
           e: [-4,16],
           f: [-4,16],
+
+          g: [-5,15],
+          h: [-5,15],
+          i: [-5,15],
+          j: [-13,10],
+          k: [-10,10],
+          l: [-10,10],
         }
 
         create(place0%20);
