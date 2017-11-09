@@ -41,8 +41,6 @@ export class ContinuousChainMachineComponent implements OnInit {
 
       createSuporte(248);
       createSuporte(271);
-      createBlock(0,248);
-      createBlock(271,370);
 
       //arranjo1
       for(let j = -1; j<=17; j++){
@@ -308,15 +306,6 @@ export class ContinuousChainMachineComponent implements OnInit {
             .attr("y", 268)
             .text(number);
         }
-      }
-
-      function createBlock(positionA, positionB){
-        svg.append("rect")
-          .attr("x", positionA)
-          .attr("y", 0)
-          .attr("width", positionB-positionA)
-          .attr("height", 580)
-          .classed("block", true);
       }
 
       function createSuporte(position){
