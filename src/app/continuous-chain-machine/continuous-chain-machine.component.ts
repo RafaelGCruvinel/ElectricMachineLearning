@@ -25,7 +25,7 @@ export class ContinuousChainMachineComponent implements OnInit {
       createNucleo([301,107,86,63], "nucleo3");
       createNucleo([408,107,86,63], "nucleo4");
 
-      for(let i = 0; i<20; i++){
+      for(let i = 0; i<=20; i++){
         createEspira(i, "a", "enr");
         createEspira(i, "b", "enr");
         createEspira(i, "c", "enr");
@@ -41,6 +41,8 @@ export class ContinuousChainMachineComponent implements OnInit {
 
       createSuporte(248);
       createSuporte(271);
+      createBlock(0,248);
+      createBlock(271,370);
 
       //arranjo1
       for(let j = -1; j<=17; j++){
@@ -57,7 +59,7 @@ export class ContinuousChainMachineComponent implements OnInit {
       createNucleo([301,107,86,63], "nucleo3");
       createNucleo([408,107,86,63], "nucleo4");
 
-      for(let i = 0; i<20; i++){
+      for(let i = 0; i<21; i++){
         createEspira(i, "g", "enr");
         createEspira(i, "h", "enr");
         createEspira(i, "i", "enr");
@@ -75,7 +77,7 @@ export class ContinuousChainMachineComponent implements OnInit {
       createSuporte(271);
 
       //arranjo1
-      for(let j = 0; j<=0; j++){
+      for(let j = -2; j<=18; j++){
         createArranjo(j, "graph02");
       }
 
@@ -87,14 +89,12 @@ export class ContinuousChainMachineComponent implements OnInit {
         if(graph == "graph01"){
           createGroupEspira([1+k,4+k], "circuito1");
           createGroupEspira([6+k,9+k], "circuito2");
-          createGroupEspira([11+k,14+k], "circuito1");
-          createGroupEspira([16+k,19+k], "circuito2");
+          createGroupEspira([11+k,14+k], "circuito3");
+          createGroupEspira([16+k,20+k], "circuito4");
         }
         if(graph == "graph02"){
-          createGroupEspira([k,3+k], "circuito1");
-          // createGroupEspira([6+k,9+k], "circuito2");
-          // createGroupEspira([11+k,14+k], "circuito1");
-          // createGroupEspira([16+k,19+k], "circuito2");
+          createGroupEspira([2+k*2,8+k*2], "circuito1");
+          createGroupEspira([12+k*2,19+k*2], "circuito2");
         }
         function createGroupEspira(limit, classe){
           if(graph == "graph01"){
@@ -109,13 +109,13 @@ export class ContinuousChainMachineComponent implements OnInit {
           }
           if(graph == "graph02"){
             for(let i = limit[0]; i<=limit[1]; i++){
-              let j = (i*11+1)%22;
+              let j = (i*11)%21;
               createEspira(j, "g", classe);
               createEspira(j, "h", classe);
               createEspira(j, "i", classe);
               createEspira(j, "j", classe);
               createEspira(j, "k", classe);
-              createEspira(i, "l", classe);
+              createEspira(j, "l", classe);
             }
           }
         }
@@ -249,9 +249,9 @@ export class ContinuousChainMachineComponent implements OnInit {
           l: [-10,10],
         }
 
-        create(place0%20);
-        create(place0%20+20);
-        create(place0%20-20);
+        create(place0%21);
+        create(place0%21+21);
+        create(place0%21-21);
         function create(place0){
           if((limitDic[type][0]>place0)||limitDic[type][1]<place0){
             return;
@@ -308,6 +308,15 @@ export class ContinuousChainMachineComponent implements OnInit {
             .attr("y", 268)
             .text(number);
         }
+      }
+
+      function createBlock(positionA, positionB){
+        svg.append("rect")
+          .attr("x", positionA)
+          .attr("y", 0)
+          .attr("width", positionB-positionA)
+          .attr("height", 580)
+          .classed("block", true);
       }
 
       function createSuporte(position){

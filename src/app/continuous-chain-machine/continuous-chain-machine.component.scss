@@ -2,6 +2,9 @@ $escova-cor1: #ffa1a7;
 $escova-cor2: #b1a9ff;
 $circuito1: red;
 $circuito2: blue;
+$circuito3: green;
+$circuito4: purple;
+$circuiton: black;
 
 .legenda-1 {
   color: $circuito1;
@@ -10,7 +13,13 @@ $circuito2: blue;
   color: $circuito2;
 }
 .legenda-3 {
-  color: black;
+  color: $circuito3;
+}
+.legenda-4 {
+  color: $circuito4;
+}
+.legenda-n {
+  color: $circuiton;
 }
 
 .diagrama {
@@ -84,6 +93,15 @@ $circuito2: blue;
   }
   .circuito2 {
     stroke: $circuito2;
+  }
+  .circuito3 {
+    stroke: $circuito3;
+  }
+  .circuito4 {
+    stroke: $circuito4;
+  }
+  .circuiton {
+    stroke: $circuiton;
   }
 
   .group {
