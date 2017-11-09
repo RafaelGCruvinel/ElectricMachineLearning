@@ -17,6 +17,10 @@ declare let math: any;
 })
 
 export class SynchronousMachineComponent implements OnInit {
+    updateDiagram;
+    changeFp;
+    changeIa;
+    changeFatPot;
     // ef;
     // xs;
     // ia;
@@ -28,18 +32,45 @@ export class SynchronousMachineComponent implements OnInit {
     iajxs;
     ef;
     ia = 0;
+    iaPercent = 100;
     fp;
     isGerador;
     cap;
     fp0 = 0.8;
-    fatPot = true;
+    fatPot = false;
 
 
       constructor() {
+        function changeFp($event){
+          let value = $event.value;
+          let format = (e) => math.format(e, {notation: 'fixed', precision: 2});
+          console.log("Changing fp to " + value);
+
+          this.fp0 = format(value);
+          this.updateDiagram(this.iaPercent, this.fatPot, this.fp0, false);
+        }
+        function changeIa($event){
+          let value = $event.value;
+          let format = (e) => math.format(e, {notation: 'fixed', precision: 1});
+          console.log("Changing Ia Percent to " + value);
+
+          this.iaPercent = format(value);
+          this.updateDiagram(this.iaPercent, this.fatPot, this.fp0, false);
+        }
+        function changeFatPot($event){
+          console.log($event);
+          let value = $event.value;
+          console.log("Changing FatPot Percent to " + value);
+
+          this.fatPot = value;
+          this.updateDiagram(this.iaPercent, this.fatPot, this.fp0, false);
+        }
+        this.changeFp = changeFp;
+        this.changeIa = changeIa;
+        this.changeFatPot = changeFatPot;
       }
 
       ngOnInit() {
-
         //Dados Vt, Ia, If => descobrir Ef, If
 
         function calcEf(vt, xs, ia, ra){
@@ -115,7 +146,9 @@ export class SynchronousMachineComponent implements OnInit {
             if(isGerador) ia0 = -ia0;
             iax = ia0 * iaPercent * Math.cos(phi) / 100;
             iay = ia0 * iaPercent * Math.sin(phi) / 100; //@TODO check validation FP negative or positive
-            if(fatPot) iay = -iay;
+            if(fatPot == true) {
+              iay = ia0 * -1 * iaPercent * Math.sin(phi) / 100;
+            }
             ia = math.complex(iax, iay);
             console.log('ia', ia)
             vt = 120; //vt/Math.sqrt(3)
@@ -172,6 +205,8 @@ export class SynchronousMachineComponent implements OnInit {
             this.fp =  format(fp);
           }
           updateDiagram(100, true, 0.8, false);
+          this.updateDiagram = updateDiagram;
       }
+
 
   }
