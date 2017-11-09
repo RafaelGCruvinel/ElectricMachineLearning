@@ -37,8 +37,9 @@ export class SynchronousMachineComponent implements OnInit {
     fp;
     cap;
     fp0 = 0.8;
-    private fatPot: boolean = false;
+    private fatPot: boolean = true;
     private isGerador: boolean = false;
+    private subexcitado: boolean = false;
 
     constructor() {
         function changeFp($event){
@@ -161,7 +162,7 @@ export class SynchronousMachineComponent implements OnInit {
             console.log('ia', ia)
             vt = 120; // vt/Math.sqrt(3)
             xs = 8;
-            ra = 0;
+            ra = 1;
             console.log('aki');
             let d;
             d = calcEf(vt, xs, ia, ra);
@@ -180,7 +181,9 @@ export class SynchronousMachineComponent implements OnInit {
             console.log(iajxsx, raiax)
             // Dados Vt, Ia, If => descobrir Ef, If
 
-            updateVector('ia', [0, 0, iax, iay]);
+            // offset IA
+            let offsetIa = 5;
+            updateVector('ia', [0, 0, offsetIa * iax, offsetIa * iay]);
             updateVector('vt', [0, 0, vt, 0]);
             updateVector('iara', [vt, 0, raiax, raiay]);
             updateVector('iajxs', [raiax + vt, raiay, iajxsx, iajxsy]);
@@ -211,6 +214,7 @@ export class SynchronousMachineComponent implements OnInit {
             this.ef =  format(ef);
             this.ia =  format(ia);
             this.fp =  format(fp);
+            this.subexcitado = vt.toPolar().r < ef.toPolar().r;
           };
 
           updateDiagram(this.iaPercent, this.fatPot, this.fp0, this.isGerador);

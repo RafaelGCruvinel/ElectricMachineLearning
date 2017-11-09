@@ -71,13 +71,13 @@
                    data-md-icheck
                    [(ngModel)]="fatPot"
                    (change)="changeFatPot()">
-            <label for="checkbox101">Fator de Potência {{fatPot ? "Capacitivo" : "Indutivo"}} </label>
+            <label for="checkbox101">Fator de Potência {{fatPot ?  "Indutivo" : "Capacitivo"}} </label>
             <br>
             <input type="checkbox"
                    data-md-icheck
                    [(ngModel)]="isGerador"
                    (change)="changeType()">
-            <label for="checkbox101">Funcionamento como {{isGerador ? "Gerador" : "Motor"}} </label>
+            <label for="checkbox101">Funcionamento como {{isGerador ? "Motor" : "Gerador"}} </label>
         </div>
 
         <svg id="pl-diagram">
@@ -93,8 +93,8 @@
           <span class="colorIajXs">■</span> - Ia*J*Xs = {{iajxs}} <br>
           <span class="colorEf">■</span> - Ef = {{ef}} <br>
           <span class="colorIa">■</span> - Ia = {{ia}} <br>
-          {{isGerador ? "Gerador" : "Motor"}} <br>
-          Fator de Potência = {{fp0}}, {{fatPot ? "Capacitivo" : "Indutivo"}} <br>
+          {{isGerador ? "Motor" : "Gerador"}} {{!subexcitado ? "subexcitado" : "sobreexcitado"}} <br>
+          Fator de Potência = {{fp0}}, {{fatPot ?  "Indutivo" : "Capacitivo"}} <br>
 
         </p>
       </div>
