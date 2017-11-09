@@ -44,33 +44,65 @@ export class ContinuousChainMachineComponent implements OnInit {
 
       //arranjo1
       for(let j = -1; j<=17; j++){
-        createArranjo(j);
+        createArranjo(j, "graph01");
       }
-      function createArranjo(k){
-        svg = d3.select("#graph01 svg")
-        .append("g")
-        .classed("group", true)
-        .attr("id", "group-1");
-      createGroupEspira([1+k,4+k], "circuito1");
-      createGroupEspira([6+k,9+k], "circuito2");
-      createGroupEspira([11+k,14+k], "circuito1");
-      createGroupEspira([16+k,19+k], "circuito2");
 
-      function createGroupEspira(limit, classe){
-        for(let i = limit[0]; i<=limit[1]; i++){
-          createEspira(i, "c", classe);
-          createEspira(i, "b", classe);
-          createEspira(i, "a", classe);
-          createEspira(i+1, "f", classe);
-          createEspira(i+1, "d", classe);
-          createEspira(i+1, "e", classe);
+      svg = d3.select("#graph02")
+        .append("svg")
+        .attr("width",580)
+        .attr("height",370);
+
+      createNucleo([86,107,86,63], "nucleo1");
+      createNucleo([194,107,86,63], "nucleo2");
+      createNucleo([301,107,86,63], "nucleo3");
+      createNucleo([408,107,86,63], "nucleo4");
+
+      for(let i = 0; i<20; i++){
+        createEspira(i, "a", "enr");
+        createEspira(i, "b", "enr");
+        createEspira(i, "c", "enr");
+        createEspira(i, "d", "enr");
+        createEspira(i, "e", "enr");
+        createEspira(i, "f", "enr");
+      }
+
+      for(let i = 0; i<=21; i++){
+        createBarramento(i, "bar-color", true);
+      }
+      //21.6 entre paralelos
+
+      createSuporte(248);
+      createSuporte(271);
+
+      //arranjo1
+      for(let j = -1; j<=17; j++){
+        createArranjo(j, "graph02");
+      }
+
+      function createArranjo(k, graph){
+        svg = d3.select("#" + graph + " svg")
+          .append("g")
+          .classed("group", true)
+          .attr("id", "group-1");
+        createGroupEspira([1+k,4+k], "circuito1");
+        createGroupEspira([6+k,9+k], "circuito2");
+        createGroupEspira([11+k,14+k], "circuito1");
+        createGroupEspira([16+k,19+k], "circuito2");
+
+        function createGroupEspira(limit, classe){
+          for(let i = limit[0]; i<=limit[1]; i++){
+            createEspira(i, "c", classe);
+            createEspira(i, "b", classe);
+            createEspira(i, "a", classe);
+            createEspira(i+1, "f", classe);
+            createEspira(i+1, "d", classe);
+            createEspira(i+1, "e", classe);
+          }
         }
+
+        createEscova(k,"escova");
+        createBarramento(3+k, "bar-null", false);
       }
-
-      createEscova(k,"escova");
-      createBarramento(3+k, "bar-null", false);
-    }
-
 
       function createEscova(position, classe){
         let place = [];
