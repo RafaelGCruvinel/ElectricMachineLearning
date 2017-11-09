@@ -67,7 +67,10 @@
 
 
         <div class="form-group">
-            <input type="checkbox" data-md-icheck (change)="changeFatPot()">
+            <input type="checkbox"
+                   data-md-icheck
+                   [(ngModel)]="fatPot"
+                   (change)="changeFatPot()">
             <label for="checkbox101">Filled-in checkbox</label>
         </div>
         {{fatPot}}

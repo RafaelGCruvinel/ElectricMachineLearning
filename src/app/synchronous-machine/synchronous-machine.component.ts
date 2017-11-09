@@ -37,30 +37,32 @@ export class SynchronousMachineComponent implements OnInit {
     isGerador;
     cap;
     fp0 = 0.8;
-    fatPot = false;
+    private fatPot: boolean = false;
 
 
-      constructor() {
+    constructor() {
         function changeFp($event){
           let value = $event.value;
           let format = (e) => math.format(e, {notation: 'fixed', precision: 2});
-          console.log("Changing fp to " + value);
+          console.log('Changing fp to ' + value);
 
           this.fp0 = format(value);
           this.updateDiagram(this.iaPercent, this.fatPot, this.fp0, false);
         }
+
         function changeIa($event){
           let value = $event.value;
           let format = (e) => math.format(e, {notation: 'fixed', precision: 1});
-          console.log("Changing Ia Percent to " + value);
+          console.log('Changing Ia Percent to ' + value);
 
           this.iaPercent = format(value);
           this.updateDiagram(this.iaPercent, this.fatPot, this.fp0, false);
         }
+
         function changeFatPot($event){
           console.log($event);
           let value = $event.value;
-          console.log("Changing FatPot Percent to " + value);
+          console.log('Changing FatPot Percent to ' + value);
 
           this.fatPot = value;
           this.updateDiagram(this.iaPercent, this.fatPot, this.fp0, false);
@@ -71,7 +73,7 @@ export class SynchronousMachineComponent implements OnInit {
       }
 
       ngOnInit() {
-        //Dados Vt, Ia, If => descobrir Ef, If
+        // Dados Vt, Ia, If => descobrir Ef, If
 
         function calcEf(vt, xs, ia, ra){
           let raia, iajxs, ret1;
@@ -80,7 +82,7 @@ export class SynchronousMachineComponent implements OnInit {
           raia = calcRaIa(vt, xs, ia, ra);
           ret1 = math.add(vt, raia);
           return math.add(ret1, iajxs);
-          //Ef = Vt + j * Xs * Ia + Ra * Ia
+          // Ef = Vt + j * Xs * Ia + Ra * Ia
         }
 
         function calcRaIa(vt, xs, ia, ra){
@@ -94,40 +96,40 @@ export class SynchronousMachineComponent implements OnInit {
           console.log(calcEf(10, 2, 3, 7));
 
           console.log('Creating SVG');
-          var w = 450;
-          var h = 300;
+          let w = 450;
+          let h = 300;
 
           let offsetX = 57;
           let offsetY = 122;
 
-          var svg = d3.select("#pl-diagram")
-            .attr("width", w)
-            .attr("height", h);
+          let svg = d3.select('#pl-diagram')
+            .attr('width', w)
+            .attr('height', h);
 
           // Vt
-          svg.append("line")
-            .attr("class", "vector")
-            .attr("id", "vt");
+          svg.append('line')
+            .attr('class', 'vector')
+            .attr('id', 'vt');
 
           // Ia*Ra
-          svg.append("line")
-            .attr("class", "vector")
-            .attr("id", "iara");
+          svg.append('line')
+            .attr('class', 'vector')
+            .attr('id', 'iara');
 
           // Ia*j*Xs
-          svg.append("line")
-            .attr("class", "vector")
-            .attr("id", "iajxs");
+          svg.append('line')
+            .attr('class', 'vector')
+            .attr('id', 'iajxs');
 
           // Ef
-          svg.append("line")
-            .attr("class", "vector")
-            .attr("id", "ef");
+          svg.append('line')
+            .attr('class', 'vector')
+            .attr('id', 'ef');
 
           // ia
-          svg.append("line")
-            .attr("class", "vector")
-            .attr("id", "ia");
+          svg.append('line')
+            .attr('class', 'vector')
+            .attr('id', 'ia');
 
           function updateDiagram(iaPercent, fatPot, fp0, isGerador){
 
@@ -143,18 +145,18 @@ export class SynchronousMachineComponent implements OnInit {
             ia0 = 5000 / ( Math.sqrt(3) * vt0);
 
             phi = Math.acos(fp0);
-            if(isGerador) ia0 = -ia0;
+            if (isGerador) ia0 = -ia0;
             iax = ia0 * iaPercent * Math.cos(phi) / 100;
             iay = ia0 * iaPercent * Math.sin(phi) / 100; //@TODO check validation FP negative or positive
-            if(fatPot == true) {
+            if (fatPot === true) {
               iay = ia0 * -1 * iaPercent * Math.sin(phi) / 100;
             }
             ia = math.complex(iax, iay);
             console.log('ia', ia)
-            vt = 120; //vt/Math.sqrt(3)
+            vt = 120; // vt/Math.sqrt(3)
             xs = 8;
             ra = 0;
-            console.log("aki");
+            console.log('aki');
             let d;
             d = calcEf(vt, xs, ia, ra);
             console.log('\nef',d.abs(), d.arg());
@@ -170,32 +172,32 @@ export class SynchronousMachineComponent implements OnInit {
             iajxsy = calcIaJXs(vt, xs, ia, ra).im;
 
             console.log(iajxsx, raiax)
-            //Dados Vt, Ia, If => descobrir Ef, If
+            // Dados Vt, Ia, If => descobrir Ef, If
 
             updateVector('ia', [0, 0, iax, iay]);
             updateVector('vt', [0, 0, vt, 0]);
             updateVector('iara', [vt, 0, raiax, raiay]);
             updateVector('iajxs', [raiax + vt, raiay, iajxsx, iajxsy]);
-            updateVector('ef', [0,0,efx,efy]);
-            console.log(vt,"\nvt");
+            updateVector('ef', [0, 0, efx, efy]);
+            console.log(vt, '\nvt');
             updateStatus(
-              math.complex(vt,0),
+              math.complex(vt, 0),
               math.complex(raiax, raiay),
               math.complex(iajxsx, iajxsy),
-              math.complex(efx,efy),
+              math.complex(efx, efy),
               ia,
               fp0);
           }
 
           function updateVector(id, vector){
-            d3.select("#" + id)
-              .attr("x1", offsetX + vector[0])
-              .attr("y1", h - (offsetY + vector[1]))
-              .attr("x2", offsetX + vector[2] + vector[0])
-              .attr("y2", h - (offsetY + vector[3] + vector[1]));
+            d3.select('#' + id)
+              .attr('x1', offsetX + vector[0])
+              .attr('y1', h - (offsetY + vector[1]))
+              .attr('x2', offsetX + vector[2] + vector[0])
+              .attr('y2', h - (offsetY + vector[3] + vector[1]));
           }
 
-          var updateStatus = (vt, iara, iajxs, ef, ia, fp) => {
+          let updateStatus = (vt, iara, iajxs, ef, ia, fp) => {
             let format = (e) => math.format(e, {notation: 'fixed', precision: 2});
             this.vt = format(vt);
             this.iara =  format(iara);
@@ -203,7 +205,8 @@ export class SynchronousMachineComponent implements OnInit {
             this.ef =  format(ef);
             this.ia =  format(ia);
             this.fp =  format(fp);
-          }
+          };
+
           updateDiagram(100, true, 0.8, false);
           this.updateDiagram = updateDiagram;
       }
