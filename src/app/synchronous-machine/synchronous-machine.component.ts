@@ -214,7 +214,7 @@ export class SynchronousMachineComponent implements OnInit {
             this.ef =  format(ef);
             this.ia =  format(ia);
             this.fp =  format(fp);
-            this.subexcitado = vt.toPolar().r < ef.toPolar().r;
+            this.subexcitado = vt.toPolar().r > ef.toPolar().r;
           };
 
           updateDiagram(this.iaPercent, this.fatPot, this.fp0, this.isGerador);
