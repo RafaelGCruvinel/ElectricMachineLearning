@@ -8,6 +8,17 @@
           Com isso, é possível estimar os torques com variação de Tensão e R'2.
         </p>
 
+
+        <form class="example-form">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Tensão Padrão por fase" type="number"
+            data-md-icheck [(ngModel)]="vtGeneral" value="2200"
+            (change)="changeVt()" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </form>
+
+        ------>{{vtGeneral}}
+
         Mudar Tensão (PU)
         <br>
         <mat-slider min="50" max="150" step="1" value="100"

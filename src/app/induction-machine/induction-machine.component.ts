@@ -32,6 +32,7 @@ export class InductionMachineComponent implements OnInit {
   graficalizer3;
   changeVoltage;
   changeRtwo;
+  changeVt;
   p;
   f;
   r1;
@@ -47,8 +48,15 @@ export class InductionMachineComponent implements OnInit {
   xm;
   i2l;
   ws;
+  vt;
+  private vtGeneral: number = 2200;
 
     constructor() {
+
+      function changeVt() {
+        console.log("Changing Vt");
+        this.vt = this.vtGeneral;
+      }
 
       function changeVoltage($event){
         let value = $event.value;
@@ -73,33 +81,18 @@ export class InductionMachineComponent implements OnInit {
       function calcVth(x1, xm, v1, r1) {
         let num = xm * v1;
         let den = Math.sqrt(r1 * r1 + (x1 + xm) * (x1 + xm));
-        // if(true){
-        //   console.log("Calculando Vth")
-        //   console.log("x1 = ", x1, "xm = ", xm, "v1 = ", v1, "r1 = ", r1)
-        //   console.log("num = ", num,"den = ", den, "return", num/den);
-        // }
         return num / den;
       }
 
       function calcRth(x1, xm, v1, r1) {
         let num = xm * xm * r1;
         let den = r1 * r1 + (x1 + xm) * (x1 + xm);
-        // if(true){
-        //   console.log("Calculando Rth")
-        //   console.log("x1 = ", x1, "xm = ", xm, "v1 = ", v1, "r1 = ", r1)
-        //   console.log("num = ", num,"den = ", den, "return", num/den);
-        // }
         return num / den;
       }
 
       function calcXth(x1, xm, v1, r1) {
         let num = xm * (xm * x1 + x1 * x1 + r1 * r1);
         let den = r1 * r1 + (x1 + xm) * (x1 + xm);
-        // if(true){
-        //   console.log("Calculando Xth")
-        //   console.log("x1 = ", x1, "xm = ", xm, "v1 = ", v1, "r1 = ", r1)
-        //   console.log("num = ", num,"den = ", den, "return", num/den);
-        // }
         return num / den;
       }
 
@@ -128,7 +121,7 @@ export class InductionMachineComponent implements OnInit {
         r1 = 2.8;
         r2l = 2.12 * pr2;
         x2l = 7.96;
-        v1 = 2200 * pv1 / Math.sqrt(3);
+        v1 = this.vt * pv1 / Math.sqrt(3);
         rth = calcRth(x1, xm, v1, r1);
         xth = calcXth(x1, xm, v1, r1);
         vth = calcVth(x1, xm, v1, r1);
@@ -142,14 +135,8 @@ export class InductionMachineComponent implements OnInit {
         // console.log(num/den);
 
         return num / den;
-        // num = 3 * Vth * Vth * Rtwo;
-        // div = ws * s * (Math.pow((Rth + Rtwo / s), 2) + Math.pow((Xth + Xtwo), 2));
-
-        // T(i,j)=(1/wsyn) * Vth(j)^2 / ( (Rth+R2l/s(i,j)) ^2 + (Xth+X2l)^2 )*(R2l/s(i,j));
-        // T(i,j)=(1/wsyn) * Vth(j)^2 / ( (Rth+R2l/s(i,j)) ^2 + (Xth+X2l)^2 )*(R2l/s);
       }
 
-      // calc corrente slide 15
       function calcCorrente(n, pv1, pr2){
         let p, f, ns, w, xm, x1, r1, r2l, x2l, ws, v1, rth, xth, vth, s;
         let num, den, j, z1, i1;
@@ -163,7 +150,7 @@ export class InductionMachineComponent implements OnInit {
         r1 = 2.8;
         r2l = 2.12 * pr2;
         x2l = 7.96;
-        v1 = 2200 * pv1 / Math.sqrt(3);
+        v1 = this.vt * pv1 / Math.sqrt(3);
         rth = calcRth(x1, xm, v1, r1);
         xth = calcXth(x1, xm, v1, r1);
         vth = calcVth(x1, xm, v1, r1);
@@ -177,15 +164,11 @@ export class InductionMachineComponent implements OnInit {
         z1 = math.add(z1, math.divide(num1, den1));
         i1 = math.divide(v1, z1)
         return i1.abs();
-
-        //Z1=R1+j*X1+(j*Xm*(R2l/s(i)+j*X2l))/(j*Xm+R2l/s(i)+j*X2l);
-        //I1_cplx=V1/Z1;
-        //I1(i)=abs(I1_cplx);
-        //FP(i)=cos(angle(I1_cplx));
       }
-
       // calc corrente slide 15
+
       function calcFatPot(n, pv1, pr2){
+        // calc corrente slide 15
         let p, f, ns, w, xm, x1, r1, r2l, x2l, ws, v1, rth, xth, vth, s;
         let num, den, j, z1, i1;
         let num1, den1;
@@ -198,7 +181,7 @@ export class InductionMachineComponent implements OnInit {
         r1 = 2.8;
         r2l = 2.12 * pr2;
         x2l = 7.96;
-        v1 = 2200 * pv1 / Math.sqrt(3);
+        v1 = this.vt * pv1 / Math.sqrt(3);
         rth = calcRth(x1, xm, v1, r1);
         xth = calcXth(x1, xm, v1, r1);
         vth = calcVth(x1, xm, v1, r1);
@@ -212,11 +195,6 @@ export class InductionMachineComponent implements OnInit {
         z1 = math.add(z1, math.divide(num1, den1));
         i1 = math.divide(v1, z1)
         return math.cos(i1.arg());
-
-        //Z1=R1+j*X1+(j*Xm*(R2l/s(i)+j*X2l))/(j*Xm+R2l/s(i)+j*X2l);
-        //I1_cplx=V1/Z1;
-        //I1(i)=abs(I1_cplx);
-        //FP(i)=cos(angle(I1_cplx));
       }
 
 
@@ -231,8 +209,6 @@ export class InductionMachineComponent implements OnInit {
         for (let i = 0; i <= 100; i++) {
            funct1.push({ x: i * 12, y: calcTorque(i * 12, 1, 1) });
            funct2.push({ x: i * 12, y: calcTorque(i * 12, valueOne/100, valueTwo/100) });
-          //  funct4.push({ x: i * 12, y: torque(i, 25, 100) });
-          //  funct5.push({ x: i * 12, y: torque(i, valueOne, valueTwo) });
         }
 
         // Line chart data should be sent as an array of series objects.
@@ -245,24 +221,9 @@ export class InductionMachineComponent implements OnInit {
           {
             values: funct2,
             key: 'Custom',
-            color: '#2ca02c'
+            color: '#2ca02c',
+            area: true
           },
-          // {
-          //   values: funct3,
-          //   key: 'R2\'= 75%',
-          //   color: '#7777ff',
-          //   // area: true
-          // },
-          // {
-          //   values: funct4, //values - represents the array of {x,y} data points
-          //   key: 'Vth = 25%', //key  - the name of the series.
-          //   color: '#0f0'  //color - optional: choose your own line color.
-          // },
-          // {
-          //   values: funct5, //values - represents the array of {x,y} data points
-          //   key: 'Vth = ' + valueOne + '%', //key  - the name of the series.
-          //   color: '#ff1200'  //color - optional: choose your own line color.
-          // }
         ];
       }
 
@@ -286,7 +247,8 @@ export class InductionMachineComponent implements OnInit {
           {
             values: funct2,
             key: 'Custom',
-            color: '#2ca02c'
+            color: '#2ca02c',
+            area: true
           },
         ];
       }
@@ -311,7 +273,8 @@ export class InductionMachineComponent implements OnInit {
           {
             values: funct2,
             key: 'Custom',
-            color: '#2ca02c'
+            color: '#2ca02c',
+            area: true
           },
         ];
       }
@@ -322,6 +285,7 @@ export class InductionMachineComponent implements OnInit {
 
       this.changeRtwo = changeRtwo;
       this.changeVoltage = changeVoltage;
+      this.changeVt = changeVt;
     }
 
 
