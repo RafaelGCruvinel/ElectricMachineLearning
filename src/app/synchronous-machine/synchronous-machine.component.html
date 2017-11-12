@@ -28,19 +28,12 @@
         <b>Ia = {{iaPercent}}%</b>
         <br><br>
 
-
         <div class="form-group">
-            <input type="checkbox"
-                   data-md-icheck
-                   [(ngModel)]="fatPot"
-                   (change)="changeFatPot()">
-            <label for="checkbox101">Fator de Potência {{fatPot ?  "Indutivo" : "Capacitivo"}} </label>
+            <mat-checkbox [(ngModel)]="fatPot"
+            (change)="changeFatPot()"> Fator de Potência {{fatPot ?  "Indutivo" : "Capacitivo"}} </mat-checkbox>
             <br>
-            <input type="checkbox"
-                   data-md-icheck
-                   [(ngModel)]="isGerador"
-                   (change)="changeType()">
-            <label for="checkbox101">Funcionamento como {{isGerador ? "Motor" : "Gerador"}} </label>
+            <mat-checkbox [(ngModel)]="isGerador"
+            (change)="changeType()"> Funcionamento como {{isGerador ? "Motor" : "Gerador"}} </mat-checkbox>
         </div>
 
         <svg id="pl-diagram">
