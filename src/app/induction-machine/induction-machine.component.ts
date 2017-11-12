@@ -33,6 +33,11 @@ export class InductionMachineComponent implements OnInit {
   changeVoltage;
   changeRtwo;
   changeVt;
+  changeXm;
+  changeX1;
+  changeR1;
+  changeX2l;
+  changeR2l;
   p;
   f;
   r1;
@@ -49,23 +54,62 @@ export class InductionMachineComponent implements OnInit {
   i2l;
   ws;
   vt;
-  private vtGeneral: number = 2200;
+  //private vtGeneral: Number = 2200;
+  public general = {
+    p: 6,
+    f: 60,
+    xm: 273.04,
+    x1: 7.96,
+    r1: 2.8,
+    x2l: 7.96,
+    //ns: 0,
+    //ws: 0,
+    vt: 2200,
+    r2l: 2.12,
+  }
+  public generalVt = 2200;
+  public generalXm = 273.04;
+  public generalX1 = 7.96;
+  public generalR1 = 2.8;
+  public generalX2l = 7.96;
+  public generalR2l = 2.12;
 
     constructor() {
 
       function changeVt() {
-        console.log("Changing Vt");
-        this.vt = this.vtGeneral;
+        console.log("Changing Vt to ", this.generalVt);
+        this.general.vt = this.generalVt;
       }
+      function changeXm() {
+        console.log("Changing Xm to ", this.generalXm);
+        this.general.xm = this.generalXm;
+      }
+      function changeX1() {
+        console.log("Changing X1 to ", this.generalX1);
+        this.general.x1 = this.generalX1;
+      }
+      function changeR1() {
+        console.log("Changing R1 to ", this.generalR1);
+        this.general.r1 = this.generalR1;
+      }
+      function changeX2l() {
+        console.log("Changing X2' to ", this.generalX2l);
+        this.general.x2l = this.generalX2l;
+      }
+      function changeR2l() {
+        console.log("Changing R2' to ", this.generalR2l);
+        this.general.r2l = this.generalR2l;
+      }
+
 
       function changeVoltage($event){
         let value = $event.value;
         console.log("Changing voltage to " + value);
 
         this.percentageVoltage = value
-        this.data = graficalizer(value, this.percentageRtwo);
-        this.data2 = graficalizer2(value, this.percentageRtwo);
-        this.data3 = graficalizer3(value, this.percentageRtwo);
+        this.data = graficalizer(this.general, value, this.percentageRtwo);
+        this.data2 = graficalizer2(this.general, value, this.percentageRtwo);
+        this.data3 = graficalizer3(this.general, value, this.percentageRtwo);
       }
 
       function changeRtwo($event){
@@ -73,9 +117,9 @@ export class InductionMachineComponent implements OnInit {
         console.log("Changing Rtwo to " + value);
 
         this.percentageRtwo = value
-        this.data = graficalizer(this.percentageVoltage, value);
-        this.data2 = graficalizer2(this.percentageVoltage, value);
-        this.data3 = graficalizer3(this.percentageVoltage, value);
+        this.data = graficalizer(this.general, this.percentageVoltage, value);
+        this.data2 = graficalizer2(this.general, this.percentageVoltage, value);
+        this.data3 = graficalizer3(this.general, this.percentageVoltage, value);
       }
 
       function calcVth(x1, xm, v1, r1) {
@@ -109,19 +153,19 @@ export class InductionMachineComponent implements OnInit {
       }
 
       // Calcular torque com n, porcentagem da tensão, e porcentagem de r2
-      function calcTorque(n, pv1, pr2){
+      function calcTorque(general, n, pv1, pr2){
         let p, f, ns, w, xm, x1, r1, r2l, x2l, ws, v1, rth, xth, vth, s;
         let num, den;
-        p = 6;
-        f = 60;
+        p = general.p;
+        f = general.f;
+        xm = general.xm
+        x1 = general.x1;
+        r1 = general.r1
+        x2l = general.x2l
         ns = calcNs(f, p);
         ws = calcWs(ns);
-        xm = 273.04;
-        x1 = 7.96;
-        r1 = 2.8;
-        r2l = 2.12 * pr2;
-        x2l = 7.96;
-        v1 = this.vt * pv1 / Math.sqrt(3);
+        r2l = general.r2l * pr2;
+        v1 = general.vt * pv1 / Math.sqrt(3);
         rth = calcRth(x1, xm, v1, r1);
         xth = calcXth(x1, xm, v1, r1);
         vth = calcVth(x1, xm, v1, r1);
@@ -137,20 +181,21 @@ export class InductionMachineComponent implements OnInit {
         return num / den;
       }
 
-      function calcCorrente(n, pv1, pr2){
+      function calcCorrente(general, n, pv1, pr2){
         let p, f, ns, w, xm, x1, r1, r2l, x2l, ws, v1, rth, xth, vth, s;
         let num, den, j, z1, i1;
         let num1, den1;
-        p = 6;
-        f = 60;
+
+        p = general.p;
+        f = general.f;
+        xm = general.xm
+        x1 = general.x1;
+        r1 = general.r1
+        x2l = general.x2l
         ns = calcNs(f, p);
         ws = calcWs(ns);
-        xm = 273.04;
-        x1 = 7.96;
-        r1 = 2.8;
-        r2l = 2.12 * pr2;
-        x2l = 7.96;
-        v1 = this.vt * pv1 / Math.sqrt(3);
+        r2l = general.r2l * pr2;
+        v1 = general.vt * pv1 / Math.sqrt(3);
         rth = calcRth(x1, xm, v1, r1);
         xth = calcXth(x1, xm, v1, r1);
         vth = calcVth(x1, xm, v1, r1);
@@ -167,21 +212,21 @@ export class InductionMachineComponent implements OnInit {
       }
       // calc corrente slide 15
 
-      function calcFatPot(n, pv1, pr2){
+      function calcFatPot(general, n, pv1, pr2){
         // calc corrente slide 15
         let p, f, ns, w, xm, x1, r1, r2l, x2l, ws, v1, rth, xth, vth, s;
         let num, den, j, z1, i1;
         let num1, den1;
-        p = 6;
-        f = 60;
+        p = general.p;
+        f = general.f;
+        xm = general.xm
+        x1 = general.x1;
+        r1 = general.r1
+        x2l = general.x2l
         ns = calcNs(f, p);
         ws = calcWs(ns);
-        xm = 273.04;
-        x1 = 7.96;
-        r1 = 2.8;
-        r2l = 2.12 * pr2;
-        x2l = 7.96;
-        v1 = this.vt * pv1 / Math.sqrt(3);
+        r2l = general.r2l * pr2;
+        v1 = general.vt * pv1 / Math.sqrt(3);
         rth = calcRth(x1, xm, v1, r1);
         xth = calcXth(x1, xm, v1, r1);
         vth = calcVth(x1, xm, v1, r1);
@@ -200,15 +245,15 @@ export class InductionMachineComponent implements OnInit {
 
 
       /*Create graph 01 */
-      function graficalizer(valueOne, valueTwo) {
+      function graficalizer(general, valueOne, valueTwo) {
         let funct1 = [], funct2 = [],
           funct3 = [], funct4 = [],
           funct5 = [];
 
         // Data is represented as an array of {x,y} pairs.
         for (let i = 0; i <= 100; i++) {
-           funct1.push({ x: i * 12, y: calcTorque(i * 12, 1, 1) });
-           funct2.push({ x: i * 12, y: calcTorque(i * 12, valueOne/100, valueTwo/100) });
+           funct1.push({ x: i * 12, y: calcTorque(general, i * 12, 1, 1) });
+           funct2.push({ x: i * 12, y: calcTorque(general, i * 12, valueOne/100, valueTwo/100) });
         }
 
         // Line chart data should be sent as an array of series objects.
@@ -228,13 +273,13 @@ export class InductionMachineComponent implements OnInit {
       }
 
       /*Create graph 02 */
-      function graficalizer2(valueOne, valueTwo) {
+      function graficalizer2(general, valueOne, valueTwo) {
         let funct1 = [], funct2 = [], funct3 = [];
 
         // Data is represented as an array of {x,y} pairs.
         for (let i = 0; i <= 100; i++) {
-           funct1.push({ x: i * 12, y: calcCorrente(i * 12, 1, 1) });
-           funct2.push({ x: i * 12, y: calcCorrente(i * 12, valueOne/100, valueTwo/100) });
+           funct1.push({ x: i * 12, y: calcCorrente(general, i * 12, 1, 1) });
+           funct2.push({ x: i * 12, y: calcCorrente(general, i * 12, valueOne/100, valueTwo/100) });
         }
 
         // Line chart data should be sent as an array of series objects.
@@ -254,13 +299,13 @@ export class InductionMachineComponent implements OnInit {
       }
 
       /*Create graph 03 */
-      function graficalizer3(valueOne, valueTwo) {
+      function graficalizer3(general, valueOne, valueTwo) {
         let funct1 = [], funct2 = [], funct3 = [];
 
         // Data is represented as an array of {x,y} pairs.
         for (let i = 0; i <= 100; i++) {
-           funct1.push({ x: i * 12, y: calcFatPot(i * 12, 1, 1) });
-           funct2.push({ x: i * 12, y: calcFatPot(i * 12, valueOne/100, valueTwo/100) });
+           funct1.push({ x: i * 12, y: calcFatPot(general, i * 12, 1, 1) });
+           funct2.push({ x: i * 12, y: calcFatPot(general, i * 12, valueOne/100, valueTwo/100) });
         }
 
         // Line chart data should be sent as an array of series objects.
@@ -283,9 +328,14 @@ export class InductionMachineComponent implements OnInit {
       this.graficalizer2 = graficalizer2;
       this.graficalizer3 = graficalizer3;
 
+      this.changeVt = changeVt;
       this.changeRtwo = changeRtwo;
       this.changeVoltage = changeVoltage;
-      this.changeVt = changeVt;
+      this.changeXm = changeXm;
+      this.changeX1 = changeX1;
+      this.changeR1 = changeR1;
+      this.changeX2l = changeX2l;
+      this.changeR2l = changeR2l;
     }
 
 
@@ -348,7 +398,7 @@ export class InductionMachineComponent implements OnInit {
         }
       };
 
-    this.data = this.graficalizer(this.percentageVoltage, this.percentageRtwo);
+    this.data = this.graficalizer(this.general, this.percentageVoltage, this.percentageRtwo);
 
     this.options2 = {
       chart: {
@@ -405,7 +455,7 @@ export class InductionMachineComponent implements OnInit {
       }
     };
 
-    this.data2 = this.graficalizer2(this.percentageVoltage, this.percentageRtwo);
+    this.data2 = this.graficalizer2(this.general, this.percentageVoltage, this.percentageRtwo);
 
     this.options3 = {
       chart: {
@@ -462,7 +512,7 @@ export class InductionMachineComponent implements OnInit {
       }
     };
 
-    this.data3 = this.graficalizer3(this.percentageVoltage, this.percentageRtwo);
+    this.data3 = this.graficalizer3(this.general, this.percentageVoltage, this.percentageRtwo);
 
   }
 }

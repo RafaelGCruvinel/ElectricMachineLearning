@@ -12,12 +12,35 @@
         <form class="example-form">
           <mat-form-field class="example-full-width">
             <input matInput placeholder="Tensão Padrão por fase" type="number"
-            data-md-icheck [(ngModel)]="vtGeneral" value="2200"
+            [(ngModel)]="generalVt"
             (change)="changeVt()" [ngModelOptions]="{standalone: true}">
           </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Xm" type="number"
+            [(ngModel)]="generalXm"
+            (change)="changeXm()" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="X1" type="number"
+            data-md-icheck [(ngModel)]="generalX1"
+            (change)="changeX1()" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="R1" type="number"
+            data-md-icheck [(ngModel)]="generalR1"
+            (change)="changeR1()" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="X2'" type="number"
+            data-md-icheck [(ngModel)]="generalX2l"
+            (change)="changeX2l()" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="R2'" type="number"
+            data-md-icheck [(ngModel)]="generalR2l"
+            (change)="changeR2l()" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
         </form>
-
-        ------>{{vtGeneral}}
 
         Mudar Tensão (PU)
         <br>
