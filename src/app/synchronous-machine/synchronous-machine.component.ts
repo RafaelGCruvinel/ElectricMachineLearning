@@ -32,7 +32,7 @@ export class SynchronousMachineComponent implements OnInit {
     iara;
     iajxs;
     ef;
-    ia = 0;
+    ia;
     iaPercent = 100;
     fp;
     cap;
@@ -194,7 +194,7 @@ export class SynchronousMachineComponent implements OnInit {
               math.complex(raiax, raiay),
               math.complex(iajxsx, iajxsy),
               math.complex(efx, efy),
-              ia,
+              math.complex(iax, iay),
               fp0);
           }
 
@@ -208,12 +208,14 @@ export class SynchronousMachineComponent implements OnInit {
 
           let updateStatus = (vt, iara, iajxs, ef, ia, fp) => {
             let format = (e) => math.format(e, {notation: 'fixed', precision: 2});
+            let polar = (e) => format(math.abs(e)) + ' ∟ ' +format(math.arg(e) / 2 / Math.PI * 360) + '°';
+
             this.vt = format(vt);
-            this.iara =  format(iara);
-            this.iajxs = format(iajxs);
-            this.ef =  format(ef);
-            this.ia =  format(ia);
-            this.fp =  format(fp);
+            this.iara =  polar(iara);
+            this.iajxs = polar(iajxs);
+            this.ef =  polar(ef);
+            this.ia =  polar(ia);
+            this.fp =  polar(fp);
             this.subexcitado = vt.toPolar().r > ef.toPolar().r;
           };
 
