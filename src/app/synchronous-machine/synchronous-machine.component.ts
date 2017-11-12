@@ -22,11 +22,6 @@ export class SynchronousMachineComponent implements OnInit {
     changeIa;
     changeFatPot;
     changeType;
-    // ef;
-    // xs;
-    // ia;
-    // ra;
-    // calcEf;
     // var to print
     vt = 120;
     iara;
@@ -141,7 +136,6 @@ export class SynchronousMachineComponent implements OnInit {
           function updateDiagram(iaPercent, fatPot, fp0, isGerador){
 
             // example 6.3 page 307
-
             let vt, iax, iay, xs, ra;
             let efx, efy, ia, kva, ia0, vt0;
             let fp, phi, raia, raiax, raiay;

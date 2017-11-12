@@ -38,6 +38,7 @@ export class InductionMachineComponent implements OnInit {
   changeR1;
   changeX2l;
   changeR2l;
+  updateGraphs;
   p;
   f;
   r1;
@@ -79,47 +80,56 @@ export class InductionMachineComponent implements OnInit {
       function changeVt() {
         console.log("Changing Vt to ", this.generalVt);
         this.general.vt = this.generalVt;
+        updateGraphs();
       }
       function changeXm() {
         console.log("Changing Xm to ", this.generalXm);
         this.general.xm = this.generalXm;
+        updateGraphs();
       }
       function changeX1() {
         console.log("Changing X1 to ", this.generalX1);
         this.general.x1 = this.generalX1;
+        updateGraphs();
       }
       function changeR1() {
         console.log("Changing R1 to ", this.generalR1);
         this.general.r1 = this.generalR1;
+        updateGraphs();
       }
       function changeX2l() {
         console.log("Changing X2' to ", this.generalX2l);
         this.general.x2l = this.generalX2l;
+        updateGraphs();
       }
       function changeR2l() {
         console.log("Changing R2' to ", this.generalR2l);
         this.general.r2l = this.generalR2l;
+        updateGraphs();
       }
 
+
+      let updateGraphs = () => {
+        console.log('Updating graphs...');
+        this.data = graficalizer(this.general, this.percentageVoltage, this.percentageRtwo);
+        this.data2 = graficalizer2(this.general, this.percentageVoltage, this.percentageRtwo);
+        this.data3 = graficalizer3(this.general, this.percentageVoltage, this.percentageRtwo);
+      }
 
       function changeVoltage($event){
         let value = $event.value;
         console.log("Changing voltage to " + value);
 
-        this.percentageVoltage = value
-        this.data = graficalizer(this.general, value, this.percentageRtwo);
-        this.data2 = graficalizer2(this.general, value, this.percentageRtwo);
-        this.data3 = graficalizer3(this.general, value, this.percentageRtwo);
+        this.percentageVoltage = value;
+        updateGraphs();
       }
 
       function changeRtwo($event){
         let value = $event.value;
         console.log("Changing Rtwo to " + value);
 
-        this.percentageRtwo = value
-        this.data = graficalizer(this.general, this.percentageVoltage, value);
-        this.data2 = graficalizer2(this.general, this.percentageVoltage, value);
-        this.data3 = graficalizer3(this.general, this.percentageVoltage, value);
+        this.percentageRtwo = value;
+        updateGraphs();
       }
 
       function calcVth(x1, xm, v1, r1) {
@@ -336,6 +346,7 @@ export class InductionMachineComponent implements OnInit {
       this.changeR1 = changeR1;
       this.changeX2l = changeX2l;
       this.changeR2l = changeR2l;
+      this.updateGraphs = updateGraphs;
     }
 
 
