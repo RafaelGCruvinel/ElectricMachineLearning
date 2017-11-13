@@ -11,7 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { MatButtonModule,  MatMenuModule,  MatInputModule, MatSliderModule, MatCheckboxModule } from '@angular/material';
+import { MatButtonModule,  MatMenuModule, MatSelectModule, MatInputModule, MatSliderModule, MatCheckboxModule } from '@angular/material';
 
 import { NvD3Module } from 'ng2-nvd3';
 
@@ -30,6 +30,7 @@ import { NvD3Module } from 'ng2-nvd3';
     MatButtonModule,
     MatCheckboxModule,
     MatInputModule,
+    MatSelectModule,
     MatSliderModule,
     AppRoutingModule,
     NvD3Module,

@@ -8,7 +8,7 @@
   <div class="row">
       <div class="col-12">
         <h1>Diagrama de Polos Lisos</h1>
-        <p>Considerando um circuito com Potência de Base Sb = 5000, e tensão de linha 120 V, temos o exemplo a seguir dado em Pu. </p>
+        <p>Considerando um circuito com Potência de Base Sb = 5000, e tensão de linha 120 V, temos o exemplo a seguir dado em pu. </p>
 
         <form class="example-form">
           <mat-form-field class="example-full-width">
@@ -21,8 +21,23 @@
             [(ngModel)]="xs"
             (change)="updatePu()" [ngModelOptions]="{standalone: true}">
           </mat-form-field>
+          <mat-form-field>
+            <mat-select placeholder="Fator de Potência" [(ngModel)]="fatPotString"
+            (change)="changeFatPot()" [ngModelOptions]="{standalone: true}">
+              <mat-option value="ind">Indutivo</mat-option>
+              <mat-option value="cap">Capacitivo</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select placeholder="Máquina" [(ngModel)]="isMotorString"
+            (change)="changeType()" [ngModelOptions]="{standalone: true}">
+              <mat-option value="ger">Gerador</mat-option>
+              <mat-option value="mot">Motor</mat-option>
+            </mat-select>
+          </mat-form-field>
         </form>
 
+        <br><br>
         Mudar Fator de Potência
         <br>
         <mat-slider min="0" max="1" step="0.05" value="0.8"
@@ -32,22 +47,16 @@
         <b>Fator de Potência = {{fp0}}</b>
         <br><br>
 
-        Mudar Ia (Porcentagem)
+        Mudar Ia (em pu)
         <br>
-        <mat-slider min="50" max="150" step="1" value="100"
+        <mat-slider min="0.5" max="1.5" step="0.01" value="1"
         thumbLabel tickInterval="50"
         (change)="changeIa($event)"></mat-slider>
         <br>
-        <b>Ia = {{iaPercent}}%</b>
+        <b>Ia = {{iaPu}} (pu)</b>
         <br><br>
 
-        <div class="form-group">
-            <mat-checkbox [(ngModel)]="fatPot"
-            (change)="changeFatPot()"> Fator de Potência {{fatPot ?  "Indutivo" : "Capacitivo"}} </mat-checkbox>
-            <br>
-            <mat-checkbox [(ngModel)]="isGerador"
-            (change)="changeType()"> Funcionamento como {{isGerador ? "Motor" : "Gerador"}} </mat-checkbox>
-        </div>
+
 
         <svg id="pl-diagram">
             <defs>
@@ -55,14 +64,13 @@
                   <path d="M0,0 L0,6 L9,3 z" />
                 </marker>
             </defs>
-            <!-- <line class="vector" x1="50" y1="100" x2="220" y2="270"/> -->
         </svg>
-        <p><span class="colorVt">■</span> - Vt = {{vt}} <br>
-          <span class="colorIaxRa">■</span> - IaxRa = {{iara}} <br>
-          <span class="colorIajXs">■</span> - Ia*J*Xs = {{iajxs}} <br>
-          <span class="colorEf">■</span> - Ef = {{ef}} <br>
-          <span class="colorIa">■</span> - Ia = {{ia}} <br>
-          {{isGerador ? "Motor" : "Gerador"}} {{subexcitado ? "subexcitado" : "sobreexcitado"}} <br>
+        <p><span class="colorVt">■</span> - Vt = {{vt}} pu V<br>
+          <span class="colorIaRa">■</span> - IaxRa = {{iara}} pu V<br>
+          <span class="colorIajXs">■</span> - Ia*J*Xs = {{iajxs}} pu V<br>
+          <span class="colorEf">■</span> - Ef = {{ef}} pu V<br>
+          <span class="colorIa">■</span> - Ia = {{ia}} pu A<br>
+          {{isMotor ? "Motor" : "Gerador"}} {{subexcitado ? "subexcitado" : "sobreexcitado"}} <br>
           Fator de Potência = {{fp0}}, {{fatPot ?  "Indutivo" : "Capacitivo"}} <br>
 
         </p>

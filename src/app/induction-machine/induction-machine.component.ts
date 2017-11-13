@@ -276,8 +276,7 @@ export class InductionMachineComponent implements OnInit {
           {
             values: funct2,
             key: 'Custom',
-            color: '#2ca02c',
-            area: true
+            color: '#ffd740'
           },
         ];
       }
@@ -302,8 +301,7 @@ export class InductionMachineComponent implements OnInit {
           {
             values: funct2,
             key: 'Custom',
-            color: '#2ca02c',
-            area: true
+            color: '#ffd740'
           },
         ];
       }
@@ -328,8 +326,7 @@ export class InductionMachineComponent implements OnInit {
           {
             values: funct2,
             key: 'Custom',
-            color: '#2ca02c',
-            area: true
+            color: '#ffd740'
           },
         ];
       }

@@ -185,6 +185,18 @@ export class ContinuousChainMachineComponent implements OnInit {
             .attr("width", offset[2])
             .attr("height", offset[3])
             .classed(style, true);
+          if(styleDic[type] == 'escova-p'){
+            svg.append("text")
+            .attr("x", offset[0] + 12)
+            .attr("y", 287)
+            .text('+');
+          }
+          if(styleDic[type] == 'escova-n'){
+            svg.append("text")
+            .attr("x", offset[0] + 12)
+            .attr("y", 287)
+            .text('-');
+          }
         }
 
         function createLigacao(type){

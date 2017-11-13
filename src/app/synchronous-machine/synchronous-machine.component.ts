@@ -29,15 +29,17 @@ export class SynchronousMachineComponent implements OnInit {
     iajxs;
     ef;
     ia;
-    iaPercent = 100;
+    iaPu = 1;
     fp;
     cap;
     fp0 = 0.8;
     private fatPot: boolean = true;
-    private isGerador: boolean = false;
+    private fatPotString: string = 'ind';
+    private isMotor: boolean = false;
+    private isMotorString: string = 'mot';
     private subexcitado: boolean = false;
-    public ra: Number = 0.33;
-    public xs: Number = 4.1;
+    public ra: Number = 0.05;
+    public xs: Number = 1.2;
 
     constructor() {
         function changeFp($event){
@@ -46,7 +48,7 @@ export class SynchronousMachineComponent implements OnInit {
           console.log('Changing fp to ' + value);
 
           this.fp0 = format(value);
-          this.updateDiagram(this.iaPercent, this.fatPot, this.fp0, this.isGerador, this.ra, this.xs);
+          this.updateDiagram(this.iaPu, this.fatPot, this.fp0, this.isMotor, this.ra, this.xs);
         }
 
         function changeIa($event){
@@ -54,21 +56,25 @@ export class SynchronousMachineComponent implements OnInit {
           let format = (e) => math.format(e, {notation: 'fixed', precision: 1});
           console.log('Changing Ia Percent to ' + value);
 
-          this.iaPercent = format(value);
-          this.updateDiagram(this.iaPercent, this.fatPot, this.fp0, this.isGerador, this.ra, this.xs);
+          this.iaPu = format(value);
+          this.updateDiagram(this.iaPu, this.fatPot, this.fp0, this.isMotor, this.ra, this.xs);
         }
 
         function changeFatPot(){
-          console.log('Changing FatPot to ' + this.fatPot);
-          this.updateDiagram(this.iaPercent, this.fatPot, this.fp0, this.isGerador, this.ra, this.xs);
+          console.log('Changing FatPot to ' + this.fatPotString);
+          if (this.fatPotString === 'ind') this.fatPot = true;
+          else this.fatPot = false;
+          this.updateDiagram(this.iaPu, this.fatPot, this.fp0, this.isMotor, this.ra, this.xs);
         }
         function changeType(){
-          console.log('Changing Type to ' + this.fatPot);
-          this.updateDiagram(this.iaPercent, this.fatPot, this.fp0, this.isGerador, this.ra, this.xs);
+          console.log('Changing Type to ' + this.isMotorString);
+          if (this.isMotorString === 'mot') this.isMotor = true;
+          else this.isMotor = false;
+          this.updateDiagram(this.iaPu, this.fatPot, this.fp0, this.isMotor, this.ra, this.xs);
         }
         function updatePu(){
           console.log('update Pu values');
-          this.updateDiagram(this.iaPercent, this.fatPot, this.fp0, this.isGerador, this.ra, this.xs);
+          this.updateDiagram(this.iaPu, this.fatPot, this.fp0, this.isMotor, this.ra, this.xs);
         }
         this.changeFp = changeFp;
         this.changeIa = changeIa;
@@ -105,7 +111,9 @@ export class SynchronousMachineComponent implements OnInit {
         let h = 500;
 
         let offsetX = 250;
+        let biasX = 0;
         let offsetY = 250;
+        let biasY = 0;
 
         let svg = d3.select('#pl-diagram')
           .attr('width', w)
@@ -141,7 +149,7 @@ export class SynchronousMachineComponent implements OnInit {
           .classed('vectorIa', true)
           .attr('id', 'ia');
 
-        function updateDiagram(iaPercent, fatPot, fp0, isGerador, rapu, xspu){
+        function updateDiagram(iaPu, fatPot, fp0, isMotor, rapu, xspu){
 
           // example 6.3 page 307
           let vt, iax, iay, xs, ra;
@@ -165,11 +173,11 @@ export class SynchronousMachineComponent implements OnInit {
           ra = rapu * zb;
           xs = xspu * zb;
           phi = Math.acos(fp0);
-          if (isGerador) ia0 = -ia0;
-          iax = ia0 * iaPercent * Math.cos(phi) / 100;
-          iay = ia0 * iaPercent * Math.sin(phi) / 100; //@TODO check validation FP negative or positive
-          if (fatPot === true) {
-            iay = ia0 * -1 * iaPercent * Math.sin(phi) / 100;
+          if (isMotor) ia0 = -ia0;
+          iax = ia0 * iaPu * Math.cos(phi);
+          iay = ia0 * iaPu * Math.sin(phi); //@TODO check validation FP negative or positive
+          if (fatPot) {
+            iay = ia0 * -1 * iaPu * Math.sin(phi);
           }
           ia = math.complex(iax, iay);
           console.log('ia', ia)
@@ -217,8 +225,13 @@ export class SynchronousMachineComponent implements OnInit {
 
         let updateSVG1 = (offsetIa, iax, iay, vt, raiax, raiay, iajxsx, iajxsy, efx, efy ) => {
           let xmin, xmax, ymin, ymax;
-          console.log(Math.min( offsetIa * iay, 0, raiay + vt));
-          console.log('aqui');
+          xmin = Math.min( 0, offsetIa * iax, raiax + vt, raiax + vt + iajxsx, efx);
+          xmax = Math.max( 0, offsetIa * iax, raiax + vt, raiax + vt + iajxsx, efx);
+          ymin = Math.min( 0, offsetIa * iay, raiay, raiay +  iajxsy, efy);
+          ymax = Math.max( 0, offsetIa * iay, raiay, raiay +  iajxsy, efy);
+          biasX = 0-(xmin + xmax)/4;
+          biasY = 0-(ymin + ymax)/4;
+          console.log('changing offset', biasX, biasY);
           updateVector('ia', [0, 0, offsetIa * iax, offsetIa * iay]);
           updateVector('vt', [0, 0, vt, 0]);
           updateVector('iara', [vt, 0, raiax, raiay]);
@@ -230,10 +243,10 @@ export class SynchronousMachineComponent implements OnInit {
           let scale = 0.5;
           console.log('aki');
           d3.select('#' + id)
-            .attr('x1', offsetX + vector[0] * scale)
-            .attr('y1', h - (offsetY + vector[1] * scale))
-            .attr('x2', offsetX + vector[2] * scale + vector[0] * scale)
-            .attr('y2', h - (offsetY + vector[3] * scale + vector[1] * scale));
+            .attr('x1', offsetX + biasX + vector[0] * scale)
+            .attr('y1', h - (offsetY + biasY + vector[1] * scale))
+            .attr('x2', offsetX + biasX  + vector[2] * scale + vector[0] * scale)
+            .attr('y2', h - (offsetY + biasY  + vector[3] * scale + vector[1] * scale));
         }
 
         let updateStatus = (vt, iara, iajxs, ef, ia, fp) => {
@@ -249,7 +262,7 @@ export class SynchronousMachineComponent implements OnInit {
           this.subexcitado = vt.toPolar().r > ef.toPolar().r;
         };
 
-        updateDiagram(this.iaPercent, this.fatPot, this.fp0, this.isGerador, this.ra, this.xs);
+        updateDiagram(this.iaPu, this.fatPot, this.fp0, this.isMotor, this.ra, this.xs);
         this.updateDiagram = updateDiagram;
     }
 
