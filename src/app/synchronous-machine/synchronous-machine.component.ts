@@ -101,11 +101,11 @@ export class SynchronousMachineComponent implements OnInit {
         console.log(calcEf(10, 2, 3, 7));
 
         console.log('Creating SVG');
-        let w = 450;
-        let h = 300;
+        let w = 500;
+        let h = 500;
 
-        let offsetX = 57;
-        let offsetY = 122;
+        let offsetX = 250;
+        let offsetY = 250;
 
         let svg = d3.select('#pl-diagram')
           .attr('width', w)
@@ -190,12 +190,15 @@ export class SynchronousMachineComponent implements OnInit {
 
           // offset IA
           let offsetIa = 8.35;
-          updateVector('ia', [0, 0, offsetIa * iax, offsetIa * iay]);
-          updateVector('vt', [0, 0, vt, 0]);
-          updateVector('iara', [vt, 0, raiax, raiay]);
-          updateVector('iajxs', [raiax + vt, raiay, iajxsx, iajxsy]);
-          updateVector('ef', [0, 0, efx, efy]);
-          console.log(vt, '\nvt');
+
+
+          updateSVG1(offsetIa, iax, iay, vt, raiax, raiay, iajxsx, iajxsy, efx, efy );
+          // updateVector('ia', [0, 0, offsetIa * iax, offsetIa * iay]);
+          // updateVector('vt', [0, 0, vt, 0]);
+          // updateVector('iara', [vt, 0, raiax, raiay]);
+          // updateVector('iajxs', [raiax + vt, raiay, iajxsx, iajxsy]);
+          // updateVector('ef', [0, 0, efx, efy]);
+
           updateStatus(
             math.complex(vt/(zb*ib), 0),
             math.complex(raiax/(zb*ib), raiay/(zb*ib)),
@@ -212,12 +215,25 @@ export class SynchronousMachineComponent implements OnInit {
           //   fp0);
         }
 
+        let updateSVG1 = (offsetIa, iax, iay, vt, raiax, raiay, iajxsx, iajxsy, efx, efy ) => {
+          let xmin, xmax, ymin, ymax;
+          console.log(Math.min( offsetIa * iay, 0, raiay + vt));
+          console.log('aqui');
+          updateVector('ia', [0, 0, offsetIa * iax, offsetIa * iay]);
+          updateVector('vt', [0, 0, vt, 0]);
+          updateVector('iara', [vt, 0, raiax, raiay]);
+          updateVector('iajxs', [raiax + vt, raiay, iajxsx, iajxsy]);
+          updateVector('ef', [0, 0, efx, efy]);
+        }
+
         function updateVector(id, vector){
+          let scale = 0.5;
+          console.log('aki');
           d3.select('#' + id)
-            .attr('x1', offsetX + vector[0])
-            .attr('y1', h - (offsetY + vector[1]))
-            .attr('x2', offsetX + vector[2] + vector[0])
-            .attr('y2', h - (offsetY + vector[3] + vector[1]));
+            .attr('x1', offsetX + vector[0] * scale)
+            .attr('y1', h - (offsetY + vector[1] * scale))
+            .attr('x2', offsetX + vector[2] * scale + vector[0] * scale)
+            .attr('y2', h - (offsetY + vector[3] * scale + vector[1] * scale));
         }
 
         let updateStatus = (vt, iara, iajxs, ef, ia, fp) => {
