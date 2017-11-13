@@ -8,7 +8,20 @@
   <div class="row">
       <div class="col-12">
         <h1>Diagrama de Polos Lisos</h1>
+        <p>Considerando um circuito com Potência de Base Sb = 5000, e tensão de linha 120 V, temos o exemplo a seguir dado em Pu. </p>
 
+        <form class="example-form">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Ra (em pu)" type="number"
+            [(ngModel)]="ra"
+            (change)="updatePu()" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Xs (em pu)" type="number"
+            [(ngModel)]="xs"
+            (change)="updatePu()" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </form>
 
         Mudar Fator de Potência
         <br>
