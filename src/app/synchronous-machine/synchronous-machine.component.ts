@@ -33,11 +33,11 @@ export class SynchronousMachineComponent implements OnInit {
     fp;
     cap;
     fp0 = 0.8;
-    private fatPot: boolean = true;
-    private fatPotString: string = 'ind';
-    private isMotor: boolean = false;
-    private isMotorString: string = 'mot';
-    private subexcitado: boolean = false;
+    public fatPot: boolean = true;
+    public fatPotString: string = 'ind';
+    public isMotor: boolean = false;
+    public isMotorString: string = 'mot';
+    public subexcitado: boolean = false;
     public ra: Number = 0.05;
     public xs: Number = 1.2;
     public xd: Number = 1;
