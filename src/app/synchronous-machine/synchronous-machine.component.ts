@@ -106,6 +106,10 @@ export class SynchronousMachineComponent implements OnInit {
           return math.multiply(math.complex( 0 , xs), ia);
         }
 
+        function calcIjX(x, i){
+          return math.multiply(math.complex( 0 , x), i);
+        }
+
 
         console.log('Creating SVG');
         let w = 400;
@@ -146,8 +150,6 @@ export class SynchronousMachineComponent implements OnInit {
         createLine(svg2,'vectorVt', 'vt2');
         // Ia*Ra
         createLine(svg2,'vectorIaRa', 'iara2');
-        // Ia*j*Xs
-        createLine(svg2,'vectorIajXs', 'iajxs2');
         // Ef
         createLine(svg2,'vectorEf', 'ef2');
         // ia
@@ -157,9 +159,9 @@ export class SynchronousMachineComponent implements OnInit {
         // iq
         createLine(svg2,'vectorIa', 'iq2');
         // idjxd
-        createLine(svg2,'vectorIa', 'idjxd2');
+        createLine(svg2,'vectorIa', 'iajxd2');
         // iqjxq
-        createLine(svg2,'vectorIa', 'iqjxq2');
+        createLine(svg2,'vectorIa', 'iajxq2');
 
         function updateDiagram(iaPu, fatPot, fp0, isMotor, rapu, xspu, xdpu, xqpu){
           // example 6.3 page 307
@@ -211,7 +213,53 @@ export class SynchronousMachineComponent implements OnInit {
 
 
           updateSVG1(offsetIa, iax, iay, vt, raiax, raiay, iajxsx, iajxsy, efx, efy );
-          updateSVG2(offsetIa, iax, iay, vt, raiax, raiay, iajxsx, iajxsy, efx, efy );
+
+          // SVG2
+          vt0 = 208;
+          kva = 5000;
+          ia0 = 5000 / ( Math.sqrt(3) * vt0);
+
+          vb = 208;
+          sb = kva;
+          zb = vb*vb/sb;
+          ib = sb / (vb * Math.sqrt(3));
+
+          console.log(zb, '\n\n')
+          let xd, xq;
+          ra = rapu * zb;
+          xq = xqpu * zb;
+          xd = xdpu * zb;
+          phi = Math.acos(fp0);
+          if (isMotor) ia0 = -ia0;
+          iax = ia0 * iaPu * Math.cos(phi);
+          iay = ia0 * iaPu * Math.sin(phi); //@TODO check validation FP negative or positive
+          if (fatPot) {
+            iay = ia0 * -1 * iaPu * Math.sin(phi);
+          }
+          ia = math.complex(iax, iay);
+          console.log('ia', ia)
+          vt = 120; // vt/Math.sqrt(3)
+          // ***************************************************
+          raia = calcRaIa(vt, xs, ia, ra);
+          let iajxdx = calcIjX(xd, ia).re;
+          let iajxdy = calcIjX(xd, ia).im;
+          let iajxqx = calcIjX(xq, ia).re;
+          let iajxqy = calcIjX(xq, ia).im;
+          //jXdIa_x=[RaIa_x(2) RaIa_x(2)+real(j*Xd_sat*Ia_fasor)];
+          //jXdIa_y=[RaIa_y(2) RaIa_y(2)+imag(j*Xd_sat*Ia_fasor)];
+          efx = calcEf(vt, xs, ia, ra).re;
+          efy = calcEf(vt, xs, ia, ra).im;
+          raiax = calcRaIa(vt, xs, ia, ra).re;
+          raiay = calcRaIa(vt, xs, ia, ra).im;
+
+          iajxs = calcIaJXs(vt, xs, ia, ra);
+
+
+          console.log(iajxsx, raiax)
+          // Dados Vt, Ia, If => descobrir Ef, If
+
+
+          updateSVG2(offsetIa, iax, iay, vt, raiax, raiay, iajxdx, iajxdy, iajxqx, iajxqy, efx, efy );
           // updateVector('ia', [0, 0, offsetIa * iax, offsetIa * iay]);
           // updateVector('vt', [0, 0, vt, 0]);
           // updateVector('iara', [vt, 0, raiax, raiay]);
@@ -250,21 +298,23 @@ export class SynchronousMachineComponent implements OnInit {
           updateVector('ef', [0, 0, efx, efy]);
         }
 
-        let updateSVG2 = (offsetIa, iax, iay, vt, raiax, raiay, iajxsx, iajxsy, efx, efy ) => {
+        let updateSVG2 = (offsetIa, iax, iay, vt, raiax, raiay, iajxdx, iajxdy, iajxqx, iajxqy, efx, efy ) => {
           let xmin, xmax, ymin, ymax;
-          xmin = Math.min( 0, offsetIa * iax, raiax + vt, raiax + vt + iajxsx, efx);
-          xmax = Math.max( 0, offsetIa * iax, raiax + vt, raiax + vt + iajxsx, efx);
-          ymin = Math.min( 0, offsetIa * iay, raiay, raiay +  iajxsy, efy);
-          ymax = Math.max( 0, offsetIa * iay, raiay, raiay +  iajxsy, efy);
+          xmin = Math.min( 0, offsetIa * iax, raiax + vt, raiax + vt + iajxdx, efx);
+          xmax = Math.max( 0, offsetIa * iax, raiax + vt, raiax + vt + iajxdx, efx);
+          ymin = Math.min( 0, offsetIa * iay, raiay, raiay +  iajxdy, efy);
+          ymax = Math.max( 0, offsetIa * iay, raiay, raiay +  iajxdy, efy);
           biasX = 0-(xmin + xmax)/4;
           biasY = 0-(ymin + ymax)/4;
           console.log('changing offset2', biasX, biasY);
+          updateVector('vt2', [0, 0, vt, 0]);
+          updateVector('iara2', [vt, 0, raiax, raiay]);
+          updateVector('iajxd2', [raiax + vt, raiay, iajxdx, iajxdy]);
+          updateVector('iajxq2', [raiax + vt + iajxdx, raiay + iajxdy, iajxqx, iajxqy]);
+
           updateVector('ia2', [0, 0, offsetIa * iax, offsetIa * iay]);
           updateVector('iq2', [0, 0, offsetIa * iax, 0]);
           updateVector('id2', [0, 0, 0, offsetIa * iay]);
-          updateVector('vt2', [0, 0, vt, 0]);
-          updateVector('iara2', [vt, 0, raiax, raiay]);
-          updateVector('iajxs2', [raiax + vt, raiay, iajxsx, iajxsy]);
           updateVector('ef2', [0, 0, efx, efy]);
         }
 
