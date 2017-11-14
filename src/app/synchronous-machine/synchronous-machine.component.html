@@ -21,6 +21,16 @@
             [(ngModel)]="xs"
             (change)="updatePu()" [ngModelOptions]="{standalone: true}">
           </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Xd (em pu)" type="number"
+            [(ngModel)]="xd"
+            (change)="updatePu()" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Xq (em pu)" type="number"
+            [(ngModel)]="xq"
+            (change)="updatePu()" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
           <mat-form-field>
             <mat-select placeholder="Fator de Potência" [(ngModel)]="fatPotString"
             (change)="changeFatPot()" [ngModelOptions]="{standalone: true}">
@@ -57,8 +67,14 @@
         <br><br>
 
 
-
         <svg id="pl-diagram">
+            <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth" viewBox="0 0 20 20">
+                  <path d="M0,0 L0,6 L9,3 z" />
+                </marker>
+            </defs>
+        </svg>
+        <svg id="ps-diagram">
             <defs>
                 <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth" viewBox="0 0 20 20">
                   <path d="M0,0 L0,6 L9,3 z" />

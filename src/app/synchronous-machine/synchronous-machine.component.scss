@@ -11,6 +11,9 @@ mat-slider {
 
 
 .ms{
+  svg{
+    background-color: #eee;
+  }
   .vectorVt, .vectorVt #arrow path{
     stroke: $vectorVt;
     fill: $vectorVt;

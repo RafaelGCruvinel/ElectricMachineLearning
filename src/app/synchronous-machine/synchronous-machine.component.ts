@@ -40,6 +40,8 @@ export class SynchronousMachineComponent implements OnInit {
     private subexcitado: boolean = false;
     public ra: Number = 0.05;
     public xs: Number = 1.2;
+    public xd: Number = 1;
+    public xq: Number = 1;
 
     constructor() {
         function changeFp($event){
@@ -48,7 +50,7 @@ export class SynchronousMachineComponent implements OnInit {
           console.log('Changing fp to ' + value);
 
           this.fp0 = format(value);
-          this.updateDiagram(this.iaPu, this.fatPot, this.fp0, this.isMotor, this.ra, this.xs);
+          this.updateDiagram(this.iaPu, this.fatPot, this.fp0, this.isMotor, this.ra, this.xs, this.xd, this.xq);
         }
 
         function changeIa($event){
@@ -57,24 +59,24 @@ export class SynchronousMachineComponent implements OnInit {
           console.log('Changing Ia Percent to ' + value);
 
           this.iaPu = format(value);
-          this.updateDiagram(this.iaPu, this.fatPot, this.fp0, this.isMotor, this.ra, this.xs);
+          this.updateDiagram(this.iaPu, this.fatPot, this.fp0, this.isMotor, this.ra, this.xs, this.xd, this.xq);
         }
 
         function changeFatPot(){
           console.log('Changing FatPot to ' + this.fatPotString);
           if (this.fatPotString === 'ind') this.fatPot = true;
           else this.fatPot = false;
-          this.updateDiagram(this.iaPu, this.fatPot, this.fp0, this.isMotor, this.ra, this.xs);
+          this.updateDiagram(this.iaPu, this.fatPot, this.fp0, this.isMotor, this.ra, this.xs, this.xd, this.xq);
         }
         function changeType(){
           console.log('Changing Type to ' + this.isMotorString);
           if (this.isMotorString === 'mot') this.isMotor = true;
           else this.isMotor = false;
-          this.updateDiagram(this.iaPu, this.fatPot, this.fp0, this.isMotor, this.ra, this.xs);
+          this.updateDiagram(this.iaPu, this.fatPot, this.fp0, this.isMotor, this.ra, this.xs, this.xd, this.xq);
         }
         function updatePu(){
           console.log('update Pu values');
-          this.updateDiagram(this.iaPu, this.fatPot, this.fp0, this.isMotor, this.ra, this.xs);
+          this.updateDiagram(this.iaPu, this.fatPot, this.fp0, this.isMotor, this.ra, this.xs, this.xd, this.xq);
         }
         this.changeFp = changeFp;
         this.changeIa = changeIa;
@@ -104,53 +106,62 @@ export class SynchronousMachineComponent implements OnInit {
           return math.multiply(math.complex( 0 , xs), ia);
         }
 
-        console.log(calcEf(10, 2, 3, 7));
 
         console.log('Creating SVG');
-        let w = 500;
-        let h = 500;
+        let w = 400;
+        let h = 400;
 
-        let offsetX = 250;
+        let offsetX = 200;
         let biasX = 0;
-        let offsetY = 250;
+        let offsetY = 200;
         let biasY = 0;
 
         let svg = d3.select('#pl-diagram')
           .attr('width', w)
           .attr('height', h);
 
+        let svg2 = d3.select('#ps-diagram')
+          .attr('width', w)
+          .attr('height', h);
+
+        let createLine = (e, classe, id) => {
+          e.append('line')
+            .classed('vector', true)
+            .classed(classe, true)
+            .attr('id', id);
+        }
+
         // Vt
-        svg.append('line')
-          .classed('vector', true)
-          .classed('vectorVt', true)
-          .attr('id', 'vt');
-
+        createLine(svg,'vectorVt', 'vt');
         // Ia*Ra
-        svg.append('line')
-          .classed('vector', true)
-          .classed('vectorIaRa', true)
-          .attr('id', 'iara');
-
+        createLine(svg,'vectorIaRa', 'iara');
         // Ia*j*Xs
-        svg.append('line')
-          .classed('vector', true)
-          .classed('vectorIajXs', true)
-          .attr('id', 'iajxs');
-
+        createLine(svg,'vectorIajXs', 'iajxs');
         // Ef
-        svg.append('line')
-          .classed('vector', true)
-          .classed('vectorEf', true)
-          .attr('id', 'ef');
-
+        createLine(svg,'vectorEf', 'ef');
         // ia
-        svg.append('line')
-          .classed('vector', true)
-          .classed('vectorIa', true)
-          .attr('id', 'ia');
+        createLine(svg,'vectorIa', 'ia');
 
-        function updateDiagram(iaPu, fatPot, fp0, isMotor, rapu, xspu){
+        // Vt
+        createLine(svg2,'vectorVt', 'vt2');
+        // Ia*Ra
+        createLine(svg2,'vectorIaRa', 'iara2');
+        // Ia*j*Xs
+        createLine(svg2,'vectorIajXs', 'iajxs2');
+        // Ef
+        createLine(svg2,'vectorEf', 'ef2');
+        // ia
+        createLine(svg2,'vectorIa', 'ia2');
+        // id
+        createLine(svg2,'vectorIa', 'id2');
+        // iq
+        createLine(svg2,'vectorIa', 'iq2');
+        // idjxd
+        createLine(svg2,'vectorIa', 'idjxd2');
+        // iqjxq
+        createLine(svg2,'vectorIa', 'iqjxq2');
 
+        function updateDiagram(iaPu, fatPot, fp0, isMotor, rapu, xspu, xdpu, xqpu){
           // example 6.3 page 307
           let vt, iax, iay, xs, ra;
           let efx, efy, ia, kva, ia0, vt0;
@@ -161,7 +172,6 @@ export class SynchronousMachineComponent implements OnInit {
           vt0 = 208;
           kva = 5000;
           ia0 = 5000 / ( Math.sqrt(3) * vt0);
-
 
           vb = 208;
           sb = kva;
@@ -201,6 +211,7 @@ export class SynchronousMachineComponent implements OnInit {
 
 
           updateSVG1(offsetIa, iax, iay, vt, raiax, raiay, iajxsx, iajxsy, efx, efy );
+          updateSVG2(offsetIa, iax, iay, vt, raiax, raiay, iajxsx, iajxsy, efx, efy );
           // updateVector('ia', [0, 0, offsetIa * iax, offsetIa * iay]);
           // updateVector('vt', [0, 0, vt, 0]);
           // updateVector('iara', [vt, 0, raiax, raiay]);
@@ -239,6 +250,24 @@ export class SynchronousMachineComponent implements OnInit {
           updateVector('ef', [0, 0, efx, efy]);
         }
 
+        let updateSVG2 = (offsetIa, iax, iay, vt, raiax, raiay, iajxsx, iajxsy, efx, efy ) => {
+          let xmin, xmax, ymin, ymax;
+          xmin = Math.min( 0, offsetIa * iax, raiax + vt, raiax + vt + iajxsx, efx);
+          xmax = Math.max( 0, offsetIa * iax, raiax + vt, raiax + vt + iajxsx, efx);
+          ymin = Math.min( 0, offsetIa * iay, raiay, raiay +  iajxsy, efy);
+          ymax = Math.max( 0, offsetIa * iay, raiay, raiay +  iajxsy, efy);
+          biasX = 0-(xmin + xmax)/4;
+          biasY = 0-(ymin + ymax)/4;
+          console.log('changing offset2', biasX, biasY);
+          updateVector('ia2', [0, 0, offsetIa * iax, offsetIa * iay]);
+          updateVector('iq2', [0, 0, offsetIa * iax, 0]);
+          updateVector('id2', [0, 0, 0, offsetIa * iay]);
+          updateVector('vt2', [0, 0, vt, 0]);
+          updateVector('iara2', [vt, 0, raiax, raiay]);
+          updateVector('iajxs2', [raiax + vt, raiay, iajxsx, iajxsy]);
+          updateVector('ef2', [0, 0, efx, efy]);
+        }
+
         function updateVector(id, vector){
           let scale = 0.5;
           console.log('aki');
@@ -262,7 +291,7 @@ export class SynchronousMachineComponent implements OnInit {
           this.subexcitado = vt.toPolar().r > ef.toPolar().r;
         };
 
-        updateDiagram(this.iaPu, this.fatPot, this.fp0, this.isMotor, this.ra, this.xs);
+        updateDiagram(this.iaPu, this.fatPot, this.fp0, this.isMotor, this.ra, this.xs, this.xd, this.xq);
         this.updateDiagram = updateDiagram;
     }
 
