@@ -91,22 +91,18 @@ export class SynchronousMachineComponent implements OnInit {
         function calcEf(vt, xs, ia, ra){
           let raia, iajxs, ret1;
 
-          iajxs = calcIaJXs(vt, xs, ia, ra);
-          raia = calcRaIa(vt, xs, ia, ra);
+          iajxs = calcXjI(xs, ia);
+          raia = math.multiply(math.complex( ra , 0), ia);
           ret1 = math.add(vt, raia);
           return math.add(ret1, iajxs);
           // Ef = Vt + j * Xs * Ia + Ra * Ia
-        }
-
-        function calcRaIa(vt, xs, ia, ra){
-          return math.multiply(math.complex( ra , 0), ia);
         }
 
         function calcIaJXs(vt, xs, ia, ra){
           return math.multiply(math.complex( 0 , xs), ia);
         }
 
-        function calcIjX(x, i){
+        function calcXjI(x, i){
           return math.multiply(math.complex( 0 , x), i);
         }
 
@@ -195,13 +191,13 @@ export class SynchronousMachineComponent implements OnInit {
 
           efx = calcEf(vt, xs, ia, ra).re;
           efy = calcEf(vt, xs, ia, ra).im;
-          raia = calcRaIa(vt, xs, ia, ra);
-          raiax = calcRaIa(vt, xs, ia, ra).re;
-          raiay = calcRaIa(vt, xs, ia, ra).im;
+          raia = math.multiply(math.complex( ra , 0), ia);
+          raiax = raia.re;
+          raiay = raia.im;
 
-          iajxs = calcIaJXs(vt, xs, ia, ra);
-          iajxsx = calcIaJXs(vt, xs, ia, ra).re;
-          iajxsy = calcIaJXs(vt, xs, ia, ra).im;
+          iajxs = calcXjI(xs,ia);
+          iajxsx = iajxs.re;
+          iajxsy = iajxs.im;
 
           console.log(iajxsx, raiax)
           // Dados Vt, Ia, If => descobrir Ef, If
@@ -210,7 +206,7 @@ export class SynchronousMachineComponent implements OnInit {
           let offsetIa = 8.35;
 
 
-          updateSVG1(offsetIa, iax, iay, vt, raiax, raiay, iajxsx, iajxsy, efx, efy );
+          updateSVG1(offsetIa, ia, vt, raia, iajxsx, iajxsy, efx, efy );
 
           // SVG2
           vt0 = 208;
@@ -236,53 +232,52 @@ export class SynchronousMachineComponent implements OnInit {
           console.log('ia', ia)
           vt = 120; // vt/Math.sqrt(3)
           // ***************************************************
-          raia = calcRaIa(vt, xs, ia, ra);
-          let iajxq = calcIjX(xq, ia);
+          raia = math.multiply(math.complex( ra , 0), ia);
+          let iajxq = calcXjI(xq, ia);
           let Vtfasor = math.complex(vt, 0);
-          let delta = (math.add(math.add(Vtfasor,raia),iajxq)).arg();
+          let delta = math.add(Vtfasor, raia, iajxq).arg();
           console.log('delta: ' + delta);
           let psi = delta + phi;
           console.log('ps: ' + psi);
           console.log(math.exp(math.complex(0,delta)));
-          let iq = math.multiply(math.multiply(ia, math.cos(psi)), math.exp(math.complex(0,delta)));
-          let id = math.multiply(math.multiply(ia, math.sin(psi)), math.exp(math.complex(0,delta - Math.PI * 0.5)));
+          let iq = math.multiply(ia, math.cos(psi), math.exp(math.complex(0,delta)));
+          let id = math.multiply(ia, math.sin(psi), math.exp(math.complex(0,delta - Math.PI * 0.5)));
 
           //Id_fasor=Ia_L_f(i)*sin(psi)*exp(j*(delta-pi/2));
 
-          console.log('\n---------', calcIjX(xd, iq), xq, iq)
-          let iajxdx = calcIjX(xd, id).re;
-          let iajxdy = calcIjX(xd, id).im;
-          let iajxqx = calcIjX(xq, iq).re;
-          let iajxqy = calcIjX(xq, iq).im;
+          console.log('\n---------', calcXjI(xd, iq), xq, iq)
+          let iajxd0 = calcXjI(xd, id);
+          let iajxq0 = calcXjI(xq, iq);
           //jXdIa_x=[RaIa_x(2) RaIa_x(2)+real(j*Xd_sat*Ia_fasor)];
           //jXdIa_y=[RaIa_y(2) RaIa_y(2)+imag(j*Xd_sat*Ia_fasor)];
-          efx = calcEf(vt, xs, ia, ra).re;
-          efy = calcEf(vt, xs, ia, ra).im;
-          raiax = calcRaIa(vt, xs, ia, ra).re;
-          raiay = calcRaIa(vt, xs, ia, ra).im;
 
-          iajxs = calcIaJXs(vt, xs, ia, ra);
+          let ef = math.add(vt, raia, iajxd0, iajxq0);
+
+          raiax = raia.re;
+          raiay = raia.im;
+
+          iajxs = calcXjI(xs, ia);
 
 
           console.log(iajxsx, raiax)
           // Dados Vt, Ia, If => descobrir Ef, If
 
 
-          updateSVG2(offsetIa, iax, iay, vt, raiax, raiay, iajxdx, iajxdy, iajxqx, iajxqy, efx, efy );
+          updateSVG2(offsetIa, ia, vt, raia, iajxd0, iajxq0, ef );
           // updateVector('ia', [0, 0, offsetIa * iax, offsetIa * iay]);
           // updateVector('vt', [0, 0, vt, 0]);
           // updateVector('iara', [vt, 0, raiax, raiay]);
           // updateVector('iajxs', [raiax + vt, raiay, iajxsx, iajxsy]);
           // updateVector('ef', [0, 0, efx, efy]);
 
-          updateStatus(
-            math.complex(vt/(zb*ib), 0),
-            math.complex(raiax/(zb*ib), raiay/(zb*ib)),
-            math.complex(iajxsx/(zb*ib), iajxsy/(zb*ib)),
-            math.complex(efx/(zb*ib), efy/(zb*ib)),
-            math.complex(iax/ib, iay/ib),
-            fp0);
           // updateStatus(
+          //   math.complex(vt/(zb*ib), 0),
+          //   math.complex(raiax/(zb*ib), raiay/(zb*ib)),
+          //   math.complex(iajxsx/(zb*ib), iajxsy/(zb*ib)),
+          //   math.complex(efx/(zb*ib), efy/(zb*ib)),
+          //   math.complex(iax/ib, iay/ib),
+          //   fp0);
+          // // updateStatus(
           //   math.complex(vt, 0),
           //   math.complex(raiax, raiay),
           //   math.complex(iajxsx, iajxsy),
@@ -291,41 +286,41 @@ export class SynchronousMachineComponent implements OnInit {
           //   fp0);
         }
 
-        let updateSVG1 = (offsetIa, iax, iay, vt, raiax, raiay, iajxsx, iajxsy, efx, efy ) => {
+        let updateSVG1 = (offsetIa, ia, vt, raia, iajxsx, iajxsy, efx, efy ) => {
           let xmin, xmax, ymin, ymax;
-          xmin = Math.min( 0, offsetIa * iax, raiax + vt, raiax + vt + iajxsx, efx);
-          xmax = Math.max( 0, offsetIa * iax, raiax + vt, raiax + vt + iajxsx, efx);
-          ymin = Math.min( 0, offsetIa * iay, raiay, raiay +  iajxsy, efy);
-          ymax = Math.max( 0, offsetIa * iay, raiay, raiay +  iajxsy, efy);
+          xmin = Math.min( 0, offsetIa * ia.re, raia.re + vt, raia.re + vt + iajxsx, efx);
+          xmax = Math.max( 0, offsetIa * ia.re, raia.re + vt, raia.re + vt + iajxsx, efx);
+          ymin = Math.min( 0, offsetIa * ia.im, raia.im, raia.im +  iajxsy, efy);
+          ymax = Math.max( 0, offsetIa * ia.im, raia.im, raia.im +  iajxsy, efy);
           biasX = 0-(xmin + xmax)/4;
           biasY = 0-(ymin + ymax)/4;
           console.log('changing offset', biasX, biasY);
-          updateVector('ia', [0, 0, offsetIa * iax, offsetIa * iay]);
+          updateVector('ia', [0, 0, offsetIa * ia.re, offsetIa * ia.im]);
           updateVector('vt', [0, 0, vt, 0]);
-          updateVector('iara', [vt, 0, raiax, raiay]);
-          updateVector('iajxs', [raiax + vt, raiay, iajxsx, iajxsy]);
+          updateVector('iara', [vt, 0, raia.re, raia.im]);
+          updateVector('iajxs', [raia.re + vt, raia.im, iajxsx, iajxsy]);
           updateVector('ef', [0, 0, efx, efy]);
         }
 
-        let updateSVG2 = (offsetIa, iax, iay, vt, raiax, raiay, iajxdx, iajxdy, iajxqx, iajxqy, efx, efy ) => {
+        let updateSVG2 = (offsetIa, ia, vt, raia, iajxd, iajxq, ef) => {
           let xmin, xmax, ymin, ymax;
-          // xmin = Math.min( 0, offsetIa * iax, raiax + vt, raiax + vt + iajxdx, efx);
-          // xmax = Math.max( 0, offsetIa * iax, raiax + vt, raiax + vt + iajxdx, efx);
-          // ymin = Math.min( 0, offsetIa * iay, raiay, raiay +  iajxdy, efy);
-          // ymax = Math.max( 0, offsetIa * iay, raiay, raiay +  iajxdy, efy);
-          // biasX = 0-(xmin + xmax)/4;
-          // biasY = 0-(ymin + ymax)/4;
-          // console.log('changing offset2', biasX, biasY);
+          xmin = Math.min( 0, offsetIa * ia.re, raia.re + vt, raia.re + vt + iajxd.re, ef.re);
+          xmax = Math.max( 0, offsetIa * ia.re, raia.re + vt, raia.re + vt + iajxd.re, ef.re);
+          ymin = Math.min( 0, offsetIa * ia.im, raia.im, raia.im +  iajxd.im, ef.im);
+          ymax = Math.max( 0, offsetIa * ia.im, raia.im, raia.im +  iajxd.im, ef.im);
+          biasX = 0-(xmin + xmax)/4;
+          biasY = 0-(ymin + ymax)/4;
+          console.log('changing offset2', biasX, biasY);
           biasX = 0;
           biasY = 0;
           updateVector('vt2', [0, 0, vt, 0]);
-          updateVector('iara2', [vt, 0, raiax, raiay]);
-          updateVector('iajxd2', [raiax + vt, raiay, iajxdx, iajxdy]);
-          updateVector('iajxq2', [raiax + vt + iajxdx, raiay + iajxdy, iajxqx, iajxqy]);
-          updateVector('iajxq2', [raiax + vt + iajxdx, raiay + iajxdy, iajxqx, iajxqy]);
+          updateVector('iara2', [vt, 0, raia.re, raia.im]);
+          updateVector('iajxd2', [raia.re + vt, raia.im, iajxd.re, iajxd.im]);
+          updateVector('iajxq2', [raia.re + vt + iajxd.re, raia.im + iajxd.im, iajxq.re, iajxq.im]);
+          updateVector('iajxq2', [raia.re + vt + iajxd.re, raia.im + iajxd.im, iajxq.re, iajxq.im]);
 
-          updateVector('ia2', [0, 0, offsetIa * iax, offsetIa * iay]);
-          // updateVector('iq2', [0, 0, offsetIa * iax, 0]);
+          updateVector('ia2', [0, 0, offsetIa * ia.re, offsetIa * ia.im]);
+          updateVector('ef2', [0, 0, ef.re, ef.im]);
           // updateVector('id2', [0, 0, 0, offsetIa * iay]);
           // updateVector('ef2', [0, 0, efx, efy]);
         }
