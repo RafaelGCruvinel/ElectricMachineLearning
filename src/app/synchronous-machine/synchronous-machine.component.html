@@ -76,7 +76,7 @@
         <div class="{{'lis' == tiposPolos ? 'ng-show' : 'ng-hide'}}">
           <svg id="pl-diagram">
               <defs>
-                  <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth" viewBox="0 0 20 20">
+                  <marker id="arrow1" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth" viewBox="0 0 20 20">
                     <path d="M0,0 L0,6 L9,3 z" />
                   </marker>
               </defs>
@@ -85,7 +85,7 @@
         <div class="{{'sal' == tiposPolos ? 'ng-show' : 'ng-hide'}}">
           <svg id="ps-diagram">
               <defs>
-                  <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth" viewBox="0 0 20 20">
+                  <marker id="arrow2" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth" viewBox="0 0 20 20">
                     <path d="M0,0 L0,6 L9,3 z" />
                   </marker>
               </defs>
@@ -94,7 +94,7 @@
 
         <p class="{{'lis' == tiposPolos ? 'ng-show' : 'ng-hide'}}">
           Polos Lisos <br>
-          <span class="colorVt">■</span> - Vt = {{vt}} pu V<br>
+          <span class="colorVt">■</span> - Vt = {{vt1}} pu V<br>
           <span class="colorIaRa">■</span> - IaxRa = {{iara}} pu V<br>
           <span class="colorIajXs">■</span> - Ia*j*Xs = {{iajxs}} pu V<br>
           <span class="colorEf">■</span> - Ef = {{ef}} pu V<br>
@@ -104,17 +104,17 @@
         </p>
         <p class="{{'sal' == tiposPolos ? 'ng-show' : 'ng-hide'}}">
           Polos Salientes <br>
-          <span class="colorVt">■</span> - Vt = {{vt}} pu V<br>
-          <span class="colorIaRa">■</span> - IaxRa = {{iara}} pu V<br>
-          <span class="colorIajXs">■</span> - Ia*J*Xs = {{iajxs}} pu V<br>
-          <span class="colorEf">■</span> - Ef = {{ef}} pu V<br>
-          <span class="colorIa">■</span> - Ia = {{ia}} pu A<br>
-          <span class="colorIq">■</span> - Iq = {{iq}} pu A<br>
-          <span class="colorId">■</span> - Id = {{id}} pu A<br>
-          <span class="colorIajXq">■</span> - Ia*j*Xq = {{iajxq2}} pu A<br>
-          <span class="colorIajXd">■</span> - Ia*j*Xd = {{iajxd2}} pu A<br>
+          <span class="colorVt">■</span> - Vt = {{vt2}} pu V<br>
+          <span class="colorIaRa">■</span> - IaxRa = {{iara2}} pu V<br>
+          <span class="colorIajXd">■</span> - Ia*J*Xd = {{iajxd2}} pu V<br>
+          <span class="colorIajXq">■</span> - Ia*J*Xq = {{iajxq2}} pu V<br>
+          <span class="colorEf">■</span> - Ef = {{ef2}} pu V<br>
+          <span class="colorIa">■</span> - Ia = {{ia2}} pu A<br>
+          <span class="colorIq">■</span> - Iq = {{iq2}} pu A<br>
+          <span class="colorId">■</span> - Id = {{id2}} pu A<br>
           {{isMotor ? "Motor" : "Gerador"}} {{subexcitado ? "subexcitado" : "sobreexcitado"}} <br>
-          Fator de Potência = {{fp0}}, {{fatPot ?  "Indutivo" : "Capacitivo"}} <br>
+          Fator de Potência = {{fp2}}, {{fatPot ?  "Indutivo" : "Capacitivo"}} <br>
+
         </p>
       </div>
     </div>

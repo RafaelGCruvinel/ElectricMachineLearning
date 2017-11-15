@@ -33,6 +33,18 @@ export class SynchronousMachineComponent implements OnInit {
     fp;
     cap;
     fp0 = 0.8;
+    vt1;
+    vt2;
+    iara2;
+    iajxd2;
+    iajxq2;
+    ef2;
+    ia2;
+    id2;
+    iq2;
+    fp2;
+    subexcitado2;
+
     public fatPot: boolean = true;
     public fatPotString: string = 'ind';
     public isMotor: boolean = false;
@@ -41,8 +53,8 @@ export class SynchronousMachineComponent implements OnInit {
     public tiposPolos: string = 'lis';
     public ra: Number = 0.05;
     public xs: Number = 1.2;
-    public xd: Number = 1;
-    public xq: Number = 1;
+    public xd: Number = 0.41;
+    public xq: Number = 0.41;
 
     constructor() {
         function changeFp($event){
@@ -158,11 +170,11 @@ export class SynchronousMachineComponent implements OnInit {
         // idjxd
         createLine(svg2,'vectorIajXd', 'iajxd2');
         // iqjxq
-        createLine(svg2,'vectorIajJq', 'iajxq2');
+        createLine(svg2,'vectorIajXq', 'iajxq2');
 
         function updateDiagram(iaPu, fatPot, fp0, isMotor, rapu, xspu, xdpu, xqpu){
           // example 6.3 page 307
-          let vt, iax, iay, xs, ra;
+          let vt, iax, iay, xs, ra, ef;
           let efx, efy, ia, kva, ia0, vt0;
           let fp, phi, raia, raiax, raiay;
           let iajxs, iajxsx, iajxsy;
@@ -190,8 +202,7 @@ export class SynchronousMachineComponent implements OnInit {
           console.log('ia', ia)
           vt = 120; // vt/Math.sqrt(3)
 
-          efx = calcEf(vt, xs, ia, ra).re;
-          efy = calcEf(vt, xs, ia, ra).im;
+          ef = calcEf(vt, xs, ia, ra);
           raia = math.multiply(math.complex( ra , 0), ia);
           raiax = raia.re;
           raiay = raia.im;
@@ -204,10 +215,19 @@ export class SynchronousMachineComponent implements OnInit {
           // Dados Vt, Ia, If => descobrir Ef, If
 
           // offset IA
-          let offsetIa = 8.35;
+          let offsetIa = 8.35/0.5*0.7;
 
+          let vtcmp = math.complex(vt, 0);
+          updateSVG1(offsetIa, ia, vtcmp, raia, iajxs, ef);
+          console.log('====>',ef.im/(zb*ib) );
+          updateStatus(
+            math.complex(vtcmp.re/(zb*ib), 0),
+            math.complex(raiax/(zb*ib), raiay/(zb*ib)),
+            math.complex(iajxsx/(zb*ib), iajxsy/(zb*ib)),
+            math.complex(ef.re/(zb*ib), ef.im/(zb*ib)),
+            math.complex(iax/ib, iay/ib),
+            fp0);
 
-          updateSVG1(offsetIa, ia, vt, raia, iajxsx, iajxsy, efx, efy );
 
           // SVG2
           vt0 = 208;
@@ -252,7 +272,7 @@ export class SynchronousMachineComponent implements OnInit {
           //jXdIa_x=[RaIa_x(2) RaIa_x(2)+real(j*Xd_sat*Ia_fasor)];
           //jXdIa_y=[RaIa_y(2) RaIa_y(2)+imag(j*Xd_sat*Ia_fasor)];
 
-          let ef = math.add(vt, raia, iajxd0, iajxq0);
+          let ef2 = math.add(vt, raia, iajxd0, iajxq0);
 
           raiax = raia.re;
           raiay = raia.im;
@@ -262,21 +282,26 @@ export class SynchronousMachineComponent implements OnInit {
           console.log(iajxsx, raiax)
           // Dados Vt, Ia, If => descobrir Ef, If
 
+          vtcmp = math.complex(vt, 0);
+          updateSVG2(offsetIa, ia, vtcmp, raia, iajxd0, iajxq0, ef2, iq, id);
+          updateStatus2(
+            math.complex(vtcmp.re/(zb*ib), 0),
+            math.complex(raia.re/(zb*ib), raia.im/(zb*ib)),
+            math.complex(iajxd0.re/(zb*ib), iajxd0.im/(zb*ib)),
+            math.complex(iajxq0.re/(zb*ib), iajxq0.im/(zb*ib)),
+            math.complex(ef2.re/(zb*ib), ef2.im/(zb*ib)),
+            math.complex(ia.re/ib, ia.im/ib),
+            math.complex(id.re/ib, id.im/ib),
+            math.complex(iq.re/ib, iq.im/ib),
+            fp0);
 
-          updateSVG2(offsetIa, ia, vt, raia, iajxd0, iajxq0, ef );
           // updateVector('ia', [0, 0, offsetIa * iax, offsetIa * iay]);
           // updateVector('vt', [0, 0, vt, 0]);
           // updateVector('iara', [vt, 0, raiax, raiay]);
           // updateVector('iajxs', [raiax + vt, raiay, iajxsx, iajxsy]);
           // updateVector('ef', [0, 0, efx, efy]);
 
-          updateStatus(
-            math.complex(vt/(zb*ib), 0),
-            math.complex(raiax/(zb*ib), raiay/(zb*ib)),
-            math.complex(iajxsx/(zb*ib), iajxsy/(zb*ib)),
-            math.complex(efx/(zb*ib), efy/(zb*ib)),
-            math.complex(iax/ib, iay/ib),
-            fp0);
+
           // updateStatus(
           //   math.complex(vt, 0),
           //   math.complex(raiax, raiay),
@@ -286,38 +311,40 @@ export class SynchronousMachineComponent implements OnInit {
           //   fp0);
         }
 
-        let updateSVG1 = (offsetIa, ia, vt, raia, iajxsx, iajxsy, efx, efy ) => {
+        let updateSVG1 = (offsetIa, ia, vt, raia, iajxs, ef) => {
           let xmin, xmax, ymin, ymax;
-          xmin = Math.min( 0, offsetIa * ia.re, raia.re + vt, raia.re + vt + iajxsx, efx);
-          xmax = Math.max( 0, offsetIa * ia.re, raia.re + vt, raia.re + vt + iajxsx, efx);
-          ymin = Math.min( 0, offsetIa * ia.im, raia.im, raia.im +  iajxsy, efy);
-          ymax = Math.max( 0, offsetIa * ia.im, raia.im, raia.im +  iajxsy, efy);
+          xmin = Math.min( 0, vt.re, ef.re);
+          xmax = Math.max( 0, vt.re, ef.re);
+          ymin = Math.min( 0, vt.im, ef.im);
+          ymax = Math.max( 0, vt.im, ef.im);
           biasX = 0-(xmin + xmax)/4;
           biasY = 0-(ymin + ymax)/4;
           console.log('changing offset', biasX, biasY);
           updateVector('ia', [0, 0, offsetIa * ia.re, offsetIa * ia.im]);
-          updateVector('vt', [0, 0, vt, 0]);
-          updateVector('iara', [vt, 0, raia.re, raia.im]);
-          updateVector('iajxs', [raia.re + vt, raia.im, iajxsx, iajxsy]);
-          updateVector('ef', [0, 0, efx, efy]);
+          updateVector('vt', [0, 0, vt.re, 0]);
+          updateVector('iara', [vt.re, 0, raia.re, raia.im]);
+          updateVector('iajxs', [raia.re + vt.re, raia.im, iajxs.re, iajxs.im]);
+          updateVector('ef', [0, 0, ef.re, ef.im]);
         }
 
-        let updateSVG2 = (offsetIa, ia, vt, raia, iajxd, iajxq, ef) => {
+        let updateSVG2 = (offsetIa, ia, vt, raia, iajxd, iajxq, ef, iq, id) => {
           let xmin, xmax, ymin, ymax;
-          xmin = Math.min( 0, offsetIa * ia.re, raia.re + vt, raia.re + vt + iajxd.re, ef.re);
-          xmax = Math.max( 0, offsetIa * ia.re, raia.re + vt, raia.re + vt + iajxd.re, ef.re);
-          ymin = Math.min( 0, offsetIa * ia.im, raia.im, raia.im +  iajxd.im, ef.im);
-          ymax = Math.max( 0, offsetIa * ia.im, raia.im, raia.im +  iajxd.im, ef.im);
+          xmin = Math.min( 0, vt.re, ef.re);
+          xmax = Math.max( 0, vt.re, ef.re);
+          ymin = Math.min( 0, vt.im, ef.im);
+          ymax = Math.max( 0, vt.im, ef.im);
           biasX = 0-(xmin + xmax)/4;
           biasY = 0-(ymin + ymax)/4;
-          console.log('changing offset2', biasX, biasY);
+          // console.log('changing offset2', biasX, biasY);
           biasX = 0;
           biasY = 0;
-          updateVector('vt2', [0, 0, vt, 0]);
-          updateVector('iara2', [vt, 0, raia.re, raia.im]);
-          updateVector('iajxd2', [raia.re + vt, raia.im, iajxd.re, iajxd.im]);
-          updateVector('iajxq2', [raia.re + vt + iajxd.re, raia.im + iajxd.im, iajxq.re, iajxq.im]);
-          updateVector('iajxq2', [raia.re + vt + iajxd.re, raia.im + iajxd.im, iajxq.re, iajxq.im]);
+          updateVector('vt2', [0, 0, vt.re, 0]);
+          updateVector('iara2', [vt.re, 0, raia.re, raia.im]);
+          updateVector('iajxd2', [raia.re + vt.re, raia.im, iajxd.re, iajxd.im]);
+          updateVector('iajxq2', [raia.re + vt.re + iajxd.re, raia.im + iajxd.im, iajxq.re, iajxq.im]);
+          updateVector('iajxq2', [raia.re + vt.re + iajxd.re, raia.im + iajxd.im, iajxq.re, iajxq.im]);
+          updateVector('iq2', [0, 0, offsetIa * iq.re, offsetIa * iq.im]);
+          updateVector('id2', [0, 0, offsetIa * id.re, offsetIa * id.im]);
 
           updateVector('ia2', [0, 0, offsetIa * ia.re, offsetIa * ia.im]);
           updateVector('ef2', [0, 0, ef.re, ef.im]);
@@ -326,7 +353,7 @@ export class SynchronousMachineComponent implements OnInit {
         }
 
         function updateVector(id, vector){
-          let scale = 0.5;
+          let scale = 0.7;
           console.log('updating ' + id + ' with ' + vector + '\n');
           d3.select('#' + id)
             .attr('x1', offsetX + biasX + vector[0] * scale)
@@ -339,7 +366,7 @@ export class SynchronousMachineComponent implements OnInit {
           let format = (e) => math.format(e, {notation: 'fixed', precision: 2});
           let polar = (e) => format(math.abs(e)) + ' ∟ ' +format(math.arg(e) / 2 / Math.PI * 360) + '°';
 
-          this.vt = format(vt);
+          this.vt1 = polar(vt);
           this.iara =  polar(iara);
           this.iajxs = polar(iajxs);
           this.ef =  polar(ef);
@@ -347,7 +374,21 @@ export class SynchronousMachineComponent implements OnInit {
           this.fp =  polar(fp);
           this.subexcitado = vt.toPolar().r > ef.toPolar().r;
         };
+        let updateStatus2 = (vt, iara, iajxd, iajxq, ef, ia, id, iq, fp) => {
+          let format = (e) => math.format(e, {notation: 'fixed', precision: 2});
+          let polar = (e) => format(math.abs(e)) + ' ∟ ' +format(math.arg(e) / 2 / Math.PI * 360) + '°';
 
+          this.vt2 = polar(vt);
+          this.iara2 =  polar(iara);
+          this.iajxd2 = polar(iajxd);
+          this.iajxq2 = polar(iajxq);
+          this.ef2 =  polar(ef);
+          this.ia2 =  polar(ia);
+          this.id2 =  polar(id);
+          this.iq2 =  polar(iq);
+          this.fp2 =  format(fp);
+          this.subexcitado2 = vt.toPolar().r > ef.toPolar().r;
+        };
         updateDiagram(this.iaPu, this.fatPot, this.fp0, this.isMotor, this.ra, this.xs, this.xd, this.xq);
         this.updateDiagram = updateDiagram;
     }
