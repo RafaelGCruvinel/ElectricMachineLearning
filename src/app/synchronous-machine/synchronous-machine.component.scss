@@ -21,7 +21,7 @@ mat-slider {
   svg{
     background-color: #eee;
   }
-  .vectorVt, .vectorVt #arrow1 path{
+  .vectorVt, .vectorVt #arrow path{
     stroke: $vectorVt;
     fill: $vectorVt;
   }
@@ -42,23 +42,21 @@ mat-slider {
   }
   .vectorId{
     stroke: $vectorId;
-    stroke-dasharray: 5,5;
   }
   .vectorIq{
     stroke: $vectorIq;
-    stroke-dasharray: 5,5;
   }
   .vectorIajXd{
     stroke: $vectorIajXd;
   }
-  .vectorIajXq{
+  .vectorIajJq{
     stroke: $vectorIajJq;
   }
   .colorVt{
     color: $vectorVt;
   }
   .colorId{
-    color: $vectorId;
+    color: $vetorId;
   }
   .colorIajXs{
     color: $vectorIajXs;
@@ -73,29 +71,25 @@ mat-slider {
     color: $vectorIaRa;
   }
   .colorId{
-    color: $vectorId;
+    stroke: $vectorId;
   }
   .colorIq{
-    color: $vectorIq;
+    stroke: $vectorIq;
   }
   .colorIajXd{
-    color: $vectorIajXd;
+    stroke: $vectorIajXd;
   }
-  .colorIajXq{
-    color: $vectorIajJq;
+  .colorIajJq{
+    stroke: $vectorIajJq;
   }
 }
 
 
-#pl-diagram .vector{
+.vector{
   stroke-width: 1.5;
-  marker-end: url(#arrow1);
+  marker-end: url(#arrow);
+  stroke: black;
 }
-#ps-diagram .vector{
-  stroke-width: 1.5;
-  marker-end: url(#arrow2);
-}
-
 #arrow{
 
 }
