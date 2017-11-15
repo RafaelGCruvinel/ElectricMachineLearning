@@ -317,8 +317,8 @@ export class SynchronousMachineComponent implements OnInit {
           xmax = Math.max( 0, vt.re, ef.re);
           ymin = Math.min( 0, vt.im, ef.im);
           ymax = Math.max( 0, vt.im, ef.im);
-          biasX = 0-(xmin + xmax)/4;
-          biasY = 0-(ymin + ymax)/4;
+          biasX = 0-(xmin + xmax)/2*0.7;
+          biasY = 0-(ymin + ymax)/2*0.7;
           console.log('changing offset', biasX, biasY);
           updateVector('ia', [0, 0, offsetIa * ia.re, offsetIa * ia.im]);
           updateVector('vt', [0, 0, vt.re, 0]);
@@ -333,11 +333,9 @@ export class SynchronousMachineComponent implements OnInit {
           xmax = Math.max( 0, vt.re, ef.re);
           ymin = Math.min( 0, vt.im, ef.im);
           ymax = Math.max( 0, vt.im, ef.im);
-          biasX = 0-(xmin + xmax)/4;
-          biasY = 0-(ymin + ymax)/4;
-          // console.log('changing offset2', biasX, biasY);
-          biasX = 0;
-          biasY = 0;
+          biasX = 0-(xmin + xmax)/2*0.7;
+          biasY = 0-(ymin + ymax)/2*0.7;
+          console.log('changing offset2', biasX, biasY);
           updateVector('vt2', [0, 0, vt.re, 0]);
           updateVector('iara2', [vt.re, 0, raia.re, raia.im]);
           updateVector('iajxd2', [raia.re + vt.re, raia.im, iajxd.re, iajxd.im]);
