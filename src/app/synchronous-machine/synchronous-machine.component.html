@@ -47,7 +47,7 @@
           </mat-form-field>
           <mat-form-field>
             <mat-select placeholder="Tipo de Polos" [(ngModel)]="tiposPolos"
-            [ngModelOptions]="{standalone: true}">
+            [ngModelOptions]="{standalone: true}" value="lis">
               <mat-option value="lis">Lisos</mat-option>
               <mat-option value="sal">Salientes</mat-option>
             </mat-select>
@@ -73,7 +73,7 @@
         <b>Ia = {{iaPu}} (pu)</b>
         <br><br>
 
-        <div class="{{'lis' == tiposPolos ? 'ng-hide' : 'ng-show'}}">
+        <div class="{{'lis' == tiposPolos ? 'ng-show' : 'ng-hide'}}">
           <svg id="pl-diagram">
               <defs>
                   <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth" viewBox="0 0 20 20">
@@ -82,7 +82,7 @@
               </defs>
           </svg>
         </div>
-        <div class="{{'sal' == tiposPolos ? 'ng-hide' : 'ng-show'}}">
+        <div class="{{'sal' == tiposPolos ? 'ng-show' : 'ng-hide'}}">
           <svg id="ps-diagram">
               <defs>
                   <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth" viewBox="0 0 20 20">
@@ -92,7 +92,7 @@
           </svg>
         </div>
 
-        <p class="{{'lis' == tiposPolos ? 'ng-hide' : 'ng-show'}}">
+        <p class="{{'lis' == tiposPolos ? 'ng-show' : 'ng-hide'}}">
           Polos Lisos <br>
           <span class="colorVt">■</span> - Vt = {{vt}} pu V<br>
           <span class="colorIaRa">■</span> - IaxRa = {{iara}} pu V<br>
@@ -102,7 +102,7 @@
           {{isMotor ? "Motor" : "Gerador"}} {{subexcitado ? "subexcitado" : "sobreexcitado"}} <br>
           Fator de Potência = {{fp0}}, {{fatPot ?  "Indutivo" : "Capacitivo"}} <br>
         </p>
-        <p class="{{'sal' == tiposPolos ? 'ng-hide' : 'ng-show'}}">
+        <p class="{{'sal' == tiposPolos ? 'ng-show' : 'ng-hide'}}">
           Polos Salientes <br>
           <span class="colorVt">■</span> - Vt = {{vt}} pu V<br>
           <span class="colorIaRa">■</span> - IaxRa = {{iara}} pu V<br>
