@@ -38,6 +38,7 @@ export class SynchronousMachineComponent implements OnInit {
     public isMotor: boolean = false;
     public isMotorString: string = 'mot';
     public subexcitado: boolean = false;
+    public tiposPolos: string = 'lis';
     public ra: Number = 0.05;
     public xs: Number = 1.2;
     public xd: Number = 1;
@@ -151,13 +152,13 @@ export class SynchronousMachineComponent implements OnInit {
         // ia
         createLine(svg2,'vectorIa', 'ia2');
         // id
-        createLine(svg2,'vectorEf', 'id2');
+        createLine(svg2,'vectorId', 'id2');
         // iq
-        createLine(svg2,'vectorIa', 'iq2');
+        createLine(svg2,'vectorIq', 'iq2');
         // idjxd
-        createLine(svg2,'vectorIa', 'iajxd2');
+        createLine(svg2,'vectorIajXd', 'iajxd2');
         // iqjxq
-        createLine(svg2,'vectorIa', 'iajxq2');
+        createLine(svg2,'vectorIajJq', 'iajxq2');
 
         function updateDiagram(iaPu, fatPot, fp0, isMotor, rapu, xspu, xdpu, xqpu){
           // example 6.3 page 307
@@ -258,7 +259,6 @@ export class SynchronousMachineComponent implements OnInit {
 
           iajxs = calcXjI(xs, ia);
 
-
           console.log(iajxsx, raiax)
           // Dados Vt, Ia, If => descobrir Ef, If
 
@@ -270,14 +270,14 @@ export class SynchronousMachineComponent implements OnInit {
           // updateVector('iajxs', [raiax + vt, raiay, iajxsx, iajxsy]);
           // updateVector('ef', [0, 0, efx, efy]);
 
+          updateStatus(
+            math.complex(vt/(zb*ib), 0),
+            math.complex(raiax/(zb*ib), raiay/(zb*ib)),
+            math.complex(iajxsx/(zb*ib), iajxsy/(zb*ib)),
+            math.complex(efx/(zb*ib), efy/(zb*ib)),
+            math.complex(iax/ib, iay/ib),
+            fp0);
           // updateStatus(
-          //   math.complex(vt/(zb*ib), 0),
-          //   math.complex(raiax/(zb*ib), raiay/(zb*ib)),
-          //   math.complex(iajxsx/(zb*ib), iajxsy/(zb*ib)),
-          //   math.complex(efx/(zb*ib), efy/(zb*ib)),
-          //   math.complex(iax/ib, iay/ib),
-          //   fp0);
-          // // updateStatus(
           //   math.complex(vt, 0),
           //   math.complex(raiax, raiay),
           //   math.complex(iajxsx, iajxsy),

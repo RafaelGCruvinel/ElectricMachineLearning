@@ -45,6 +45,13 @@
               <mat-option value="mot">Motor</mat-option>
             </mat-select>
           </mat-form-field>
+          <mat-form-field>
+            <mat-select placeholder="Tipo de Polos" [(ngModel)]="tiposPolos"
+            [ngModelOptions]="{standalone: true}">
+              <mat-option value="lis">Lisos</mat-option>
+              <mat-option value="sal">Salientes</mat-option>
+            </mat-select>
+          </mat-form-field>
         </form>
 
         <br><br>
@@ -66,29 +73,48 @@
         <b>Ia = {{iaPu}} (pu)</b>
         <br><br>
 
+        <div class="{{'lis' == tiposPolos ? 'ng-hide' : 'ng-show'}}">
+          <svg id="pl-diagram">
+              <defs>
+                  <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth" viewBox="0 0 20 20">
+                    <path d="M0,0 L0,6 L9,3 z" />
+                  </marker>
+              </defs>
+          </svg>
+        </div>
+        <div class="{{'sal' == tiposPolos ? 'ng-hide' : 'ng-show'}}">
+          <svg id="ps-diagram">
+              <defs>
+                  <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth" viewBox="0 0 20 20">
+                    <path d="M0,0 L0,6 L9,3 z" />
+                  </marker>
+              </defs>
+          </svg>
+        </div>
 
-        <svg id="pl-diagram">
-            <defs>
-                <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth" viewBox="0 0 20 20">
-                  <path d="M0,0 L0,6 L9,3 z" />
-                </marker>
-            </defs>
-        </svg>
-        <svg id="ps-diagram">
-            <defs>
-                <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth" viewBox="0 0 20 20">
-                  <path d="M0,0 L0,6 L9,3 z" />
-                </marker>
-            </defs>
-        </svg>
-        <p><span class="colorVt">■</span> - Vt = {{vt}} pu V<br>
+        <p class="{{'lis' == tiposPolos ? 'ng-hide' : 'ng-show'}}">
+          Polos Lisos <br>
+          <span class="colorVt">■</span> - Vt = {{vt}} pu V<br>
           <span class="colorIaRa">■</span> - IaxRa = {{iara}} pu V<br>
-          <span class="colorIajXs">■</span> - Ia*J*Xs = {{iajxs}} pu V<br>
+          <span class="colorIajXs">■</span> - Ia*j*Xs = {{iajxs}} pu V<br>
           <span class="colorEf">■</span> - Ef = {{ef}} pu V<br>
           <span class="colorIa">■</span> - Ia = {{ia}} pu A<br>
           {{isMotor ? "Motor" : "Gerador"}} {{subexcitado ? "subexcitado" : "sobreexcitado"}} <br>
           Fator de Potência = {{fp0}}, {{fatPot ?  "Indutivo" : "Capacitivo"}} <br>
-
+        </p>
+        <p class="{{'sal' == tiposPolos ? 'ng-hide' : 'ng-show'}}">
+          Polos Salientes <br>
+          <span class="colorVt">■</span> - Vt = {{vt}} pu V<br>
+          <span class="colorIaRa">■</span> - IaxRa = {{iara}} pu V<br>
+          <span class="colorIajXs">■</span> - Ia*J*Xs = {{iajxs}} pu V<br>
+          <span class="colorEf">■</span> - Ef = {{ef}} pu V<br>
+          <span class="colorIa">■</span> - Ia = {{ia}} pu A<br>
+          <span class="colorIq">■</span> - Iq = {{iq}} pu A<br>
+          <span class="colorId">■</span> - Id = {{id}} pu A<br>
+          <span class="colorIajXq">■</span> - Ia*j*Xq = {{iajxq2}} pu A<br>
+          <span class="colorIajXd">■</span> - Ia*j*Xd = {{iajxd2}} pu A<br>
+          {{isMotor ? "Motor" : "Gerador"}} {{subexcitado ? "subexcitado" : "sobreexcitado"}} <br>
+          Fator de Potência = {{fp0}}, {{fatPot ?  "Indutivo" : "Capacitivo"}} <br>
         </p>
       </div>
     </div>

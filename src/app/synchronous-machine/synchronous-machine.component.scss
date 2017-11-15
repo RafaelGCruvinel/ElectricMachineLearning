@@ -4,11 +4,18 @@ $vectorIajXs: green;
 $vectorEf: purple;
 $vectorIa: black;
 $vectorIaRa: orange;
+$vectorId: gray;
+$vectorIq: brown;
+$vectorIajXd: yellow;
+$vectorIajJq: aqua;
 
 mat-slider {
   width: 80%;
 }
 
+.ng-hide{
+  display: none;
+}
 
 .ms{
   svg{
@@ -33,6 +40,18 @@ mat-slider {
   .vectorIaRa{
     stroke: $vectorIaRa;
   }
+  .vectorId{
+    stroke: $vectorId;
+  }
+  .vectorIq{
+    stroke: $vectorIq;
+  }
+  .vectorIajXd{
+    stroke: $vectorIajXd;
+  }
+  .vectorIajJq{
+    stroke: $vectorIajJq;
+  }
   .colorVt{
     color: $vectorVt;
   }
@@ -50,6 +69,18 @@ mat-slider {
   }
   .colorIaRa{
     color: $vectorIaRa;
+  }
+  .colorId{
+    stroke: $vectorId;
+  }
+  .colorIq{
+    stroke: $vectorIq;
+  }
+  .colorIajXd{
+    stroke: $vectorIajXd;
+  }
+  .colorIajJq{
+    stroke: $vectorIajJq;
   }
 }
 
