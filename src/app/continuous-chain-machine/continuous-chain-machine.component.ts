@@ -146,10 +146,10 @@ export class ContinuousChainMachineComponent implements OnInit {
           lb4: [place[3]+17, 293, place[3]+17, 350],
         }
         let styleDic = {
-          a1: "escova-p",
-          a2: "escova-p",
-          b1: "escova-n",
-          b2: "escova-n",
+          a1: "escova-p1",
+          a2: "escova-p2",
+          b1: "escova-n1",
+          b2: "escova-n2",
           la1: "p",
           la2: "p",
           la3: "p",
@@ -185,13 +185,13 @@ export class ContinuousChainMachineComponent implements OnInit {
             .attr("width", offset[2])
             .attr("height", offset[3])
             .classed(style, true);
-          if(styleDic[type] == 'escova-p'){
+          if(styleDic[type] == 'escova-p1' || styleDic[type] == 'escova-p2'){
             svg.append("text")
             .attr("x", offset[0] + 12)
             .attr("y", 287)
             .text('+');
           }
-          if(styleDic[type] == 'escova-n'){
+          if(styleDic[type] == 'escova-n1' || styleDic[type] == 'escova-n2'){
             svg.append("text")
             .attr("x", offset[0] + 12)
             .attr("y", 287)
@@ -287,13 +287,24 @@ export class ContinuousChainMachineComponent implements OnInit {
       }
 
       function createNucleo(offset, classe){
-        return svg.append("rect")
+        svg.append("rect")
           .attr("x", offset[0])
           .attr("y", offset[1])
           .attr("width", offset[2])
           .attr("height", offset[3])
           .classed("nucleo", true)
           .classed(classe, true);
+        if( classe === 'nucleo1' || classe === 'nucleo3' ) {
+          svg.append("text")
+            .attr("x", offset[0] + 33)
+            .attr("y", offset[1]+40)
+            .text('N');
+        } else {
+          svg.append("text")
+            .attr("x", offset[0] + 33)
+            .attr("y", offset[1]+40)
+            .text('S');
+        };
       }
 
       function createBarramento(offset, classe, with_text){

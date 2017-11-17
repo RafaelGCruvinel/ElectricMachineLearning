@@ -47,8 +47,8 @@ export class SynchronousMachineComponent implements OnInit {
 
     public fatPot: boolean = true;
     public fatPotString: string = 'ind';
-    public isMotor: boolean = false;
-    public isMotorString: string = 'ger';
+    public isMotor: boolean = true;
+    public isMotorString: string = 'mot';
     public subexcitado: boolean = false;
     public tiposPolos: string = 'sal'; //change
     public ra: Number = 0.05;
@@ -261,10 +261,14 @@ export class SynchronousMachineComponent implements OnInit {
           let psi = delta - phi;
           console.log('ps: ' + psi);
           console.log(math.exp(math.complex(0,delta)));
+          //if (isMotor) ia0 = -ia0;
           let iq = math.multiply(ia0 * iaPu, math.cos(psi), math.exp(math.complex(0,delta)));
           let id = math.multiply(ia0 * iaPu, math.sin(psi), math.exp(math.complex(0,delta - Math.PI * 0.5)));
-
+          //if (isMotor) iq = math.multiply(iq, -1);
+          //if (isMotor) id = math.multiply(id, -1);
           console.log('\n\n\n***', math.arg(math.add(id,iq)), math.arg(ia));
+
+
 
           //Id_fasor=Ia_L_f(i)*sin(psi)*exp(j*(delta-pi/2));
 
@@ -283,6 +287,10 @@ export class SynchronousMachineComponent implements OnInit {
 
           // Dados Vt, Ia, If => descobrir Ef, If
           if (isMotor) ia = math.multiply(ia, -1);
+          if (isMotor) iq = math.multiply(iq, -1);
+          if (isMotor) id = math.multiply(id, -1);
+
+
           vtcmp = math.complex(vt, 0);
           updateSVG2(offsetIa, ia, vtcmp, raia, iajxd0, iajxq0, ef2, iq, id);
           updateStatus2(
@@ -339,9 +347,8 @@ export class SynchronousMachineComponent implements OnInit {
           console.log('changing offset2', biasX, biasY);
           updateVector('vt2', [0, 0, vt.re, 0]);
           updateVector('iara2', [vt.re, 0, raia.re, raia.im]);
-          updateVector('iajxd2', [raia.re + vt.re, raia.im, iajxd.re, iajxd.im]);
-          updateVector('iajxq2', [raia.re + vt.re + iajxd.re, raia.im + iajxd.im, iajxq.re, iajxq.im]);
-          updateVector('iajxq2', [raia.re + vt.re + iajxd.re, raia.im + iajxd.im, iajxq.re, iajxq.im]);
+          updateVector('iajxq2', [raia.re + vt.re, raia.im, iajxq.re, iajxq.im]);
+          updateVector('iajxd2', [raia.re + vt.re + iajxq.re, raia.im + iajxq.im, iajxd.re, iajxd.im]);
           updateVector('iq2', [0, 0, offsetIa * iq.re, offsetIa * iq.im]);
           updateVector('id2', [0, 0, offsetIa * id.re, offsetIa * id.im]);
 

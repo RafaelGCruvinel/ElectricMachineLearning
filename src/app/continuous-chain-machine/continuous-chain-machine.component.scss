@@ -1,9 +1,11 @@
 $escova-cor1: #ffa1a7;
 $escova-cor2: #b1a9ff;
-$circuito1: #ff888f;//red;
-$circuito2: #9185ff;//blue;
-$circuito3: #ff888f;//green;
-$circuito4: #9185ff;//purple;
+$escova-cor3: #316b13;
+$escova-cor4: #b1a9ff;
+$circuito4: #ffa9c6;
+$circuito2: #36a412;
+$circuito3: #82e761;
+$circuito1: #ff1100;
 $circuiton: black;
 
 .legenda-1 {
@@ -23,7 +25,6 @@ $circuiton: black;
 }
 
 .diagrama {
-    background-color: #eee;
     height: 370px;
     width: 580px;
 
@@ -52,23 +53,29 @@ $circuiton: black;
   }
 
   .nucleo1, .nucleo3 {
-    fill: #ffa1a7;
+    fill: #ffffff;
   }
 
   .nucleo2, .nucleo4 {
-    fill: #b1a9ff;
+    fill: #ffffff;
   }
 
-  .escova-p, .escova-n, .p, .n{
+  .escova-p1, .escova-p2, .escova-n1, .escova-n2, .p, .n{
     stroke: black;
     stroke-width: 1;
     stroke-linecap: round;
   }
-  .escova-p {
+  .escova-p1 {
     fill: $escova-cor1;
   }
-  .escova-n {
+  .escova-n1 {
     fill: $escova-cor2;
+  }
+  .escova-p2 {
+    fill: $escova-cor3;
+  }
+  .escova-n2 {
+    fill: $escova-cor4;
   }
 
   .bar-color {
