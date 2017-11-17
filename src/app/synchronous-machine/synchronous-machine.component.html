@@ -7,29 +7,9 @@
 
   <div class="row">
       <div class="col-12">
-        <h1>Diagrama de Polos Lisos</h1>
+        <h1>Diagrama Fasorial</h1>
 
         <form class="example-form">
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Ra (em pu)" type="number"
-            [(ngModel)]="ra" min="0" max="0.5" step="0.1"
-            (change)="updatePu()" [ngModelOptions]="{standalone: true}">
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Xs (em pu)" type="number"
-            [(ngModel)]="xs"  min="0" max="2" step="0.1"
-            (change)="updatePu()" [ngModelOptions]="{standalone: true}">
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Xd (em pu)" type="number"
-            [(ngModel)]="xd" min="0" max="2" step="0.1"
-            (change)="updatePu()" [ngModelOptions]="{standalone: true}">
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Xq (em pu)" type="number"
-            [(ngModel)]="xq" min="0" max="2" step="0.1"
-            (change)="updatePu()" [ngModelOptions]="{standalone: true}">
-          </mat-form-field>
           <mat-form-field>
             <mat-select placeholder="Fator de Potência" [(ngModel)]="fatPotString"
             (change)="changeFatPot()" [ngModelOptions]="{standalone: true}">
@@ -51,12 +31,34 @@
               <mat-option value="sal">Salientes</mat-option>
             </mat-select>
           </mat-form-field>
+          <br>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Ra (em pu)" type="number"
+            [(ngModel)]="ra" min="0" max="0.5" step="0.1"
+            (change)="updatePu()" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-form-field class="example-full-widt">
+            <input matInput placeholder="Xs (em pu)" type="number"
+            [(ngModel)]="xs"  min="0" max="2" step="0.1" [disabled]="'sal' == tiposPolos"
+            (change)="updatePu()" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Xd (em pu)" type="number"
+            [(ngModel)]="xd" min="0" max="2" step="0.1" [disabled]="'lis' == tiposPolos"
+            (change)="updatePu()" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Xq (em pu)" type="number"
+            [(ngModel)]="xq" min="0" max="2" step="0.1"  [disabled]="'lis' == tiposPolos"
+            (change)="updatePu()" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+
         </form>
 
         <br><br>
         Mudar Fator de Potência
         <br>
-        <mat-slider min="0" max="1" step="0.05" value="0.8"
+        <mat-slider min="0" max="1" step="0.05" value="0.9"
         thumbLabel tickInterval="0.1"
         (change)="changeFp($event)"></mat-slider>
         <br>
@@ -92,25 +94,25 @@
         </div>
 
         <p class="{{'lis' == tiposPolos ? 'ng-show' : 'ng-hide'}} col-6 col-md-6">
-          Polos Lisos <br>
-          <span class="colorVt">■</span> - Vt = {{vt1}} pu V<br>
-          <span class="colorIaRa">■</span> - Ia*Ra = {{iara}} pu V<br>
-          <span class="colorIajXs">■</span> - Ia*j*Xs = {{iajxs}} pu V<br>
-          <span class="colorEf">■</span> - Ef = {{ef}} pu V<br>
-          <span class="colorIa">■</span> - Ia = {{ia}} pu A<br>
+          <b>Polos Lisos </b><br>
+          <span class="colorVt">■</span> - V<sub>t</sub> = {{vt1}} pu V (linha contínua)<br>
+          <span class="colorIaRa">■</span> - R<sub>a</sub>I<sub>a</sub> = {{iara}} pu V (linha contínua)<br>
+          <span class="colorIajXs">■</span> - jX<sub>s</sub>I<sub>a</sub> = {{iajxs}} pu V (linha contínua)<br>
+          <span class="colorEf">■</span> - E<sub>f</sub> = {{ef}} pu V (linha contínua)<br>
+          <span class="colorIa">■</span> - I<sub>a</sub> = {{ia}} pu A (linha tracejada)<br>
           {{isMotor ? "Motor" : "Gerador"}} {{subexcitado ? "subexcitado" : "sobreexcitado"}} <br>
           Fator de Potência = {{fp0}}, {{fatPot ?  "Indutivo" : "Capacitivo"}} <br>
         </p>
         <p class="{{'sal' == tiposPolos ? 'ng-show' : 'ng-hide'}}  col-6 col-md-6">
-          Polos Salientes <br>
-          <span class="colorVt">■</span> - Vt = {{vt2}} pu<br>
-          <span class="colorIaRa">■</span> - Ia*Ra = {{iara2}} pu<br>
-          <span class="colorIajXd">■</span> - Ia*J*Xd = {{iajxd2}} pu<br>
-          <span class="colorIajXq">■</span> - Ia*J*Xq = {{iajxq2}} pu<br>
-          <span class="colorEf">■</span> - Ef = {{ef2}} pu<br>
-          <span class="colorIa">■</span> - Ia = {{ia2}} pu<br>
-          <span class="colorIq">■</span> - Iq = {{iq2}} pu<br>
-          <span class="colorId">■</span> - Id = {{id2}} pu<br>
+          <b>Polos Salientes </b><br>
+          <span class="colorVt">■</span> - V<sub>t</sub> = {{vt2}} pu (linha contínua)<br>
+          <span class="colorIaRa">■</span> -  R<sub>a</sub>I<sub>a</sub> = {{iara2}} pu (linha contínua)<br>
+          <span class="colorIajXd">■</span> - jX<sub>d</sub>I<sub>d</sub> = {{iajxd2}} pu (linha contínua)<br>
+          <span class="colorIajXq">■</span> - jX<sub>q</sub>I<sub>q</sub> = {{iajxq2}} pu (linha contínua)<br>
+          <span class="colorEf">■</span> - E<sub>f</sub> = {{ef2}} pu (linha contínua)<br>
+          <span class="colorIa">■</span> - I<sub>a</sub> = {{ia2}} pu (linha tracejada)<br>
+          <span class="colorIq">■</span> - I<sub>q</sub> = {{iq2}} pu (linha tracejada)<br>
+          <span class="colorId">■</span> - I<sub>d</sub> = {{id2}} pu (linha tracejada)<br>
           {{isMotor ? "Motor" : "Gerador"}} {{subexcitado ? "subexcitado" : "sobreexcitado"}} <br>
           Fator de Potência = {{fp2}}, {{fatPot ?  "Indutivo" : "Capacitivo"}} <br>
         </p>

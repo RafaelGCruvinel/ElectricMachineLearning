@@ -32,7 +32,7 @@ export class SynchronousMachineComponent implements OnInit {
     iaPu = 1;
     fp;
     cap;
-    fp0 = 0.8;
+    fp0 = 0.9;
     vt1;
     vt2;
     iara2;
@@ -150,17 +150,15 @@ export class SynchronousMachineComponent implements OnInit {
         createLine(svg,'vectorIaRa', 'iara');
         // Ia*j*Xs
         createLine(svg,'vectorIajXs', 'iajxs');
-        // Ef
-        createLine(svg,'vectorEf', 'ef');
         // ia
         createLine(svg,'vectorIa', 'ia');
+        // Ef
+        createLine(svg,'vectorEf', 'ef');
 
         // Vt
         createLine(svg2,'vectorVt', 'vt2');
         // Ia*Ra
         createLine(svg2,'vectorIaRa', 'iara2');
-        // Ef
-        createLine(svg2,'vectorEf', 'ef2');
         // ia
         createLine(svg2,'vectorIa', 'ia2');
         // id
@@ -171,6 +169,8 @@ export class SynchronousMachineComponent implements OnInit {
         createLine(svg2,'vectorIajXd', 'iajxd2');
         // iqjxq
         createLine(svg2,'vectorIajXq', 'iajxq2');
+        // Ef
+        createLine(svg2,'vectorEf', 'ef2');
 
         function updateDiagram(iaPu, fatPot, fp0, isMotor, rapu, xspu, xdpu, xqpu){
           // example 6.3 page 307
@@ -269,7 +269,6 @@ export class SynchronousMachineComponent implements OnInit {
           console.log('\n\n\n***', math.arg(math.add(id,iq)), math.arg(ia));
 
 
-
           //Id_fasor=Ia_L_f(i)*sin(psi)*exp(j*(delta-pi/2));
 
           console.log('\n---------', calcXjI(xd, iq), xq, iq)
@@ -347,8 +346,8 @@ export class SynchronousMachineComponent implements OnInit {
           console.log('changing offset2', biasX, biasY);
           updateVector('vt2', [0, 0, vt.re, 0]);
           updateVector('iara2', [vt.re, 0, raia.re, raia.im]);
-          updateVector('iajxq2', [raia.re + vt.re, raia.im, iajxq.re, iajxq.im]);
-          updateVector('iajxd2', [raia.re + vt.re + iajxq.re, raia.im + iajxq.im, iajxd.re, iajxd.im]);
+          updateVector('iajxd2', [raia.re + vt.re, raia.im, iajxd.re, iajxd.im]);
+          updateVector('iajxq2', [raia.re + vt.re + iajxd.re, raia.im + iajxd.im, iajxq.re, iajxq.im]);
           updateVector('iq2', [0, 0, offsetIa * iq.re, offsetIa * iq.im]);
           updateVector('id2', [0, 0, offsetIa * id.re, offsetIa * id.im]);
 

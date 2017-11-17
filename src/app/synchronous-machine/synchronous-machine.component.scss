@@ -1,12 +1,11 @@
 $vectorVt: red;
-$vetorId: blue;
 $vectorIajXs: green;
 $vectorEf: purple;
 $vectorIa: black;
 $vectorIaRa: orange;
 $vectorId: gray;
-$vectorIq: brown;
-$vectorIajXd: yellow;
+$vectorIq: aqua;
+$vectorIajXd: gray;
 $vectorIajJq: aqua;
 
 mat-slider {
@@ -19,13 +18,15 @@ mat-slider {
 
 .ms{
   svg{
-    background-color: #eee;
+    border-style: solid;
+    border-width: 2px;
+    color: #f1f1f1;
   }
   .vectorVt{
     stroke: $vectorVt;
   }
-  .vetorId{
-    stroke: $vetorId;
+  .vectorId{
+    stroke: $vectorId;
     stroke-dasharray: 3,3;
   }
   .vectorIajXs{
@@ -37,6 +38,7 @@ mat-slider {
   .vectorIa{
     stroke: $vectorIa;
     stroke-dasharray: 3,3;
+    stroke-width: 2;
   }
   .vectorIaRa{
     stroke: $vectorIaRa;
@@ -44,10 +46,12 @@ mat-slider {
   .vectorId{
     stroke: $vectorId;
     stroke-dasharray: 3,3;
+    stroke-width: 2;
   }
   .vectorIq{
     stroke: $vectorIq;
     stroke-dasharray: 3,3;
+    stroke-width: 2;
   }
   .vectorIajXd{
     stroke: $vectorIajXd;
