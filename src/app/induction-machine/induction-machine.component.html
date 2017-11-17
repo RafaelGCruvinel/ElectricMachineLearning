@@ -4,39 +4,40 @@
         <h2 class="display-4">Maquina de Indução</h2>
         <p>
           Dados default da máquina conforme exercício 5.2 do livro Principles of Electric Machines and Power Electronics – John Wiley & Sons – 3rd Edition.
-          Com isso, é possível estimar o torque, corrente e fator de potência com variação de Tensão e R'2.
+          <br>
+          Com isso, é possível estimar o torque, corrente e fator de potência com variação de Tensão e Resistência do Enrolamento do Rotor.
         </p>
 
 
         <form class="example-form">
           <mat-form-field class="example-full-width">
             <input matInput placeholder="Tensão Padrão por fase (V)" type="number"
-            [(ngModel)]="generalVt"
+            [(ngModel)]="generalVt" min="0"
             (change)="changeVt()" [ngModelOptions]="{standalone: true}">
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <input matInput placeholder="Xm (Ω)" type="number"
-            [(ngModel)]="generalXm"
+            [(ngModel)]="generalXm" min="0"
             (change)="changeXm()" [ngModelOptions]="{standalone: true}">
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <input matInput placeholder="X1 (Ω)" type="number"
-            data-md-icheck [(ngModel)]="generalX1"
+            data-md-icheck [(ngModel)]="generalX1" min="0"
             (change)="changeX1()" [ngModelOptions]="{standalone: true}">
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <input matInput placeholder="R1 (Ω)" type="number"
-            data-md-icheck [(ngModel)]="generalR1"
+            data-md-icheck [(ngModel)]="generalR1" min="0"
             (change)="changeR1()" [ngModelOptions]="{standalone: true}">
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <input matInput placeholder="X2'(Ω)" type="number"
-            data-md-icheck [(ngModel)]="generalX2l"
+            data-md-icheck [(ngModel)]="generalX2l" min="0"
             (change)="changeX2l()" [ngModelOptions]="{standalone: true}">
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <input matInput placeholder="R2' (Ω)" type="number"
-            data-md-icheck [(ngModel)]="generalR2l"
+            data-md-icheck [(ngModel)]="generalR2l" min="0"
             (change)="changeR2l()" [ngModelOptions]="{standalone: true}">
           </mat-form-field>
         </form>

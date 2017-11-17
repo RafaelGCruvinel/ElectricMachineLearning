@@ -53,8 +53,8 @@ export class SynchronousMachineComponent implements OnInit {
     public tiposPolos: string = 'sal'; //change
     public ra: Number = 0.05;
     public xs: Number = 1.2;
-    public xd: Number = 0.41;
-    public xq: Number = 0.41;
+    public xd: Number = 1;
+    public xq: Number = 0.6;
 
     constructor() {
         function changeFp($event){
