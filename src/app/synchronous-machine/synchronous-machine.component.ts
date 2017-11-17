@@ -48,9 +48,9 @@ export class SynchronousMachineComponent implements OnInit {
     public fatPot: boolean = true;
     public fatPotString: string = 'ind';
     public isMotor: boolean = false;
-    public isMotorString: string = 'mot';
+    public isMotorString: string = 'ger';
     public subexcitado: boolean = false;
-    public tiposPolos: string = 'lis';
+    public tiposPolos: string = 'sal'; //change
     public ra: Number = 0.05;
     public xs: Number = 1.2;
     public xd: Number = 0.41;
@@ -218,8 +218,8 @@ export class SynchronousMachineComponent implements OnInit {
           let offsetIa = 8.35/0.5*0.7;
 
           let vtcmp = math.complex(vt, 0);
+          if (isMotor) ia = math.multiply(ia, -1);
           updateSVG1(offsetIa, ia, vtcmp, raia, iajxs, ef);
-          console.log('====>',ef.im/(zb*ib) );
           updateStatus(
             math.complex(vtcmp.re/(zb*ib), 0),
             math.complex(raiax/(zb*ib), raiay/(zb*ib)),
@@ -257,12 +257,14 @@ export class SynchronousMachineComponent implements OnInit {
           let iajxq = calcXjI(xq, ia);
           let Vtfasor = math.complex(vt, 0);
           let delta = math.add(Vtfasor, raia, iajxq).arg();
-          console.log('delta: ' + delta);
-          let psi = delta + phi;
+          console.log('delta: ' + delta,'phi: ' + phi);
+          let psi = delta - phi;
           console.log('ps: ' + psi);
           console.log(math.exp(math.complex(0,delta)));
-          let iq = math.multiply(ia, math.cos(psi), math.exp(math.complex(0,delta)));
-          let id = math.multiply(ia, math.sin(psi), math.exp(math.complex(0,delta - Math.PI * 0.5)));
+          let iq = math.multiply(ia0 * iaPu, math.cos(psi), math.exp(math.complex(0,delta)));
+          let id = math.multiply(ia0 * iaPu, math.sin(psi), math.exp(math.complex(0,delta - Math.PI * 0.5)));
+
+          console.log('\n\n\n***', math.arg(math.add(id,iq)), math.arg(ia));
 
           //Id_fasor=Ia_L_f(i)*sin(psi)*exp(j*(delta-pi/2));
 
@@ -279,9 +281,8 @@ export class SynchronousMachineComponent implements OnInit {
 
           iajxs = calcXjI(xs, ia);
 
-          console.log(iajxsx, raiax)
           // Dados Vt, Ia, If => descobrir Ef, If
-
+          if (isMotor) ia = math.multiply(ia, -1);
           vtcmp = math.complex(vt, 0);
           updateSVG2(offsetIa, ia, vtcmp, raia, iajxd0, iajxq0, ef2, iq, id);
           updateStatus2(
